@@ -74,7 +74,7 @@ func _import_checks() -> void:
 	var imported: Dictionary = Importer.from_points(raw, "Sintético", "synthetic")
 	_check(imported["ok"], "manual geographic route accepted")
 	var definition: Dictionary = imported["definition"]
-	_check(definition["interpolation"] == "linear" and definition["points"][0]["width"] == 12.0, "conservative route defaults")
+	_check(definition["interpolation"] == "catmull_rom" and definition["points"][0]["width"] == 12.0, "smooth route defaults")
 	_check(definition["points"][1]["raw_index"] == 1 and definition["control_route"][1]["raw_index"] == 1, "control and raw indices map explicitly")
 	definition["raw_route"][0]["ele"] = 123.0
 	_check(raw[0]["ele"] == 2500.0, "import does not mutate caller points")
@@ -160,7 +160,16 @@ func _analysis_checks() -> void:
 	var comparison: Dictionary = Analyser.analyse(imported)
 	_close(float(comparison["raw"]["elevation_gain_m"]), 10.0, 0.001, "original profile remains unchanged by model edits")
 	_close(float(comparison["constructed"]["elevation_gain_m"]), 20.0, 0.001, "constructed profile measures edited heights")
-	_check(comparison["profile"][1]["control_index"] == 1 and comparison["raw_profile"][1]["control_index"] == -1, "profile mappings distinguish raw from model controls")
+	# With catmull_rom, find the sample at control 1 instead of assuming index 1.
+	var control1_found: bool = false
+	var raw_control_neg: bool = false
+	for row: Dictionary in comparison["profile"]:
+		if int(row["control_index"]) == 1:
+			control1_found = true
+	for row: Dictionary in comparison["raw_profile"]:
+		if int(row["control_index"]) == -1:
+			raw_control_neg = true
+	_check(control1_found and raw_control_neg, "profile mappings distinguish raw from model controls")
 	var local_only: Dictionary = _definition([Vector3.ZERO, Vector3(100,10,0)])
 	local_only.erase("geo")
 	_check(Analyser.analyse(local_only)["min_elevation_m"] == null, "local height is not presented as absolute elevation")

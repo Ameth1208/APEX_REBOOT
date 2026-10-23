@@ -35,6 +35,15 @@ static func parse(text: String, format: String, route_index: int = 0) -> Diction
 	result["routes"] = routes
 	result["selected_route"] = route_index
 	result["warnings"] = parsed["warnings"] + result.get("warnings", [])
+	# Apply top-level GeoJSON properties (e.g. track_width_m).
+	if parsed.has("properties") and result.get("ok", false):
+		var props: Dictionary = parsed["properties"]
+		if props.has("track_width_m") and result.get("definition") != null:
+			var w: float = clampf(float(props["track_width_m"]), 6.0, 30.0)
+			for p: Dictionary in result["definition"]["points"]:
+				p["width"] = w
+		if props.has("name") and result.get("definition") != null:
+			result["definition"]["name"] = str(props["name"]).left(160)
 	return result
 
 static func from_points(points: Array, name: String = "Mi ruta real", source: String = "map", closed: bool = false) -> Dictionary:
@@ -133,9 +142,9 @@ static func from_points(points: Array, name: String = "Mi ruta real", source: St
 	if vertical_steps > 0:
 		warnings.append("Hay saltos verticales sin avance horizontal; revisa el trazado antes de conducir.")
 	var definition: Dictionary = {"version": 2, "name": name.left(160), "description": "Trazado geográfico importado; verificar cotas y geometría.",
-		"closed": closed, "interpolation": "linear", "points": controls, "raw_route": raw, "control_route": control_route,
+		"closed": closed, "interpolation": "catmull_rom", "points": controls, "raw_route": raw, "control_route": control_route,
 		"geo": geo, "requires_elevation": elevation_count < raw.size(), "requires_geometry_review": vertical_steps > 0,
-		"sample_spacing": 4.0, "thickness": 1.1, "runoff_width": 4.0, "runoff_surface": "gravel",
+		"sample_spacing": 3.0, "thickness": 1.1, "runoff_width": 4.0, "runoff_surface": "gravel",
 		"terrain_surface": "grass", "terrain_hills": 0.0, "barriers": true}
 	return {"ok": true, "error": "", "definition": definition, "warnings": warnings,
 		"routes": [_summary(raw, name, source, 0)], "selected_route": 0}

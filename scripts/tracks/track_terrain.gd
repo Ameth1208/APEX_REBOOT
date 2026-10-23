@@ -2,6 +2,9 @@ class_name TrackTerrain
 extends RefCounted
 
 const OsmTerrain = preload("res://scripts/world/osm_terrain.gd")
+const ApexBroadleafGeometry = preload("res://scripts/world/broadleaf_geometry.gd")
+const ApexTreeGeometry = preload("res://scripts/world/tree_geometry.gd")
+const ApexSceneryInstances = preload("res://scripts/world/scenery_instances.gd")
 
 static func build(parent: Node3D, samples: Array[Dictionary], definition: Dictionary) -> void:
 	if samples.is_empty():
@@ -57,6 +60,7 @@ static func build(parent: Node3D, samples: Array[Dictionary], definition: Dictio
 	if not surroundings.is_empty():
 		_spawn_buildings(parent, surroundings.get("buildings", []))
 		_spawn_water(parent, surroundings.get("water", []))
+		_spawn_vegetation(parent, surroundings.get("vegetation", []), definition, start, step, nx, nz, heights)
 
 static func _road_floor_caps(samples: Array[Dictionary], definition: Dictionary, start: Vector2, step: float, nx: int, nz: int) -> PackedFloat32Array:
 	var caps: PackedFloat32Array = PackedFloat32Array()
@@ -152,3 +156,42 @@ static func _spawn_water(parent: Node3D, water: Array) -> void:
 		water_mat.transparency = BaseMaterial3D.TRANSPARENCY_ALPHA
 		water_mat.cull_mode = BaseMaterial3D.CULL_DISABLED
 		buffer.attach(parent, "Water", water_mat, "", false, 0.0)
+
+static func _spawn_vegetation(parent: Node3D, vegetation: Array, definition: Dictionary,
+		start: Vector2, step: float, nx: int, nz: int, heights: PackedFloat32Array) -> void:
+	if vegetation.is_empty():
+		return
+	var rng: RandomNumberGenerator = RandomNumberGenerator.new()
+	rng.seed = int(definition.get("seed", 8421)) + 777
+	var groups: Array = [[], [], [], []]
+	# Place trees inside each forest/wood polygon from OSM.
+	for entry: Dictionary in vegetation:
+		var polygon: Array[Vector2] = entry["polygon"]
+		if polygon.size() < 3:
+			continue
+		var minp: Vector2 = polygon[0]
+		var maxp: Vector2 = polygon[0]
+		for pt: Vector2 in polygon:
+			minp = Vector2(minf(minp.x, pt.x), minf(minp.y, pt.y))
+			maxp = Vector2(maxf(maxp.x, pt.x), maxf(maxp.y, pt.y))
+		var area_x: float = maxp.x - minp.x
+		var area_z: float = maxp.y - minp.y
+		# ~1 tree per 40 m², capped for performance.
+		var count: int = clampi(int(area_x * area_z / 40.0), 1, 200)
+		for _i: int in range(count):
+			var xz: Vector2 = Vector2(rng.randf_range(minp.x, maxp.x), rng.randf_range(minp.y, maxp.y))
+			if not OsmTerrain.point_in_polygon(xz, polygon):
+				continue
+			var y: float = _grid_height(Vector3(xz.x, 0, xz.y), start, step, nx, nz, heights)
+			var scale: float = rng.randf_range(0.7, 1.4)
+			var basis: Basis = Basis(Vector3.UP, rng.randf_range(0, TAU)).scaled(Vector3(scale, scale * rng.randf_range(0.9, 1.1), scale))
+			var pose: Transform3D = Transform3D(basis, Vector3(xz.x, y, xz.y))
+			var variant: int = rng.randi_range(0, 3)
+			groups[variant].append(pose)
+	for variant: int in range(4):
+		if groups[variant].is_empty():
+			continue
+		var transforms: Array[Transform3D] = []
+		transforms.assign(groups[variant])
+		var mesh: ArrayMesh = ApexBroadleafGeometry.create(71 + variant * 37) if variant < 2 else ApexTreeGeometry.create(13 + variant * 19)
+		ApexSceneryInstances.build(parent, "OSM_BroadleafTrees" if variant < 2 else "OSM_ConiferTrees", mesh, null, transforms, 460.0)

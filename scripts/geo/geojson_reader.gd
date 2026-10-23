@@ -11,13 +11,20 @@ static func read(text: String) -> Dictionary:
 	var parser: JSON = JSON.new()
 	if parser.parse(text) != OK:
 		return Values.fail("GeoJSON inválido en línea " + str(parser.get_error_line() + 1) + ": " + parser.get_error_message())
-	var state: Dictionary = {"routes": [], "warnings": [], "count": 0, "error": ""}
+	var state: Dictionary = {"routes": [], "warnings": [], "count": 0, "error": "", "properties": {}}
+	# Capture top-level properties (e.g. track_width_m from RacetrackDesign exports).
+	var top_props: Variant = parser.data.get("properties", {}) if parser.data is Dictionary else {}
+	if top_props is Dictionary:
+		state["properties"] = top_props
 	_visit(parser.data, "Ruta GeoJSON", state, 0)
 	if not str(state["error"]).is_empty():
 		return Values.fail(str(state["error"]))
 	if state["routes"].is_empty():
 		return Values.fail("No se encontraron geometrías LineString ni MultiLineString.")
-	return {"ok": true, "error": "", "routes": state["routes"], "warnings": state["warnings"]}
+	var result: Dictionary = {"ok": true, "error": "", "routes": state["routes"], "warnings": state["warnings"]}
+	if not state["properties"].is_empty():
+		result["properties"] = state["properties"]
+	return result
 
 static func _visit(value: Variant, name: String, state: Dictionary, depth: int) -> void:
 	if not str(state["error"]).is_empty():

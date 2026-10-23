@@ -18,6 +18,14 @@ static func friction(name: String, wetness: float, scale: float) -> float:
 	var surface: Dictionary = surface_data(name)
 	return float(surface["mu"]) * (1.0 - clampf(wetness, 0.0, 1.0) * float(surface["wet_loss"])) * maxf(scale, 0.1)
 
+## Speed-dependent grip: slightly less grip at very high speeds (aero heating).
+static func speed_grip_factor(speed_mps: float) -> float:
+	var v: float = absf(speed_mps)
+	if v < 30.0:
+		return 1.0
+	# Lose up to 8% grip above 30 m/s, linear ramp to 80 m/s.
+	return 1.0 - clampf((v - 30.0) / 50.0, 0.0, 1.0) * 0.08
+
 static func solve(contact: Dictionary, forward: Vector3, drive_n: float, brake_n: float, friction_mu: float, abs_active: bool, tcs_active: bool, dt: float) -> Dictionary:
 	var normal: Vector3 = contact["normal"]
 	var wheel_forward: Vector3 = forward.slide(normal).normalized()

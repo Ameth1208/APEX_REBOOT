@@ -27,6 +27,7 @@ static func contact(body, state: PhysicsDirectBodyState3D, wheel: Dictionary, fo
 	body.surface_name = str(wheel["surface"])
 	wheel["cornering_stiffness"] = float(body.profile.get("cornering_stiffness", 18.0 if body.is_motorcycle else 14.0))
 	var mu: float = Tyres.friction(body.surface_name, body.wetness, body.grip_factor)
+	mu *= Tyres.speed_grip_factor(state.linear_velocity.length())
 	var result: Dictionary = Tyres.solve(wheel, direction, drive_n, brake_n, mu, body.abs_enabled and body._input.w < 0.1, body.tcs_enabled, dt)
 	state.apply_force(Vector3(result["force"]), position)
 	wheel["slip"] = result["slip"]

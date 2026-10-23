@@ -85,8 +85,11 @@ func sample(state: PhysicsDirectBodyState3D, body_rid: RID) -> Array[Dictionary]
 		var spring: float = _springs[i]
 		var damper: float = _dampers[i]
 		var compression: float = ride_height + sag - origin.distance_to(position)
+		# Progressive spring: stiffness increases with compression beyond 50% travel.
+		var progress_ratio: float = clampf(compression / maxf(travel, 0.01), 0.0, 1.0)
+		var progressive: float = 1.0 + maxf(progress_ratio - 0.5, 0.0) * 1.2 * (1.0 + 0.3 * float(suspension_type == Type.DOUBLE_WISHBONE))
 		var bump_stop: float = maxf(compression - travel * 0.85, 0.0) * spring * 4.0
-		var load_n: float = clampf(compression * spring + bump_stop - velocity.dot(normal) * damper, 0.0, corner_mass * 9.81 * 7.0)
+		var load_n: float = clampf(compression * spring * progressive + bump_stop - velocity.dot(normal) * damper, 0.0, corner_mass * 9.81 * 7.0)
 		var collider: Object = hit["collider"]
 		var surface: String = str(collider.get_meta("surface", "asphalt")) if is_instance_valid(collider) else "asphalt"
 		contacts.append({"index": i, "position": relative, "normal": normal, "velocity": velocity, "load": load_n, "front": front, "surface": surface, "compression": compression, "corner_mass": corner_mass})
