@@ -5,7 +5,19 @@ var vertices: PackedVector3Array = PackedVector3Array()
 var normals: PackedVector3Array = PackedVector3Array()
 var uvs: PackedVector2Array = PackedVector2Array()
 var road_uvs: PackedVector2Array = PackedVector2Array()
+var colors: PackedColorArray = PackedColorArray()
 var indices: PackedInt32Array = PackedInt32Array()
+
+func quad_colored(a: Vector3, b: Vector3, c: Vector3, d: Vector3, normal: Vector3,
+		ca: Color, cb: Color, cc: Color, cd: Color) -> void:
+	var offset: int = vertices.size()
+	vertices.append_array(PackedVector3Array([a, b, c, d]))
+	normals.append_array(PackedVector3Array([normal, normal, normal, normal]))
+	uvs.append_array(PackedVector2Array([Vector2(a.x, a.z), Vector2(b.x, b.z), Vector2(c.x, c.z), Vector2(d.x, d.z)]))
+	road_uvs.append_array(PackedVector2Array([Vector2.ZERO, Vector2.ZERO, Vector2.ZERO, Vector2.ZERO]))
+	colors.append_array(PackedColorArray([ca, cb, cc, cd]))
+	_triangle(offset, offset + 1, offset + 2, normal)
+	_triangle(offset, offset + 2, offset + 3, normal)
 
 func quad(a: Vector3, b: Vector3, c: Vector3, d: Vector3, normal: Vector3 = Vector3.UP,
 		strip_uvs: PackedVector2Array = PackedVector2Array()) -> void:
@@ -48,6 +60,8 @@ func mesh() -> ArrayMesh:
 	arrays[Mesh.ARRAY_NORMAL] = normals
 	arrays[Mesh.ARRAY_TEX_UV] = uvs
 	arrays[Mesh.ARRAY_TEX_UV2] = road_uvs
+	if colors.size() == vertices.size():
+		arrays[Mesh.ARRAY_COLOR] = colors
 	arrays[Mesh.ARRAY_INDEX] = indices
 	result.add_surface_from_arrays(Mesh.PRIMITIVE_TRIANGLES, arrays)
 	return result

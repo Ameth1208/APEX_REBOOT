@@ -28,6 +28,7 @@ static func contact(body, state: PhysicsDirectBodyState3D, wheel: Dictionary, fo
 	wheel["cornering_stiffness"] = float(body.profile.get("cornering_stiffness", 18.0 if body.is_motorcycle else 14.0))
 	var mu: float = Tyres.friction(body.surface_name, body.wetness, body.grip_factor)
 	mu *= Tyres.speed_grip_factor(state.linear_velocity.length())
+	mu *= Tyres.temperature_grip_factor(body.tyre_temp_c)
 	var result: Dictionary = Tyres.solve(wheel, direction, drive_n, brake_n, mu, body.abs_enabled and body._input.w < 0.1, body.tcs_enabled, dt)
 	state.apply_force(Vector3(result["force"]), position)
 	wheel["slip"] = result["slip"]
@@ -48,3 +49,6 @@ static func aero(body, state: PhysicsDirectBodyState3D) -> void:
 	if velocity.length_squared() > 0.01:
 		state.apply_central_force(-velocity.normalized() * pressure * drag_area * clampf(body.drag_multiplier, 0.55, 1.0) * (1.0 + (1.0 - health) * 0.25))
 	state.apply_central_force(-state.transform.basis.y.normalized() * body.downforce_n)
+
+static func advance_tyre_temperature(temp_c: float, friction_power: float, ambient_c: float, dt: float) -> float:
+	return Tyres.advance_temperature(temp_c, friction_power, ambient_c, dt)

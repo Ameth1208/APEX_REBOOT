@@ -67,3 +67,20 @@ static func flat(color: Color, roughness: float = 0.8, metallic: float = 0.0) ->
 	material.metallic = metallic
 	material.cull_mode = BaseMaterial3D.CULL_DISABLED
 	return material
+
+## Blended terrain: vertex colours mix sand(R)/grass(G)/dirt(B)/concrete(A).
+static func ground_blended() -> ShaderMaterial:
+	var material: ShaderMaterial = ShaderMaterial.new()
+	material.shader = SHADER
+	material.set_shader_parameter("base_color", COLORS["grass"])
+	material.set_shader_parameter("grain_scale", 9.0)
+	material.set_shader_parameter("variation", 0.36)
+	material.set_shader_parameter("patch_scale", 0.16)
+	material.set_shader_parameter("is_concrete", false)
+	material.set_shader_parameter("surface_kind", 4)
+	material.set_shader_parameter("wetness", _wetness)
+	material.set_shader_parameter("road_surface", false)
+	material.set_shader_parameter("surface_detail", detail_texture())
+	material.set_shader_parameter("blend_mode", true)
+	_materials.append(weakref(material))
+	return material

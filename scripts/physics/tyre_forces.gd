@@ -26,6 +26,46 @@ static func speed_grip_factor(speed_mps: float) -> float:
 	# Lose up to 8% grip above 30 m/s, linear ramp to 80 m/s.
 	return 1.0 - clampf((v - 30.0) / 50.0, 0.0, 1.0) * 0.08
 
+## Tyre temperature model: grip peaks in an optimal window (~70-95 °C).
+## Cold tyres lose up to 25% grip; overheated lose up to 18%.
+## temp_c is the current tyre core temperature in Celsius.
+static func temperature_grip_factor(temp_c: float) -> float:
+	if temp_c < 40.0:
+		# Cold: grip rises steeply toward the window.
+		return 0.75 + clampf((temp_c - 5.0) / 35.0, 0.0, 1.0) * 0.25
+	elif temp_c <= 95.0:
+		# Optimal window: full grip.
+		return 1.0
+	elif temp_c <= 130.0:
+		# Hot: grip falls as rubber overheats.
+		return 1.0 - (temp_c - 95.0) / 35.0 * 0.18
+	else:
+		# Overheated: significantly reduced.
+		return 0.82 - clampf((temp_c - 130.0) / 50.0, 0.0, 1.0) * 0.15
+
+## Advance tyre temperature one step. Returns new temperature in °C.
+## Inputs: current temp, friction power (N·m/s ≈ force × slip speed), ambient °C, dt.
+static func advance_temperature(temp_c: float, friction_power: float, ambient_c: float, dt: float) -> float:
+	# Heating from friction (slip), cooling proportional to speed and delta to ambient.
+	var heating: float = friction_power * 0.000015
+	var cooling: float = (temp_c - ambient_c) * 0.08 * dt
+	return clampf(temp_c + heating * dt - cooling, ambient_c, 180.0)
+
+## WGS84 normal gravity (m/s²) from latitude (°) and altitude (m).
+## Uses the Somigliana closed-form approximation.
+static func gravity_at(lat_deg: float, altitude_m: float) -> float:
+	var lat: float = deg_to_rad(clampf(lat_deg, -90.0, 90.0))
+	var sin_lat: float = sin(lat)
+	# Somigliana coefficients.
+	var g_e: float = 9.7803267715
+	var g_p: float = 9.8321863685
+	var c1: float = 0.00193185265241
+	var c2: float = -0.0000030860510484
+	var m: float = 0.00344978650684
+	var gamma: float = g_e * (1.0 + c1 * sin_lat * sin_lat + c2 * sin_lat * sin_lat * sin_lat * sin_lat) / sqrt(1.0 - m * sin_lat * sin_lat)
+	# Free-air gravity correction: ~-3.086×10⁻⁶ m/s² per metre of altitude.
+	return gamma - 3.086e-6 * altitude_m
+
 static func solve(contact: Dictionary, forward: Vector3, drive_n: float, brake_n: float, friction_mu: float, abs_active: bool, tcs_active: bool, dt: float) -> Dictionary:
 	var normal: Vector3 = contact["normal"]
 	var wheel_forward: Vector3 = forward.slide(normal).normalized()

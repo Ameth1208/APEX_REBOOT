@@ -28,6 +28,9 @@ var draft_strength: float = 0.0
 var drag_multiplier: float = 1.0
 var downforce_multiplier: float = 1.0
 var wetness: float = 0.0
+var tyre_temp_c: float = 20.0
+var ambient_temp_c: float = 25.0
+var avg_tyre_temp_c: float = 20.0
 var auto_transmission: bool = true
 var abs_enabled: bool = true
 var tcs_enabled: bool = true
@@ -185,6 +188,14 @@ func _integrate_forces(state: PhysicsDirectBodyState3D) -> void:
 		ground_normal += Vector3(contact["normal"])
 		Forces.contact(self, state, contact, forward, drive_torque, dt)
 	Forces.aero(self, state)
+	# Advance tyre temperature from friction work.
+	if grounded_wheels > 0:
+		var slip_speed: float = 0.0
+		for contact: Dictionary in wheel_contacts:
+			slip_speed = maxf(slip_speed, absf(float(contact.get("slide_speed", 0.0))))
+		var friction_power: float = float(wheel_contacts[0].get("load", 0.0)) * slip_speed
+		tyre_temp_c = Forces.advance_tyre_temperature(tyre_temp_c, friction_power, ambient_temp_c, dt)
+	avg_tyre_temp_c = tyre_temp_c
 	if grounded_wheels > 0:
 		ground_normal = ground_normal.normalized()
 	else:
@@ -224,6 +235,7 @@ func telemetry() -> Dictionary:
 		"input_throttle": absf(_input.x), "input_brake": _input.y, "handbrake": _input.w,
 		"is_motorcycle": is_motorcycle, "draft_strength": draft_strength,
 		"drag_multiplier": drag_multiplier, "downforce_multiplier": downforce_multiplier,
+		"tyre_temp_c": tyre_temp_c, "ambient_temp_c": ambient_temp_c,
 	}
 	result.merge(_condition.snapshot())
 	return result

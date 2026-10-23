@@ -6,6 +6,9 @@ const ApexBroadleafGeometry = preload("res://scripts/world/broadleaf_geometry.gd
 const ApexTreeGeometry = preload("res://scripts/world/tree_geometry.gd")
 const ApexSceneryInstances = preload("res://scripts/world/scenery_instances.gd")
 
+## Surface blend weights per cell vertex: smooth transitions instead of hard cuts.
+## Each vertex carries a colour where R=sand, G=grass, B=dirt, A=concrete.
+
 static func build(parent: Node3D, samples: Array[Dictionary], definition: Dictionary) -> void:
 	if samples.is_empty():
 		return
@@ -13,14 +16,14 @@ static func build(parent: Node3D, samples: Array[Dictionary], definition: Dictio
 	for sample: Dictionary in samples:
 		bounds = bounds.expand(sample["position"])
 	var margin: float = 180.0
-	var step: float = maxf(24.0, maxf(bounds.size.x, bounds.size.z) / 128.0)
+	var step: float = maxf(18.0, maxf(bounds.size.x, bounds.size.z) / 160.0)
 	var start: Vector2 = Vector2(bounds.position.x - margin, bounds.position.z - margin)
 	var nx: int = ceili((bounds.size.x + margin * 2.0) / step) + 1
 	var nz: int = ceili((bounds.size.z + margin * 2.0) / step) + 1
 	var noise: FastNoiseLite = FastNoiseLite.new()
 	noise.seed = int(definition.get("seed", 8421))
 	noise.frequency = 0.008
-	noise.fractal_octaves = 3
+	noise.fractal_octaves = 4
 	var heights: PackedFloat32Array = PackedFloat32Array()
 	heights.resize(nx * nz)
 	var road_floors: PackedFloat32Array = _road_floor_caps(samples, definition, start, step, nx, nz)
@@ -33,11 +36,9 @@ static func build(parent: Node3D, samples: Array[Dictionary], definition: Dictio
 	var surroundings: Dictionary = {}
 	if definition.get("geo", null) != null:
 		surroundings = OsmTerrain.fetch_surroundings(samples, definition, margin)
-	var default_surface: String = str(definition["terrain_surface"])
-	# Group grid cells by surface so each gets its own mesh buffer.
-	var surface_buffers: Dictionary = {}
-	var base_material: ShaderMaterial = TrackMaterials.ground(default_surface)
-	TrackRoadMesh._apply_custom_texture(base_material, definition, default_surface)
+	# Build ONE blended mesh with vertex-colour surface weights.
+	var buffer: TrackMeshBuffer = TrackMeshBuffer.new()
+	var blend_radius: float = 18.0
 	for iz: int in range(nz - 1):
 		for ix: int in range(nx - 1):
 			var a: Vector3 = Vector3(start.x + ix * step, heights[iz * nx + ix], start.y + iz * step)
@@ -45,22 +46,68 @@ static func build(parent: Node3D, samples: Array[Dictionary], definition: Dictio
 			var c: Vector3 = Vector3(b.x, heights[(iz + 1) * nx + ix + 1], a.z + step)
 			var d: Vector3 = Vector3(a.x, heights[(iz + 1) * nx + ix], c.z)
 			var normal: Vector3 = (d - a).cross(b - a).normalized()
-			var surface: String = default_surface
-			if not surroundings.is_empty():
-				var center_xz: Vector2 = Vector2(a.x, a.z) + Vector2(step, step) * 0.5
-				surface = OsmTerrain.surface_at(center_xz, surroundings, default_surface)
-			if not surface_buffers.has(surface):
-				surface_buffers[surface] = TrackMeshBuffer.new()
-			surface_buffers[surface].quad(a, b, c, d, normal)
-	for surface: String in surface_buffers:
-		var material: ShaderMaterial = TrackMaterials.ground(surface)
-		TrackRoadMesh._apply_custom_texture(material, definition, surface)
-		surface_buffers[surface].attach(parent, "Terrain_" + surface, material, surface, false, 320.0)
-	_verges(parent, samples, definition, bounds.position.y, start, step, nx, nz, heights, base_material)
+			var ca: Color = _vertex_blend(Vector2(a.x, a.z), surroundings, definition, blend_radius)
+			var cb: Color = _vertex_blend(Vector2(b.x, b.z), surroundings, definition, blend_radius)
+			var cc: Color = _vertex_blend(Vector2(c.x, c.z), surroundings, definition, blend_radius)
+			var cd: Color = _vertex_blend(Vector2(d.x, d.z), surroundings, definition, blend_radius)
+			buffer.quad_colored(a, b, c, d, normal, ca, cb, cc, cd)
+	var material: ShaderMaterial = TrackMaterials.ground_blended()
+	buffer.attach(parent, "Terrain", material, str(definition["terrain_surface"]), false, 320.0)
+	_verges(parent, samples, definition, bounds.position.y, start, step, nx, nz, heights, TrackMaterials.ground(str(definition["terrain_surface"])))
 	if not surroundings.is_empty():
 		_spawn_buildings(parent, surroundings.get("buildings", []))
 		_spawn_water(parent, surroundings.get("water", []))
 		_spawn_vegetation(parent, surroundings.get("vegetation", []), definition, start, step, nx, nz, heights)
+
+## Per-vertex blend: R=sand, G=grass, B=dirt, A=concrete. Smooth by distance.
+static func _vertex_blend(xz: Vector2, surroundings: Dictionary, definition: Dictionary, radius: float) -> Color:
+	var default_surface: String = str(definition["terrain_surface"])
+	if surroundings.is_empty():
+		return _surface_to_color(default_surface)
+	# Find nearest surface polygon and compute smooth weight.
+	var best_surf: String = default_surface
+	var best_dist: float = INF
+	for entry: Dictionary in surroundings.get("surfaces", []):
+		var polygon: Array[Vector2] = entry["polygon"]
+		if OsmTerrain.point_in_polygon(xz, polygon):
+			best_surf = str(entry["surface"])
+			best_dist = 0.0
+			break
+		# Distance to polygon edge for blending.
+		var d: float = _poly_distance(xz, polygon)
+		if d < best_dist:
+			best_dist = d
+			best_surf = str(entry["surface"])
+	# Water zones force sand near shore.
+	for entry: Dictionary in surroundings.get("water", []):
+		if OsmTerrain.point_in_polygon(xz, entry["polygon"]):
+			return _surface_to_color("sand")
+	var base: Color = _surface_to_color(best_surf)
+	# Within blend radius, mix with default surface for smooth edges.
+	if best_dist > 0.0 and best_dist < radius:
+		var t: float = smoothstep(0.0, radius, best_dist)
+		var fallback: Color = _surface_to_color(default_surface)
+		base = fallback.lerp(base, 1.0 - t)
+	return base
+
+static func _surface_to_color(surface: String) -> Color:
+	# R=sand, G=grass, B=dirt, A=concrete
+	match surface:
+		"sand": return Color(1, 0, 0, 0)
+		"grass": return Color(0, 1, 0, 0)
+		"dirt": return Color(0, 0, 1, 0)
+		"concrete": return Color(0, 0, 0, 1)
+		_: return Color(0, 1, 0, 0)
+
+static func _poly_distance(point: Vector2, polygon: Array[Vector2]) -> float:
+	var min_d: float = INF
+	for i: int in range(polygon.size()):
+		var a: Vector2 = polygon[i]
+		var b: Vector2 = polygon[(i + 1) % polygon.size()]
+		var ab: Vector2 = b - a
+		var t: float = clampf((point - a).dot(ab) / maxf(ab.length_squared(), 0.001), 0.0, 1.0)
+		min_d = minf(min_d, point.distance_to(a + ab * t))
+	return min_d
 
 static func _road_floor_caps(samples: Array[Dictionary], definition: Dictionary, start: Vector2, step: float, nx: int, nz: int) -> PackedFloat32Array:
 	var caps: PackedFloat32Array = PackedFloat32Array()
@@ -164,7 +211,6 @@ static func _spawn_vegetation(parent: Node3D, vegetation: Array, definition: Dic
 	var rng: RandomNumberGenerator = RandomNumberGenerator.new()
 	rng.seed = int(definition.get("seed", 8421)) + 777
 	var groups: Array = [[], [], [], []]
-	# Place trees inside each forest/wood polygon from OSM.
 	for entry: Dictionary in vegetation:
 		var polygon: Array[Vector2] = entry["polygon"]
 		if polygon.size() < 3:
@@ -176,7 +222,6 @@ static func _spawn_vegetation(parent: Node3D, vegetation: Array, definition: Dic
 			maxp = Vector2(maxf(maxp.x, pt.x), maxf(maxp.y, pt.y))
 		var area_x: float = maxp.x - minp.x
 		var area_z: float = maxp.y - minp.y
-		# ~1 tree per 40 m², capped for performance.
 		var count: int = clampi(int(area_x * area_z / 40.0), 1, 200)
 		for _i: int in range(count):
 			var xz: Vector2 = Vector2(rng.randf_range(minp.x, maxp.x), rng.randf_range(minp.y, maxp.y))
