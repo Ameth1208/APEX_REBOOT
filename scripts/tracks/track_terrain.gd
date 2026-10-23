@@ -1,6 +1,8 @@
 class_name TrackTerrain
 extends RefCounted
 
+const OsmTerrain = preload("res://scripts/world/osm_terrain.gd")
+
 static func build(parent: Node3D, samples: Array[Dictionary], definition: Dictionary) -> void:
 	if samples.is_empty():
 		return
@@ -8,7 +10,6 @@ static func build(parent: Node3D, samples: Array[Dictionary], definition: Dictio
 	for sample: Dictionary in samples:
 		bounds = bounds.expand(sample["position"])
 	var margin: float = 180.0
-	# Keep long imported routes bounded; short circuits retain the original grid.
 	var step: float = maxf(24.0, maxf(bounds.size.x, bounds.size.z) / 128.0)
 	var start: Vector2 = Vector2(bounds.position.x - margin, bounds.position.z - margin)
 	var nx: int = ceili((bounds.size.x + margin * 2.0) / step) + 1
@@ -25,7 +26,15 @@ static func build(parent: Node3D, samples: Array[Dictionary], definition: Dictio
 			var xz: Vector2 = start + Vector2(ix, iz) * step
 			var height: float = bounds.position.y - 2.0 + (noise.get_noise_2d(xz.x, xz.y) + 0.6) * float(definition["terrain_hills"])
 			heights[iz * nx + ix] = minf(height, road_floors[iz * nx + ix])
-	var buffer: TrackMeshBuffer = TrackMeshBuffer.new()
+	# Fetch OSM surroundings for real surface classification.
+	var surroundings: Dictionary = {}
+	if definition.get("geo", null) != null:
+		surroundings = OsmTerrain.fetch_surroundings(samples, definition, margin)
+	var default_surface: String = str(definition["terrain_surface"])
+	# Group grid cells by surface so each gets its own mesh buffer.
+	var surface_buffers: Dictionary = {}
+	var base_material: ShaderMaterial = TrackMaterials.ground(default_surface)
+	TrackRoadMesh._apply_custom_texture(base_material, definition, default_surface)
 	for iz: int in range(nz - 1):
 		for ix: int in range(nx - 1):
 			var a: Vector3 = Vector3(start.x + ix * step, heights[iz * nx + ix], start.y + iz * step)
@@ -33,11 +42,21 @@ static func build(parent: Node3D, samples: Array[Dictionary], definition: Dictio
 			var c: Vector3 = Vector3(b.x, heights[(iz + 1) * nx + ix + 1], a.z + step)
 			var d: Vector3 = Vector3(a.x, heights[(iz + 1) * nx + ix], c.z)
 			var normal: Vector3 = (d - a).cross(b - a).normalized()
-			buffer.quad(a, b, c, d, normal)
-	var material: ShaderMaterial = TrackMaterials.ground(str(definition["terrain_surface"]))
-	TrackRoadMesh._apply_custom_texture(material, definition, str(definition["terrain_surface"]))
-	buffer.attach(parent, "Terrain", material, str(definition["terrain_surface"]), false, 320.0)
-	_verges(parent, samples, definition, bounds.position.y, start, step, nx, nz, heights, material)
+			var surface: String = default_surface
+			if not surroundings.is_empty():
+				var center_xz: Vector2 = Vector2(a.x, a.z) + Vector2(step, step) * 0.5
+				surface = OsmTerrain.surface_at(center_xz, surroundings, default_surface)
+			if not surface_buffers.has(surface):
+				surface_buffers[surface] = TrackMeshBuffer.new()
+			surface_buffers[surface].quad(a, b, c, d, normal)
+	for surface: String in surface_buffers:
+		var material: ShaderMaterial = TrackMaterials.ground(surface)
+		TrackRoadMesh._apply_custom_texture(material, definition, surface)
+		surface_buffers[surface].attach(parent, "Terrain_" + surface, material, surface, false, 320.0)
+	_verges(parent, samples, definition, bounds.position.y, start, step, nx, nz, heights, base_material)
+	if not surroundings.is_empty():
+		_spawn_buildings(parent, surroundings.get("buildings", []))
+		_spawn_water(parent, surroundings.get("water", []))
 
 static func _road_floor_caps(samples: Array[Dictionary], definition: Dictionary, start: Vector2, step: float, nx: int, nz: int) -> PackedFloat32Array:
 	var caps: PackedFloat32Array = PackedFloat32Array()
@@ -94,3 +113,42 @@ static func _grid_height(point: Vector3, start: Vector2, step: float, nx: int, n
 	var v: float = clampf(cell.y - float(z), 0.0, 1.0)
 	return lerpf(lerpf(heights[z * nx + x], heights[z * nx + x + 1], u),
 		lerpf(heights[(z + 1) * nx + x], heights[(z + 1) * nx + x + 1], u), v)
+
+static func _spawn_buildings(parent: Node3D, buildings: Array) -> void:
+	for entry: Dictionary in buildings:
+		var mesh_inst: MeshInstance3D = MeshInstance3D.new()
+		var box: BoxMesh = BoxMesh.new()
+		var height: float = float(entry["height"])
+		box.size = Vector3(float(entry["size_x"]), height, float(entry["size_z"]))
+		mesh_inst.mesh = box
+		mesh_inst.position = entry["center"] + Vector3(0, height * 0.5, 0)
+		var mat: StandardMaterial3D = StandardMaterial3D.new()
+		var tags: Dictionary = entry.get("tags", {})
+		if tags.has("building:colour"):
+			mat.albedo_color = Color(str(tags["building:colour"]))
+		else:
+			var shade: float = 0.6 + hash(entry["center"]) % 40 / 100.0
+			mat.albedo_color = Color(shade, shade * 0.96, shade * 0.9)
+		mat.roughness = 0.85
+		mesh_inst.material_override = mat
+		mesh_inst.set_meta("surface", "concrete")
+		parent.add_child(mesh_inst)
+
+static func _spawn_water(parent: Node3D, water: Array) -> void:
+	for entry: Dictionary in water:
+		var buffer: TrackMeshBuffer = TrackMeshBuffer.new()
+		var polygon: Array[Vector2] = entry["polygon"]
+		if polygon.size() < 3:
+			continue
+		for i: int in range(1, polygon.size() - 1):
+			buffer.tri(Vector3(polygon[0].x, 0.05, polygon[0].y),
+				Vector3(polygon[i].x, 0.05, polygon[i].y),
+				Vector3(polygon[i + 1].x, 0.05, polygon[i + 1].y),
+				Vector3.UP)
+		var water_mat: StandardMaterial3D = StandardMaterial3D.new()
+		water_mat.albedo_color = Color(0.1, 0.22, 0.35, 0.75)
+		water_mat.roughness = 0.1
+		water_mat.metallic = 0.3
+		water_mat.transparency = BaseMaterial3D.TRANSPARENCY_ALPHA
+		water_mat.cull_mode = BaseMaterial3D.CULL_DISABLED
+		buffer.attach(parent, "Water", water_mat, "", false, 0.0)

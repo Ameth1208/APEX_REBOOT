@@ -1,8 +1,6 @@
 class_name CircuitTrack
 extends Node3D
 
-const OsmTerrain = preload("res://scripts/world/osm_terrain.gd")
-
 var definition: Dictionary = {}
 var samples: Array[Dictionary] = []
 var length_m: float = 0.0
@@ -26,8 +24,6 @@ func build(source: Dictionary) -> void:
 	TrackRoadMesh.build(self, samples, definition)
 	TrackTerrain.build(self, samples, definition)
 	TrackProps.build(self, _sampler, definition)
-	if definition.get("geo", null) != null:
-		OsmTerrain.add_buildings(self, samples, definition)
 
 func get_length() -> float:
 	return length_m

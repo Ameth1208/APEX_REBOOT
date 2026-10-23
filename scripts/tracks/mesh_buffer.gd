@@ -25,6 +25,14 @@ func quad(a: Vector3, b: Vector3, c: Vector3, d: Vector3, normal: Vector3 = Vect
 		_triangle(offset, offset + 1, offset + 2, normal)
 		_triangle(offset, offset + 2, offset + 3, normal)
 
+func tri(a: Vector3, b: Vector3, c: Vector3, normal: Vector3 = Vector3.UP) -> void:
+	var offset: int = vertices.size()
+	vertices.append_array(PackedVector3Array([a, b, c]))
+	normals.append_array(PackedVector3Array([normal, normal, normal]))
+	uvs.append_array(PackedVector2Array([Vector2(a.x, a.z), Vector2(b.x, b.z), Vector2(c.x, c.z)]))
+	road_uvs.append_array(PackedVector2Array([Vector2.ZERO, Vector2.ZERO, Vector2.ZERO]))
+	_triangle(offset, offset + 1, offset + 2, normal)
+
 func _triangle(a: int, b: int, c: int, normal: Vector3) -> void:
 	var signed_area: float = (vertices[b] - vertices[a]).cross(vertices[c] - vertices[a]).dot(normal)
 	if absf(signed_area) > 0.00000001:
