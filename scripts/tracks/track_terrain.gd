@@ -28,10 +28,16 @@ static func build(parent: Node3D, samples: Array[Dictionary], definition: Dictio
 	var heights: PackedFloat32Array = PackedFloat32Array()
 	heights.resize(nx * nz)
 	var road_floors: PackedFloat32Array = _road_floor_caps(samples, definition, start, step, nx, nz)
+	# Build an elevation field from the road samples so terrain follows real
+	# topography instead of a flat plane. Uses inverse-distance weighting.
+	var elev_field: PackedFloat32Array = _elevation_field(samples, start, step, nx, nz)
 	for iz: int in range(nz):
 		for ix: int in range(nx):
 			var xz: Vector2 = start + Vector2(ix, iz) * step
-			var height: float = bounds.position.y - 2.0 + (noise.get_noise_2d(xz.x, xz.y) + 0.6) * float(definition["terrain_hills"])
+			var road_y: float = elev_field[iz * nx + ix]
+			var noise_val: float = (noise.get_noise_2d(xz.x, xz.y) + 0.6) * float(definition["terrain_hills"])
+			# Terrain follows road elevation + noise, clamped to road floor.
+			var height: float = road_y + noise_val
 			heights[iz * nx + ix] = minf(height, road_floors[iz * nx + ix])
 	# Fetch OSM surroundings for real surface classification.
 	var surroundings: Dictionary = {}
@@ -111,6 +117,40 @@ static func _poly_distance(point: Vector2, polygon: Array[Vector2]) -> float:
 		var t: float = clampf((point - a).dot(ab) / maxf(ab.length_squared(), 0.001), 0.0, 1.0)
 		min_d = minf(min_d, point.distance_to(a + ab * t))
 	return min_d
+
+## Inverse-distance-weighted elevation field from road samples.
+## Far from the road, falls back to a gentle noise so hills extend naturally.
+static func _elevation_field(samples: Array[Dictionary], start: Vector2, step: float, nx: int, nz: int) -> PackedFloat32Array:
+	var field: PackedFloat32Array = PackedFloat32Array()
+	field.resize(nx * nz)
+	# Subsample road points for speed (every ~4th sample).
+	var anchors: Array[Vector2] = []
+	var anchor_y: Array[float] = []
+	for i: int in range(0, samples.size(), 4):
+		var p: Vector3 = samples[i]["position"]
+		anchors.append(Vector2(p.x, p.z))
+		anchor_y.append(p.y)
+	if anchors.is_empty():
+		field.fill(0.0)
+		return field
+	# For each grid cell, find weighted average of nearby road elevations.
+	for iz: int in range(nz):
+		for ix: int in range(nx):
+			var xz: Vector2 = start + Vector2(ix, iz) * step
+			var w_sum: float = 0.0
+			var y_sum: float = 0.0
+			for a: int in range(anchors.size()):
+				var d: float = xz.distance_squared_to(anchors[a])
+				if d < 1.0:
+					d = 1.0
+				var w: float = 1.0 / (d * d * 0.0001 + 1.0)
+				w_sum += w
+				y_sum += anchor_y[a] * w
+			if w_sum > 0.0:
+				field[iz * nx + ix] = y_sum / w_sum
+			else:
+				field[iz * nx + ix] = 0.0
+	return field
 
 static func _road_floor_caps(samples: Array[Dictionary], definition: Dictionary, start: Vector2, step: float, nx: int, nz: int) -> PackedFloat32Array:
 	var caps: PackedFloat32Array = PackedFloat32Array()

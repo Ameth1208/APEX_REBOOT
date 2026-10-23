@@ -9,6 +9,7 @@ const GeoJson = preload("res://scripts/geo/geojson_reader.gd")
 const Simplifier = preload("res://scripts/geo/route_simplifier.gd")
 const ElevationSampling = preload("res://scripts/geo/route_elevation_sampling.gd")
 const Provenance = preload("res://scripts/geo/route_provenance.gd")
+const Recon = preload("res://scripts/geo/route_recon.gd")
 const MAX_RAW_POINTS: int = 20000
 const MAX_CONTROL_POINTS: int = 512
 
@@ -44,6 +45,12 @@ static func parse(text: String, format: String, route_index: int = 0) -> Diction
 				p["width"] = w
 		if props.has("name") and result.get("definition") != null:
 			result["definition"]["name"] = str(props["name"]).left(160)
+	# Auto-detect road properties from OSM so the user doesn't need to configure.
+	if result.get("ok", false) and result.get("definition") != null:
+		var recon: Dictionary = Recon.analyse(result["definition"])
+		if recon.get("ok", false):
+			Recon.apply(result["definition"], recon)
+			result["recon"] = recon
 	return result
 
 static func from_points(points: Array, name: String = "Mi ruta real", source: String = "map", closed: bool = false) -> Dictionary:
