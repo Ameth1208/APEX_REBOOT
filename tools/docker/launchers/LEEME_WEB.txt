@@ -1,0 +1,26 @@
+APEX REBOOT 0.3.1 — VERSIÓN WEB PARA ORDENADOR
+
+1. Extrae todo el ZIP; conserva index.html, index.js, index.wasm e index.pck juntos.
+2. Con Python 3 instalado, abre una terminal en esta carpeta.
+3. Ejecuta:
+   Windows:  py SERVIR_WEB.py
+   Linux:    python3 SERVIR_WEB.py
+4. Abre http://127.0.0.1:8765/index.html en un navegador con WebGL 2.
+5. Mantén la terminal abierta mientras juegas. Ctrl+C cierra el servidor local.
+
+No abras index.html directamente como archivo: el navegador necesita HTTP para
+cargar el motor y los recursos. La primera carga descarga/lee el paquete de
+modelos completo; espera a que aparezca el garaje.
+
+Elige el vehículo y CONDUCIR. Teclas iniciales: W/S, A/D, Espacio, C y Esc.
+En Ajustes están las páginas Conducción, Cámara, Controles e Imagen y sonido.
+Puedes jugar sin cuenta. Cartografía y consultas de alturas requieren conexión.
+
+Esta exportación tiene un motor Web de un solo hilo, sin exigir un servidor
+con cabeceras de aislamiento. El renderizador necesita WebGL 2; el rendimiento
+depende del navegador, GPU y cantidad de rivales. La versión de escritorio es
+la distribución principal. No se ha validado una interfaz táctil para móviles.
+
+README_ES.md contiene el manual; docs/VALIDATION.md distingue las comprobaciones
+realizadas y los límites. Python solo sirve archivos en 127.0.0.1; no publica
+el juego en Internet.

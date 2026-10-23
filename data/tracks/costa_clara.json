@@ -1,0 +1,152 @@
+{
+  "name": "Costa Clara",
+  "description": "Curvas fluidas, rectas rápidas y cambios de rasante junto a la costa.",
+  "thickness": 1.2,
+  "runoff_width": 4.5,
+  "runoff_surface": "sand",
+  "terrain_surface": "grass",
+  "terrain_hills": 7.0,
+  "seed": 1042,
+  "points": [
+    {
+      "x": 0,
+      "y": 2,
+      "z": 160,
+      "width": 14,
+      "bank": 0,
+      "surface": "asphalt"
+    },
+    {
+      "x": 0,
+      "y": 2,
+      "z": 0,
+      "width": 14,
+      "bank": 0,
+      "surface": "asphalt"
+    },
+    {
+      "x": -20,
+      "y": 4,
+      "z": -180,
+      "width": 13,
+      "bank": 2,
+      "surface": "asphalt"
+    },
+    {
+      "x": 90,
+      "y": 7,
+      "z": -330,
+      "width": 13,
+      "bank": 5,
+      "surface": "asphalt"
+    },
+    {
+      "x": 290,
+      "y": 8,
+      "z": -360,
+      "width": 13,
+      "bank": 4,
+      "surface": "asphalt"
+    },
+    {
+      "x": 400,
+      "y": 12,
+      "z": -220,
+      "width": 12,
+      "bank": 6,
+      "surface": "asphalt"
+    },
+    {
+      "x": 340,
+      "y": 17,
+      "z": -70,
+      "width": 12,
+      "bank": -4,
+      "surface": "asphalt"
+    },
+    {
+      "x": 450,
+      "y": 20,
+      "z": 120,
+      "width": 12,
+      "bank": 5,
+      "surface": "asphalt"
+    },
+    {
+      "x": 350,
+      "y": 12,
+      "z": 310,
+      "width": 13,
+      "bank": 5,
+      "surface": "asphalt"
+    },
+    {
+      "x": 130,
+      "y": 5,
+      "z": 370,
+      "width": 14,
+      "bank": 2,
+      "surface": "asphalt"
+    },
+    {
+      "x": -60,
+      "y": 3,
+      "z": 280,
+      "width": 12,
+      "bank": -3,
+      "surface": "asphalt"
+    },
+    {
+      "x": -220,
+      "y": 2,
+      "z": 340,
+      "width": 12,
+      "bank": 4,
+      "surface": "asphalt"
+    },
+    {
+      "x": -390,
+      "y": 4,
+      "z": 240,
+      "width": 13,
+      "bank": 6,
+      "surface": "asphalt"
+    },
+    {
+      "x": -430,
+      "y": 9,
+      "z": 40,
+      "width": 13,
+      "bank": 3,
+      "surface": "asphalt"
+    },
+    {
+      "x": -300,
+      "y": 7,
+      "z": -80,
+      "width": 12,
+      "bank": 4,
+      "surface": "asphalt"
+    },
+    {
+      "x": -160,
+      "y": 4,
+      "z": -40,
+      "width": 12,
+      "bank": 3,
+      "surface": "asphalt"
+    },
+    {
+      "x": -80,
+      "y": 2,
+      "z": 90,
+      "width": 13,
+      "bank": -1,
+      "surface": "asphalt"
+    }
+  ],
+  "version": 1,
+  "barriers": true,
+  "sample_spacing": 4.0,
+  "surface_textures": {}
+}

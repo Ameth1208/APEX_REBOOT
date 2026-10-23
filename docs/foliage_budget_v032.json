@@ -1,0 +1,113 @@
+{
+  "version": "0.3.2",
+  "scope": "Procedural tree foliage geometry and its rendering budget",
+  "runtime_files": {
+    "added": [
+      "scripts/world/foliage_cluster.gd"
+    ],
+    "modified": [
+      "scripts/world/tree_geometry.gd",
+      "scripts/world/broadleaf_geometry.gd"
+    ]
+  },
+  "method": {
+    "engine": "Godot 4.6.3 stable",
+    "mesh_triangles": "Sum of surface vertex counts divided by three; these meshes use non-indexed triangle surfaces.",
+    "baseline_mesh_counts": "Computed from the original generator: broadleaf has 56 lobes x 56 triangles plus 124 wood triangles; conifer has 121 clusters x 14 triangles plus 710 wood triangles.",
+    "headless_checks": "Generate two variants per species twice; compare seeded vertices, validate every vertex/normal and foliage UV, and verify shared material and mipmapped atlas.",
+    "native_probe": "tools/world_visual_probe.gd, fixed camera and scene, Equilibrado, 1440x900; Performance render monitors sampled after settling frames.",
+    "native_renderer": "OpenGL Compatibility, Mesa llvmpipe software rendering",
+    "fps_measured": false
+  },
+  "mesh_budget": {
+    "broadleaf": {
+      "before_triangles": 3260,
+      "after_triangles": 1468,
+      "reduction_percent": 54.97,
+      "surfaces_before": 2,
+      "surfaces_after": 2
+    },
+    "conifer": {
+      "before_triangles": 2404,
+      "after_triangles": 2404,
+      "reduction_percent": 0,
+      "surfaces_before": 2,
+      "surfaces_after": 2
+    }
+  },
+  "foliage_material": {
+    "shared_across_species_and_variants": true,
+    "atlas_pixels": [
+      512,
+      256
+    ],
+    "atlas_channels": "RGBA8",
+    "atlas_sources": "Generated in GDScript: broad leaf sprays in the left half and conifer needles in the right half; no external image assets.",
+    "mipmaps": true,
+    "filter": "linear mipmap anisotropic",
+    "transparency": "Alpha scissor at 0.32; leaf cutouts, no blended transparent canopy shells.",
+    "wind": "Retained world-position sway, weighted by local tree height."
+  },
+  "headless_result": {
+    "status": "PASS",
+    "errors": [],
+    "variants_per_species": 2,
+    "mesh_generations_including_repeats": 8,
+    "elapsed_ms": 79,
+    "elapsed_note": "Single diagnostic run including atlas creation, mesh generation and validation; not a startup or frame-rate benchmark.",
+    "checks": [
+      "Two surfaces per tree",
+      "Shared foliage material and atlas",
+      "Finite vertices",
+      "Normalized normals",
+      "UV coordinates within atlas",
+      "Deterministic seeded vertices",
+      "512x256 image with mipmaps"
+    ]
+  },
+  "native_day_dry_render_monitors": {
+    "baseline_v031": {
+      "primitives": 947936,
+      "draw_calls": 551
+    },
+    "v032_before_foliage_change": {
+      "primitives": 810434,
+      "draw_calls": 625
+    },
+    "v032_after_foliage_change": {
+      "primitives": 720834,
+      "draw_calls": 625
+    },
+    "foliage_change": {
+      "fewer_primitives": 89600,
+      "primitive_reduction_percent": 11.06,
+      "draw_call_delta": 0
+    },
+    "all_v032_changes_vs_baseline": {
+      "fewer_primitives": 227102,
+      "primitive_reduction_percent": 23.96,
+      "draw_call_delta": 74
+    }
+  },
+  "visual_review": {
+    "status": "PASS",
+    "before": "world/day-dry.png",
+    "after": "final-world/day-dry.png",
+    "observation": "Nearby foliage now has visible leaf shapes, gaps between sprays and an irregular canopy outline instead of large closed faceted lobes.",
+    "shader_errors_in_native_capture": 0
+  },
+  "unchanged_contracts": [
+    "Tree placement and seeded instance counts",
+    "Tree trunk collision bodies",
+    "Track and terrain collision",
+    "Road clearance checks",
+    "Existing spatial instance batches and visibility ranges",
+    "Ground cover geometry"
+  ],
+  "limits": [
+    "Render monitor counters describe this fixed scene and camera; they are not FPS measurements or representative hardware benchmarks.",
+    "The full v0.3.2 scene reduces visible primitives but has more draw calls than the baseline because of the combined rendering changes. The foliage change itself leaves this captured draw count unchanged.",
+    "Cutout foliage adds texture sampling and alpha-tested overdraw, so fewer mesh triangles alone do not establish faster rendering.",
+    "This is a procedural foliage improvement; it does not establish photorealism or console-level presentation quality."
+  ]
+}

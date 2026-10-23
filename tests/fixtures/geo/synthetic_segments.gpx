@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<gpx version="1.1" creator="APEX synthetic tests" xmlns="http://www.topografix.com/GPX/1/1">
+  <metadata><name>DATOS SINTÉTICOS; NO ES UNA MEDICIÓN DE BOGOTÁ</name></metadata>
+  <trk><name>Prueba sintética de segmentos</name>
+    <trkseg>
+      <trkpt lat="4.650000" lon="-74.100000"><ele>2500</ele></trkpt>
+      <trkpt lat="4.650000" lon="-74.099000"><ele>2510</ele></trkpt>
+    </trkseg>
+    <trkseg>
+      <trkpt lat="4.651000" lon="-74.100000"/>
+      <trkpt lat="4.651000" lon="-74.099000"><ele>2490</ele></trkpt>
+    </trkseg>
+  </trk>
+  <rte><name>Ruta sintética independiente</name>
+    <rtept lat="4.652000" lon="-74.100000"><ele>0</ele></rtept>
+    <rtept lat="4.652000" lon="-74.099000"><ele>-5</ele></rtept>
+  </rte>
+</gpx>

@@ -1,0 +1,204 @@
+{
+  "profile_version": 1,
+  "kind": "car",
+  "simulation_status": "Sourced nominal specifications with uncalibrated simulation defaults; not manufacturer-certified dynamics.",
+  "drive": "RWD",
+  "drivetrain_efficiency": 0.88,
+  "idle_rpm": 3500,
+  "max_steer_deg": 29,
+  "front_brake_bias": 0.63,
+  "suspension_damping_ratio": 0.76,
+  "paint_preserve_livery": true,
+  "paint_palette": [
+    "original",
+    "#d42a35",
+    "#166bc8",
+    "#efc838",
+    "#edeff2",
+    "#15191e",
+    "#238462",
+    "#aab7c4"
+  ],
+  "specification_defaults": [
+    "engine torque curve",
+    "gear ratios unless separately attributed",
+    "tyre friction and load sensitivity",
+    "aero coefficients and balance",
+    "brake forces",
+    "spring and damper rates",
+    "rider mass",
+    "collision body and centre of mass"
+  ],
+  "display_name": "Fórmula Senna · 1991",
+  "short_name": "Fórmula 1991",
+  "category": "formula_1991",
+  "category_label": "Fórmula 1991",
+  "description": "V12 atmosférico, seis marchas y respuesta rápida. Perfil inspirado en MP4/6.",
+  "model_yaw_deg": 180,
+  "length_m": 4.496,
+  "body_width_m": 2.12,
+  "body_height_m": 0.965,
+  "mass_kg": 580,
+  "curb_mass_kg": 505,
+  "rider_mass_kg": 75,
+  "engine_power_kw": 540.6,
+  "engine_torque_nm": 390,
+  "engine_cylinders": 12,
+  "engine_smoke_offset_m": [
+    0,
+    0.2,
+    0.9
+  ],
+  "max_rpm": 14000,
+  "peak_torque_rpm": 11500,
+  "gear_ratios": [
+    3.15,
+    2.44,
+    1.96,
+    1.63,
+    1.38,
+    1.18
+  ],
+  "final_drive": 4.7,
+  "wheelbase_m": 2.972,
+  "track_width_m": 1.75,
+  "wheel_radius_m": 0.33,
+  "front_weight_fraction": 0.43,
+  "ride_height_m": 0.51,
+  "suspension_travel_m": 0.2,
+  "drag_area_m2": 1.02,
+  "downforce_area_m2": 2.65,
+  "tire_grip_scale": 1.23,
+  "brake_force_n": 15500,
+  "base_color": "#e52325",
+  "headlights": false,
+  "paint_materials": [
+    "BodyworkRed",
+    "BodyTexture"
+  ],
+  "wheel_groups": [
+    {
+      "id": "WheelFL",
+      "names": [
+        "polySurface58",
+        "polySurface59"
+      ],
+      "front": true
+    },
+    {
+      "id": "WheelFR",
+      "names": [
+        "polySurface40",
+        "polySurface41"
+      ],
+      "front": true
+    },
+    {
+      "id": "WheelRL",
+      "names": [
+        "polySurface72",
+        "polySurface73"
+      ],
+      "front": false
+    },
+    {
+      "id": "WheelRR",
+      "names": [
+        "pCylinder93_primitive0",
+        "pCylinder93_primitive1"
+      ],
+      "front": false
+    }
+  ],
+  "sources": [
+    {
+      "url": "https://global.honda/en/F1/machine/1991_McLarenHondaMP46/",
+      "fields": [
+        "length_m",
+        "body_width_m",
+        "body_height_m",
+        "wheelbase_m",
+        "curb_mass_kg",
+        "engine_power_kw",
+        "six forward gears",
+        "front_track_width_m",
+        "rear_track_width_m",
+        "peak_power_rpm"
+      ]
+    }
+  ],
+  "identity_note": "Archive is a Senna 1991 fan model. Physical reference is the McLaren Honda MP4/6; geometry is not asserted to be an exact scanned vehicle.",
+  "license_status": "No license grant supplied in the archive.",
+  "mass_note": "505 kg Honda reference figure plus 75 kg simulated driver. Fuel mass is not simulated.",
+  "id": "senna_formula_1991",
+  "model_path": "res://assets/vehicles/senna_formula_1991/model.fbx",
+  "peak_torque_nm": 390,
+  "drag_area": 1.02,
+  "downforce_area": 2.65,
+  "lift_area": 2.65,
+  "grip": 1.5006,
+  "model_audit": {
+    "source_triangles": 36876,
+    "source_meshes": 70,
+    "source_forward": "+Z",
+    "source_bounds_size": [
+      3.35275173187256,
+      1.89306938648224,
+      6.90304183959961
+    ],
+    "source_unchanged": true,
+    "axle_alignment_note": "Model-only longitudinal translation derived from imported axle centres and configured weight distribution; visual hubs are aligned to the physical suspension contacts. Source asset unchanged."
+  },
+  "cockpit_camera_ground": [
+    0,
+    0.94,
+    -0.350402
+  ],
+  "liveries": [
+    {
+      "id": "Original",
+      "name": "Decoración original",
+      "primary": "#e52325",
+      "secondary": "#ffffff",
+      "accent": "#d52d3b",
+      "pattern": "original"
+    },
+    {
+      "id": "Heritage",
+      "name": "Cuña clásica",
+      "primary": "#eee9dc",
+      "secondary": "#b6243d",
+      "accent": "#273b56",
+      "pattern": "nose_wedge"
+    },
+    {
+      "id": "Endurance",
+      "name": "Cuadros de resistencia",
+      "primary": "#1b6982",
+      "secondary": "#eaf2e5",
+      "accent": "#e4c24d",
+      "pattern": "checker_tail"
+    },
+    {
+      "id": "Nightline",
+      "name": "Cintas del anochecer",
+      "primary": "#172b3c",
+      "secondary": "#53e0d8",
+      "accent": "#e5699f",
+      "pattern": "edge_ribbons"
+    }
+  ],
+  "model_offset_z_m": -0.470402,
+  "align_wheels_to_physics": true,
+  "front_track_width_m": 1.824,
+  "rear_track_width_m": 1.669,
+  "peak_power_rpm": 13500,
+  "suspension_sag_m": 0.035,
+  "wheel_visual_radius_m": 0.33,
+  "handling_revision": {
+    "spring_sag_m": 0.035,
+    "spring_sag_status": "simulation tuning; not a measured MP4/6 spring setup",
+    "power_curve_status": "interpolation between nominal peak torque and Honda nominal peak power; not a measured torque curve",
+    "wheel_repair": "Radial import scale corrected at runtime to circular 0.33 m radius; no changes to the original FBX."
+  }
+}

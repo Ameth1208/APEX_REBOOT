@@ -1,0 +1,109 @@
+{
+  "release": "0.3.2",
+  "date": "2026-10-20",
+  "engine": "Godot 4.6.3.stable.official.7d41c59c4",
+  "method": "Instantiate each current VehicleVisual with its profile; inspect mesh surfaces, active material identities, skin bindings and imported LOD arrays through the engine.",
+  "evidence": "tooling/handling-review/model_render_audit.log",
+  "scope": "Full-resolution runtime model geometry after wheel separation and rider attachment, counting each surface once. These are not visible-triangle counts, render-pass totals, measured draw calls, GPU timings or FPS.",
+  "models": [
+    {
+      "id": "senna_formula_1991",
+      "mesh_instances": 70,
+      "surfaces": 70,
+      "base_triangles": 36876,
+      "distinct_active_materials": 21,
+      "skinned_mesh_instances": 0,
+      "surfaces_with_lods": 60,
+      "triangles_on_surfaces_without_lods": 302,
+      "painted_surfaces": 5,
+      "chassis": {
+        "mesh_instances": 62,
+        "base_triangles": 18080
+      },
+      "wheels": {
+        "count": 4,
+        "mesh_instances": 8,
+        "base_triangles": 18796
+      }
+    },
+    {
+      "id": "ferrari_312t_1976",
+      "mesh_instances": 27,
+      "surfaces": 27,
+      "base_triangles": 74387,
+      "distinct_active_materials": 23,
+      "skinned_mesh_instances": 0,
+      "surfaces_with_lods": 18,
+      "triangles_on_surfaces_without_lods": 21840,
+      "painted_surfaces": 2,
+      "chassis": {
+        "mesh_instances": 19,
+        "base_triangles": 52739
+      },
+      "wheels": {
+        "count": 4,
+        "mesh_instances": 8,
+        "base_triangles": 21648
+      }
+    },
+    {
+      "id": "porsche_992_gt3_rs_2024",
+      "mesh_instances": 361,
+      "surfaces": 361,
+      "base_triangles": 1721938,
+      "distinct_active_materials": 65,
+      "skinned_mesh_instances": 0,
+      "surfaces_with_lods": 294,
+      "triangles_on_surfaces_without_lods": 4009,
+      "painted_surfaces": 4,
+      "chassis": {
+        "mesh_instances": 325,
+        "distinct_active_materials": 58,
+        "base_triangles": 1227045
+      },
+      "wheels": {
+        "count": 4,
+        "mesh_instances": 36,
+        "base_triangles": 494893
+      }
+    },
+    {
+      "id": "yamaha_yzf_2021",
+      "includes_rider": true,
+      "mesh_instances": 109,
+      "surfaces": 109,
+      "base_triangles": 392883,
+      "distinct_active_materials": 53,
+      "skinned_mesh_instances": 99,
+      "surfaces_with_lods": 97,
+      "triangles_on_surfaces_without_lods": 33369,
+      "painted_surfaces": 3,
+      "chassis": {
+        "mesh_instances": 96,
+        "base_triangles": 351098
+      },
+      "wheels": {
+        "count": 2,
+        "mesh_instances": 4,
+        "base_triangles": 20411
+      },
+      "rider": {
+        "mesh_instances": 9,
+        "base_triangles": 21374
+      }
+    }
+  ],
+  "findings": [
+    "The Porsche has the largest full-resolution geometry and surface budget: 325 chassis meshes plus 36 wheel meshes.",
+    "All four model imports already enable automatic LOD generation and shadow meshes; current visual instances use lod_bias=0.6.",
+    "Each counted mesh instance references a separate mesh resource in this audit; a same-resource MultiMesh conversion is not an immediate drop-in optimization.",
+    "The Yamaha including its rider has 99 skinned mesh instances. Baking or merging without preserving those bindings can damage deformation, wheel movement and the rider.",
+    "The Ferrari runtime axle splitter creates eight wheel meshes without copied imported LOD arrays; those wheel meshes total 21648 base triangles.",
+    "Blind merging can discard existing LODs, skin bindings, material selections and per-wheel transforms. A smaller mesh-instance count alone does not establish lower GPU time."
+  ],
+  "decision": "Preserve existing source assets, LODs, wheels, skeletons and paint/livery behavior for this release. No new mesh baking or merging was introduced.",
+  "existing_mitigation": "Adaptive render quality changes LOD threshold, 3D scale, shadow quality and tagged scenery distance. F8 records actual frame measurements and draw calls on the playing device.",
+  "future_optimization": "Prioritize an independently generated Porsche render asset with chassis/material grouping and an explicit LOD chain; preserve the four independent wheel groups and paint targets. Validate appearance, transforms, bounds and measured GPU frame time before replacing the current model.",
+  "source_assets_modified": false,
+  "target_gpu_benchmark_performed": false
+}

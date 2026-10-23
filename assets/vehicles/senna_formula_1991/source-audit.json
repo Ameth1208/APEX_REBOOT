@@ -1,0 +1,21 @@
+{
+  "source_archive": "f1-ayrton-senna-1991-car.zip",
+  "source_member": "source/untitled.fbx",
+  "sha256": "c92c3512482d7c492a346e3bd7b512a3feb2d56daf4b50495c5144ec635c82a3",
+  "source_bytes": 14652268,
+  "copied_textures": [
+    "downloaded.fbm/Rim_Base_Color_image.jpg",
+    "downloaded.fbm/BodyTexture_Base_Color_image.png",
+    "downloaded.fbm/Rearwing_Base_Color_image.png",
+    "downloaded.fbm/Tachometer_Base_Color_image.jpg",
+    "downloaded.fbm/leather_Base_Color_image.jpg",
+    "downloaded.fbm/BodyworkRed_Base_Color_image.jpg",
+    "downloaded.fbm/steeringWheel_Base_Color_image.jpg",
+    "downloaded.fbm/Tach_Base_Color_image.jpg",
+    "downloaded.fbm/Tyre_Base_Color_image.jpg",
+    "downloaded.fbm/FrontWing_Base_Color_image.png"
+  ],
+  "copied_notices": [],
+  "license_status": "No license grant was present in the supplied archive.",
+  "source_geometry_unchanged": true
+}

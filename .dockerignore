@@ -1,0 +1,11 @@
+# The image contains tools only. Source/assets are mounted when exporting.
+**
+!Dockerfile
+!.dockerignore
+!tools/
+!tools/docker/
+!tools/docker/install-godot.sh
+!tools/docker/godot.lock
+!licenses/
+!licenses/LICENSE.txt
+!licenses/COPYRIGHT.txt

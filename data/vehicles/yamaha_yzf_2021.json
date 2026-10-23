@@ -1,0 +1,338 @@
+{
+  "profile_version": 1,
+  "kind": "motorcycle",
+  "simulation_status": "Sourced nominal specifications with uncalibrated simulation defaults; not manufacturer-certified dynamics.",
+  "drive": "RWD",
+  "drivetrain_efficiency": 0.88,
+  "idle_rpm": 1300,
+  "max_steer_deg": 29,
+  "front_brake_bias": 0.74,
+  "suspension_damping_ratio": 0.76,
+  "paint_preserve_livery": true,
+  "paint_palette": [
+    "original",
+    "#d42a35",
+    "#166bc8",
+    "#efc838",
+    "#edeff2",
+    "#15191e",
+    "#238462",
+    "#aab7c4"
+  ],
+  "specification_defaults": [
+    "engine torque curve",
+    "gear ratios unless separately attributed",
+    "tyre friction and load sensitivity",
+    "aero coefficients and balance",
+    "brake forces",
+    "spring and damper rates",
+    "rider mass",
+    "collision body and centre of mass"
+  ],
+  "display_name": "Yamaha YZF · 2021",
+  "short_name": "YZF / R7",
+  "category": "motorcycle",
+  "category_label": "Moto supersport",
+  "description": "Dos contactos, frenada delantera e inclinación de un piloto virtual. R7 inferida del archivo.",
+  "model_yaw_deg": 0,
+  "length_m": 2.07,
+  "body_width_m": 0.705,
+  "body_height_m": 1.16,
+  "mass_kg": 263,
+  "curb_mass_kg": 188,
+  "rider_mass_kg": 75,
+  "engine_power_kw": 54,
+  "engine_torque_nm": 67,
+  "engine_cylinders": 2,
+  "engine_smoke_offset_m": [
+    0,
+    0.05,
+    0.1
+  ],
+  "max_rpm": 10500,
+  "peak_torque_rpm": 6500,
+  "gear_ratios": [
+    2.846,
+    2.125,
+    1.632,
+    1.3,
+    1.091,
+    0.964
+  ],
+  "final_drive": 5.053,
+  "primary_reduction": 1.925,
+  "secondary_reduction": 2.625,
+  "wheelbase_m": 1.395,
+  "track_width_m": 0.15,
+  "wheel_radius_m": 0.31,
+  "front_weight_fraction": 0.48,
+  "ride_height_m": 0.64,
+  "suspension_travel_m": 0.24,
+  "drag_area_m2": 0.34,
+  "downforce_area_m2": 0,
+  "tire_grip_scale": 1.04,
+  "brake_force_n": 4300,
+  "max_lean_deg": 51,
+  "base_color": "#24272d",
+  "headlights": true,
+  "paint_materials": [
+    "Material.004",
+    "Material.005",
+    "vehicle_generic_smallspecmap [SECONDARY]"
+  ],
+  "wheel_groups": [
+    {
+      "id": "WheelFront",
+      "names": [
+        "wheel_lf_child",
+        "wheel_lf_child_001"
+      ],
+      "front": true
+    },
+    {
+      "id": "WheelRear",
+      "names": [
+        "wheel_lr_child",
+        "wheel_lr_child_001"
+      ],
+      "front": false
+    }
+  ],
+  "sources": [
+    {
+      "url": "https://global.yamaha-motor.com/news/2021/0519/yzf-r7.html",
+      "fields": [
+        "length_m",
+        "body_width_m",
+        "body_height_m",
+        "wheelbase_m",
+        "curb_mass_kg",
+        "engine_torque_nm",
+        "secondary_reduction"
+      ]
+    },
+    {
+      "url": "https://global.yamaha-motor.com/jp/news/2021/1216/yzf-r7.html",
+      "fields": [
+        "engine_power_kw"
+      ]
+    }
+  ],
+  "identity_note": "Archive title only says YZF 2021. yzfr7 and r7_engine_test in its hierarchy suggest the R7; exact trim is unverified.",
+  "license_status": "Embedded copyright: VTX. No license grant supplied.",
+  "mass_note": "188 kg curb motorcycle plus 75 kg simulated rider. final_drive includes primary and secondary reductions.",
+  "id": "yamaha_yzf_2021",
+  "model_path": "res://assets/vehicles/yamaha_yzf_2021/model.glb",
+  "peak_torque_nm": 67,
+  "drag_area": 0.34,
+  "downforce_area": 0,
+  "lift_area": 0,
+  "grip": 1.2688,
+  "material_repairs": [
+    {
+      "names": [
+        "tyre"
+      ],
+      "color": "#202126",
+      "metallic": 0.0,
+      "roughness": 0.93,
+      "discard_white_albedo_map": true
+    },
+    {
+      "names": [
+        "wheel_map [WHEEL]"
+      ],
+      "color": "#292d35",
+      "metallic": 0.7,
+      "roughness": 0.3,
+      "discard_white_albedo_map": true
+    },
+    {
+      "names": [
+        "plastic_d8",
+        "plastic_d8.001",
+        "plastic_d8.002",
+        "plastic_d8.003",
+        "plastic_d8.004",
+        "plastic_d8.005",
+        "plastics_d"
+      ],
+      "color": "#24282d",
+      "metallic": 0.1,
+      "roughness": 0.62,
+      "discard_white_albedo_map": true
+    },
+    {
+      "names": [
+        "black",
+        "black.001",
+        "black.002",
+        "black.003",
+        "black.004",
+        "black.005",
+        "black.006"
+      ],
+      "color": "#171a1f",
+      "metallic": 0.05,
+      "roughness": 0.64,
+      "discard_white_albedo_map": true
+    },
+    {
+      "names": [
+        "gray56",
+        "gray56.001",
+        "gray56.002",
+        "gray56.003"
+      ],
+      "color": "#82878c",
+      "metallic": 0.8,
+      "roughness": 0.35,
+      "discard_white_albedo_map": true
+    },
+    {
+      "names": [
+        "gray80",
+        "gray80.001",
+        "susp"
+      ],
+      "color": "#b3b5b8",
+      "metallic": 0.85,
+      "roughness": 0.27,
+      "discard_white_albedo_map": true
+    },
+    {
+      "names": [
+        "chrome_d"
+      ],
+      "color": "#bdc5cc",
+      "metallic": 0.95,
+      "roughness": 0.15,
+      "discard_white_albedo_map": true
+    },
+    {
+      "names": [
+        "r7_engine_test"
+      ],
+      "color": "#3b4047",
+      "metallic": 0.65,
+      "roughness": 0.46,
+      "discard_white_albedo_map": true
+    },
+    {
+      "names": [
+        "radiator"
+      ],
+      "color": "#30343a",
+      "metallic": 0.6,
+      "roughness": 0.5,
+      "discard_white_albedo_map": true
+    },
+    {
+      "names": [
+        "detail_exhaust",
+        "detail_header"
+      ],
+      "color": "#98948d",
+      "metallic": 0.85,
+      "roughness": 0.33,
+      "discard_white_albedo_map": true
+    },
+    {
+      "names": [
+        "glass_500px"
+      ],
+      "color": "#35425355",
+      "metallic": 0.05,
+      "roughness": 0.12,
+      "discard_white_albedo_map": true
+    },
+    {
+      "names": [
+        "glass_500ox",
+        "glass_500ox.001"
+      ],
+      "color": "#4050643d",
+      "metallic": 0.02,
+      "roughness": 0.12,
+      "discard_white_albedo_map": true
+    }
+  ],
+  "material_repair_note": "The export has white albedo images assigned to rubber, plastics, engine and glass. Named runtime repairs assign plausible materials; fairing paint and original source file are preserved.",
+  "model_audit": {
+    "source_triangles": 371509,
+    "source_meshes": 100,
+    "source_forward": "-Z",
+    "source_bounds_size": [
+      0.791033029556274,
+      1.15139091014862,
+      1.99067425727844
+    ],
+    "source_unchanged": true,
+    "axle_alignment_note": "Model-only longitudinal translation derived from imported axle centres and configured weight distribution; visual hubs are aligned to the physical suspension contacts. Source asset unchanged."
+  },
+  "cockpit_camera_ground": [
+    0,
+    1.25,
+    0.177844
+  ],
+  "show_rider": true,
+  "rider_scale": 1.0,
+  "rider_offset": [
+    0,
+    0,
+    0
+  ],
+  "liveries": [
+    {
+      "id": "Original",
+      "name": "Decoración original",
+      "primary": "#24272d",
+      "secondary": "#ffffff",
+      "accent": "#d52d3b",
+      "pattern": "original"
+    },
+    {
+      "id": "Heritage",
+      "name": "Azul de circuito",
+      "primary": "#184ea6",
+      "secondary": "#f0f4ef",
+      "accent": "#e5433d",
+      "pattern": "speed_blocks"
+    },
+    {
+      "id": "Endurance",
+      "name": "Flechas de resistencia",
+      "primary": "#efe6d1",
+      "secondary": "#242e44",
+      "accent": "#ff6d38",
+      "pattern": "chevrons"
+    },
+    {
+      "id": "Nightline",
+      "name": "Circuito eléctrico",
+      "primary": "#121f34",
+      "secondary": "#d6548e",
+      "accent": "#47ded0",
+      "pattern": "circuit_lines"
+    }
+  ],
+  "rider_model_path": "res://assets/rider/quaternius/Superhero_Male_FullBody.gltf",
+  "rider_procedural": false,
+  "rider_seat": [
+    0.0,
+    0.945,
+    0.405
+  ],
+  "rider_grip": [
+    0.285,
+    1.005,
+    -0.345
+  ],
+  "rider_ankle": [
+    0.245,
+    0.41,
+    0.405
+  ],
+  "model_offset_z_m": -0.022156,
+  "align_wheels_to_physics": true
+}

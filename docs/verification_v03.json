@@ -1,0 +1,101 @@
+{
+  "release": "0.3.0",
+  "date": "2026-10-20",
+  "godot": "4.6.3.stable.official.7d41c59c4",
+  "physics_hz": 120,
+  "controls_camera_assertions": 23,
+  "motorcycle_camera_assertions": 18,
+  "ai_traffic_assertions": 32,
+  "condition_assertions": 21,
+  "audio_pcm_assertions": 5,
+  "native_flow": {
+    "brake_peak": 1.0,
+    "checks": 32,
+    "failures": [],
+    "throttle_peak": 1.0
+  },
+  "native_harness": {
+    "renderer": "Compatibility / Mesa llvmpipe / Xvfb",
+    "physics_hz": 120,
+    "max_physics_steps_per_frame": 128,
+    "input_viewport": [
+      960,
+      540
+    ],
+    "responsive_viewports": [
+      [
+        960,
+        540
+      ],
+      [
+        1024,
+        768
+      ],
+      [
+        1920,
+        1080
+      ],
+      [
+        2560,
+        1080
+      ]
+    ],
+    "performance_benchmark": false
+  },
+  "exports": {
+    "Windows_x64": "generated; Wine fails even at --version; native Windows unverified",
+    "Linux_x64": "generated; headless executable startup exit 0 after 180 frames",
+    "Web": "generated; real Chromium browser smoke PASS; driving and red pedal indicators verified at 960x540 and 1280x800"
+  },
+  "docker_engine_executed": false,
+  "github_actions_executed": false,
+  "audio_listening_verified": false,
+  "limitations": [
+    "Procedural stylized environment",
+    "Physics are approximations, not manufacturer calibration",
+    "Deterministic local AI, not guaranteed optimum",
+    "Rider remains attached during motorcycle fall",
+    "No measured target hardware FPS"
+  ],
+  "web_flow": {
+    "status": "PASS_OBSERVED_WEB_SMOKE",
+    "browser": "155.0.8059.84",
+    "renderer": "ANGLE (Mesa, llvmpipe (LLVM 20.1.2 256 bits), OpenGL 4.5 (Core Profile) Mesa 25.2.8-0ubuntu0.24.04.2)",
+    "files": {
+      "index.html": {
+        "bytes": 5444,
+        "sha256": "b1f0fa918e9aecc3dc6ce5f710307bb83a14cf44807fad3af2b84e440485b61d"
+      },
+      "index.wasm": {
+        "bytes": 37700666,
+        "sha256": "26b61ce95247012ab3dca3ff51e96d1cdbff44ee91a8c20a83e150afca83f1b6"
+      },
+      "index.pck": {
+        "bytes": 182033608,
+        "sha256": "142bf4557e027b01cc7719e651bdae54020e32876b21f0608aa18139837b7db1"
+      }
+    },
+    "observed": [
+      "Garage Porsche and original decoration rendered at 960x540",
+      "Changed opponent difficulty to Accesible and steering response to 1.30x; resulting values visible",
+      "Camera options and keyboard bindings visible and complete",
+      "Selected Yamaha, motorcycle and mounted rider rendered in garage and track",
+      "Countdown finished and session timer advanced",
+      "W: red accelerator 100%, other brakes 0%, motorcycle moving at displayed 28km/h",
+      "S: red brake 100%, accelerator and rear brake 0%",
+      "Space: red rear brake 100%, accelerator and primary brake 0%",
+      "Motorcycle stopped after braking; released pedals each returned to 0%",
+      "HUD, minimap and driving help visible within 960x540 and 1280x800 without overlap or clipping",
+      "Canvas dimensions matched actual browser viewport after resize"
+    ],
+    "page_errors": [],
+    "failed_requests": [],
+    "http_errors": [],
+    "console_warnings": [
+      "Godot: Occlusion culling is disabled at build-time."
+    ],
+    "shader_errors_observed": 0,
+    "software_limit": "Mesa llvmpipe. Initial scene-entry screenshot exceeded its 30s harness deadline; subsequent capture succeeded and the session advanced. No FPS or hardware-performance claim.",
+    "scope": "Local real export only; no external DEM query, no publish, no game-source changes; screenshots are temporary QA."
+  }
+}

@@ -1,0 +1,191 @@
+{
+  "profile_version": 1,
+  "kind": "car",
+  "simulation_status": "Sourced nominal specifications with uncalibrated simulation defaults; not manufacturer-certified dynamics.",
+  "drive": "RWD",
+  "drivetrain_efficiency": 0.88,
+  "idle_rpm": 3000,
+  "max_steer_deg": 29,
+  "front_brake_bias": 0.63,
+  "suspension_damping_ratio": 0.76,
+  "paint_preserve_livery": true,
+  "paint_palette": [
+    "original",
+    "#d42a35",
+    "#166bc8",
+    "#efc838",
+    "#edeff2",
+    "#15191e",
+    "#238462",
+    "#aab7c4"
+  ],
+  "specification_defaults": [
+    "engine torque curve",
+    "gear ratios unless separately attributed",
+    "tyre friction and load sensitivity",
+    "aero coefficients and balance",
+    "brake forces",
+    "spring and damper rates",
+    "rider mass",
+    "collision body and centre of mass"
+  ],
+  "display_name": "Ferrari 312T · 1976",
+  "short_name": "312T",
+  "category": "classic_formula",
+  "category_label": "Fórmula clásica",
+  "description": "Monoplaza clásico de doce cilindros, cinco marchas y aerodinámica de época.",
+  "model_yaw_deg": 180,
+  "length_m": 4.143,
+  "body_width_m": 2.03,
+  "body_height_m": 1.275,
+  "mass_kg": 650,
+  "curb_mass_kg": 575,
+  "rider_mass_kg": 75,
+  "engine_power_kw": 364,
+  "engine_torque_nm": 310,
+  "engine_cylinders": 12,
+  "engine_smoke_offset_m": [
+    0,
+    0.2,
+    1.0
+  ],
+  "max_rpm": 12500,
+  "peak_torque_rpm": 10000,
+  "gear_ratios": [
+    3.05,
+    2.28,
+    1.76,
+    1.43,
+    1.18
+  ],
+  "final_drive": 4.6,
+  "wheelbase_m": 2.518,
+  "track_width_m": 1.52,
+  "wheel_radius_m": 0.3,
+  "front_weight_fraction": 0.42,
+  "ride_height_m": 0.5,
+  "suspension_travel_m": 0.2,
+  "drag_area_m2": 1.03,
+  "downforce_area_m2": 1.25,
+  "tire_grip_scale": 1.12,
+  "brake_force_n": 13000,
+  "base_color": "#d21018",
+  "headlights": false,
+  "paint_materials": [
+    "Meshpart2Mtl.005",
+    "R1Mtl"
+  ],
+  "wheel_groups": [
+    {
+      "id": "WheelFL",
+      "names": [
+        "Object_5_Right",
+        "Object_6_Right"
+      ],
+      "front": true
+    },
+    {
+      "id": "WheelFR",
+      "names": [
+        "Object_5_Left",
+        "Object_6_Left"
+      ],
+      "front": true
+    },
+    {
+      "id": "WheelRL",
+      "names": [
+        "Object_8_Right",
+        "Object_9_Right"
+      ],
+      "front": false
+    },
+    {
+      "id": "WheelRR",
+      "names": [
+        "Object_8_Left",
+        "Object_9_Left"
+      ],
+      "front": false
+    }
+  ],
+  "sources": [
+    {
+      "url": "https://www.ferrari.com/en-CA/formula1/312-t",
+      "fields": [
+        "engine_power_kw",
+        "curb_mass_kg"
+      ]
+    }
+  ],
+  "identity_note": "Retains the supplied archive title. The 312T is the 1975 design also raced early in 1976; this is not represented as an authenticated 312T2.",
+  "license_status": "Embedded metadata: CC-BY-4.0; attribution required.",
+  "mass_note": "575 kg reference car plus 75 kg simulated driver.",
+  "wheel_animation_note": "Tyre/rim triangles originally contain both wheels. They are split left/right at runtime preserving original vertex attributes and materials, then animated around independent pivots. Brake callipers remain static.",
+  "id": "ferrari_312t_1976",
+  "model_path": "res://assets/vehicles/ferrari_312t_1976/model.glb",
+  "peak_torque_nm": 310,
+  "drag_area": 1.03,
+  "downforce_area": 1.25,
+  "lift_area": 1.25,
+  "grip": 1.3664,
+  "split_wheel_meshes": [
+    "Object_5",
+    "Object_6",
+    "Object_8",
+    "Object_9"
+  ],
+  "model_audit": {
+    "source_triangles": 74387,
+    "source_meshes": 23,
+    "source_forward": "+Z",
+    "source_bounds_size": [
+      10.8681802749634,
+      6.81192874908447,
+      22.1902008056641
+    ],
+    "source_unchanged": true,
+    "axle_alignment_note": "Model-only longitudinal translation derived from imported axle centres and configured weight distribution; visual hubs are aligned to the physical suspension contacts. Source asset unchanged."
+  },
+  "cockpit_camera_ground": [
+    0,
+    0.88,
+    0.055331
+  ],
+  "liveries": [
+    {
+      "id": "Original",
+      "name": "Decoración original",
+      "primary": "#d21018",
+      "secondary": "#ffffff",
+      "accent": "#d52d3b",
+      "pattern": "original"
+    },
+    {
+      "id": "Heritage",
+      "name": "Banda italiana",
+      "primary": "#bc2435",
+      "secondary": "#edeadd",
+      "accent": "#24856e",
+      "pattern": "central_band"
+    },
+    {
+      "id": "Endurance",
+      "name": "Bandas de época",
+      "primary": "#eee2c6",
+      "secondary": "#193e58",
+      "accent": "#ce4835",
+      "pattern": "cross_bands"
+    },
+    {
+      "id": "Nightline",
+      "name": "Alas doradas",
+      "primary": "#25213b",
+      "secondary": "#ccad5b",
+      "accent": "#d991bb",
+      "pattern": "swept_wings"
+    }
+  ],
+  "model_offset_z_m": -0.094669,
+  "align_wheels_to_physics": true
+}

@@ -1,0 +1,48 @@
+{
+  "source_archive": "ferrari-312t-1976-wwwvecarzcom.zip",
+  "source_member": "source/1976_ferrari_312t.glb",
+  "sha256": "f4d13380c434994eeeea2013b4bed56a241dc21072ffe2a69dcc6e8b184a9948",
+  "source_bytes": 5534652,
+  "copied_textures": [],
+  "copied_notices": [],
+  "embedded_asset_metadata": {
+    "extras": {
+      "author": "Dave Love SketchFab (https://sketchfab.com/Tyler_Dave)",
+      "license": "CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)",
+      "source": "https://sketchfab.com/3d-models/1976-ferrari-312t-b82c13cee0d24966ae66d0324ac12054",
+      "title": "1976 Ferrari 312T"
+    },
+    "generator": "Sketchfab-0.3.0",
+    "version": "2.0"
+  },
+  "mesh_count": 23,
+  "node_count": 28,
+  "triangle_count": 74387,
+  "material_names": [
+    "Disc1Mtl",
+    "Tire1Mtl",
+    "Rim1Mtl",
+    "Caliper1Mtl",
+    "Rim3Mtl",
+    "Tire3Mtl",
+    "Meshpart1Mtl.005",
+    "Meshpart2Mtl.005",
+    "Meshpart3Mtl.005",
+    "R1Mtl",
+    "Meshpart4Mtl.001",
+    "Meshpart6Mtl.001",
+    "Meshpart8Mtl.001",
+    "Meshpart9Mtl",
+    "Meshpart10Mtl",
+    "Meshpart12Mtl",
+    "Meshpart13Mtl",
+    "Meshpart21Mtl",
+    "Meshpart22Mtl",
+    "Meshpart23Mtl",
+    "Meshpart25Mtl",
+    "Meshpart26Mtl",
+    "Meshpart29Mtl"
+  ],
+  "embedded_images": 14,
+  "source_geometry_unchanged": true
+}

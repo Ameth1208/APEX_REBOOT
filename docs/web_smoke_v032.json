@@ -1,0 +1,190 @@
+{
+  "status": "PASS_WITH_NONBLOCKING_NOTES",
+  "version": "0.3.2",
+  "scope": {
+    "core_flow": "Garaje -> clic CONDUCIR -> HUD de pista -> pausa -> volver al garaje -> editor; revisión visual de capturas del motor real.",
+    "cursor": "Campo Nombre real: escribir Costa Clara, Home, seis ArrowRight, insertar Nueva , Ctrl+A/C; verificar texto copiado.",
+    "final_refresh": "Sesión Chromium registrada en web-final/report.json: después de corregir glifos y antes del traslado posterior del QA nativo; arranque, revisión visual del botón y descarga F8 sobre el PCK de 183343964 bytes.",
+    "flow_source_report": "/workspace/scratch/c2ca777a7497/tooling/release-v032/web-smoke/report.json",
+    "final_source_report": "/workspace/scratch/c2ca777a7497/tooling/release-v032/web-final/report.json",
+    "internal_screenshots_only": true,
+    "not_tested": "No se mide FPS de GPU física ni rendimiento de conducción sostenida; el HUD se capturó durante la cuenta atrás."
+  },
+  "browser": {
+    "name": "Chrome Headless Shell",
+    "version": "151.0.7922.34",
+    "automation": "Playwright 1.62.1",
+    "viewport_px": [
+      1440,
+      900
+    ],
+    "device_scale_factor": 1,
+    "isolation": "Perfil temporal nuevo; servidor sólo 127.0.0.1; sin cuentas y sin publicación.",
+    "executable": "/workspace/scratch/c2ca777a7497/tooling/release-v032/web-browsers/chrome-headless-shell-linux64/chrome-headless-shell",
+    "download_source": "https://storage.googleapis.com/chrome-for-testing-public/151.0.7922.34/linux64/chrome-headless-shell-linux64.zip",
+    "download_bytes": 120231126,
+    "download_md5_verified": "792047b3c2625d7d4b0fc7c4fc67d7ad"
+  },
+  "runtime": {
+    "engine": "4.6.3-stable (official)",
+    "platform": "Web",
+    "renderer": "gl_compatibility",
+    "graphics_api": "WebGL 2.0 / OpenGL ES 3.0 Chromium",
+    "emscripten": "4.0.20",
+    "threads": "single-threaded",
+    "gdextension_support": false,
+    "quality": "Automático",
+    "physics_ticks_per_second": 120
+  },
+  "hardware": {
+    "host_cpu_model": "AMD EPYC 9V74 80-Core Processor",
+    "host_architecture": "x86_64",
+    "logical_processors_visible": 9,
+    "logical_processors_allowed": 9,
+    "cgroup_cpu_max": "800000 100000",
+    "cgroup_memory_max": "8589934592",
+    "graphics_backend": "SwiftShader, forced by Chromium launch flags",
+    "launch_flags": [
+      "--use-gl=angle",
+      "--use-angle=swiftshader",
+      "--enable-unsafe-swiftshader",
+      "--disable-dev-shm-usage"
+    ],
+    "adapter_reported_by_godot": "WebKit WebGL",
+    "physical_gpu_benchmark": false,
+    "performance_interpretation": "Entorno de QA con renderizado por CPU. El informe F8 se pidió en el garaje: sampled_gameplay_frames=0; mean_fps y frame_p95_ms son null."
+  },
+  "checks": {
+    "real_garage_visible": true,
+    "drive_click_opens_track_and_hud": true,
+    "pause_visible": true,
+    "return_to_garage": true,
+    "track_editor_visible": true,
+    "browser_cursor_middle": {
+      "expected": "Costa Nueva Clara",
+      "actual": "Costa Nueva Clara",
+      "pass": true
+    },
+    "f8_download": {
+      "pass": true,
+      "filename": "APEX_rendimiento.json",
+      "version": "0.3.2",
+      "operating_system": "Web",
+      "file": "/workspace/scratch/c2ca777a7497/tooling/release-v032/web-final/APEX_rendimiento.json"
+    },
+    "native_ui_regressions": {
+      "result": "PASS",
+      "checks": 52,
+      "script": "tests/ui_editing_checks.gd"
+    },
+    "uncaught_javascript_exceptions": 0,
+    "http_4xx_5xx": 0,
+    "blocked_external_requests": 0,
+    "final_harness_errors": [],
+    "browser_tested_build_boot": true,
+    "browser_tested_drive_glyph_visually_verified": true,
+    "current_distribution_browser_smoke_executed": false
+  },
+  "nonblocking_notes": [
+    {
+      "kind": "engine_warning",
+      "text": "WARNING: Occlusion culling is disabled at build-time.",
+      "detail": "Godot prints this warning through console.error with a native source location; there is no JavaScript exception."
+    },
+    {
+      "kind": "request_cancelled",
+      "resource": "index.pck",
+      "status_before_cancel": 200,
+      "browser_event": "net::ERR_ABORTED",
+      "detail": "Observed once in both runs. The engine, models, track, menus and editor loaded successfully. No missing-resource/HTTP error was observed. Cancellation cause was not established; raw network logs are preserved."
+    },
+    {
+      "kind": "intentional_harness_stop",
+      "stage": "Final optional click to close the editor after cursor validation",
+      "detail": "The agent stopped the first QA browser after the required flow and successful clipboard validation. Its raw report contains mouse.click: Target page, context or browser has been closed. This is the deliberate harness interruption, not an application failure."
+    }
+  ],
+  "glyph_fixes": [
+    {
+      "file": "scripts/ui/menu/garage_layout.gd",
+      "change": "CONDUCIR → becomes CONDUCIR ›"
+    },
+    {
+      "file": "scripts/geo/ui/route_dialog_layout.gd",
+      "change": "Crear pista y ver perfil → becomes Crear pista y ver perfil ›"
+    },
+    {
+      "file": "scripts/geo/ui/route_profile_panel.gd",
+      "change": "↑/↓ become subida/bajada"
+    }
+  ],
+  "reports": {
+    "aggregate": "/workspace/scratch/c2ca777a7497/tooling/release-v032/web_smoke_final.json",
+    "downloaded_f8": "/workspace/scratch/c2ca777a7497/tooling/release-v032/web-final/APEX_rendimiento.json",
+    "final_browser": "/workspace/scratch/c2ca777a7497/tooling/release-v032/web-final/report.json",
+    "first_flow": "/workspace/scratch/c2ca777a7497/tooling/release-v032/web-smoke/report.json",
+    "harness": "/workspace/scratch/c2ca777a7497/tooling/release-v032/web_smoke.cjs"
+  },
+  "artifacts_current_distribution": [
+    {
+      "name": "index.html",
+      "bytes": 5444,
+      "sha256": "03add45bfa708aac1a9ea382044b2e5952997993daed526200cfcf2533768bda"
+    },
+    {
+      "name": "index.js",
+      "bytes": 315759,
+      "sha256": "e3f56ee40e6f84371053db06692cfac15e2c8659547b11c6b2dfa1996dabd981"
+    },
+    {
+      "name": "index.wasm",
+      "bytes": 37700666,
+      "sha256": "26b61ce95247012ab3dca3ff51e96d1cdbff44ee91a8c20a83e150afca83f1b6"
+    },
+    {
+      "name": "index.pck",
+      "bytes": 183347412,
+      "sha256": "8e3e96b810d53da896938433e14e2b3941172a667137db331f37fdfc57d96c02"
+    }
+  ],
+  "artifacts_browser_tested": [
+    {
+      "name": "index.html",
+      "bytes": 5444,
+      "modified": "2026-10-20T20:12:14.254Z",
+      "sha256": null
+    },
+    {
+      "name": "index.js",
+      "bytes": 315759,
+      "modified": "2026-10-20T20:12:14.105Z",
+      "sha256": null
+    },
+    {
+      "name": "index.wasm",
+      "bytes": 37700666,
+      "modified": "2026-10-20T20:12:14.247Z",
+      "sha256": null
+    },
+    {
+      "name": "index.pck",
+      "bytes": 183343964,
+      "modified": "2026-10-20T20:12:14.098Z",
+      "sha256": null
+    }
+  ],
+  "artifact_provenance": {
+    "browser_source_report": "/workspace/scratch/c2ca777a7497/tooling/release-v032/web-final/report.json",
+    "browser_run_started": "2026-10-20T20:13:25.710Z",
+    "browser_run_finished": "2026-10-20T20:14:04.376Z",
+    "browser_hash_note": "El registro original de Chromium conserva tamaños y fechas, pero no SHA-256. Los hashes del build probado no están disponibles en ese registro y se dejan en null; los hashes actuales no se atribuyen retroactivamente a la sesión.",
+    "current_distribution_verification": "Los cuatro SHA-256 de artifacts_current_distribution se compararon en lectura con build/Web y coinciden. Ese PCK posterior no se volvió a ejecutar en Chromium."
+  },
+  "post_browser_smoke_change": {
+    "description": "Después de la sesión Chromium se trasladó el helper nativo a scripts/qa/native_distribution_smoke.gd y se añadió la rama explícita --qa-distribution en main.",
+    "scope": "Cambio limitado al helper y a la activación explícita del QA nativo; sin cambios en el flujo web normal.",
+    "browser_tested_pck_bytes": 183343964,
+    "current_distribution_pck_bytes": 183347412,
+    "exact_current_pck_browser_smoke_executed": false
+  }
+}

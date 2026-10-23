@@ -1,0 +1,104 @@
+name: Build and verify APEX REBOOT
+
+# Manual only. Artifacts remain attached to this run; no Release or deployment.
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: apex-build-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  build:
+    name: Export and verify on Ubuntu
+    runs-on: ubuntu-24.04
+    timeout-minutes: 60
+    steps:
+      - name: Checkout source and model files
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          lfs: true
+          persist-credentials: false
+
+      - name: Build the pinned Godot image
+        run: docker compose build build
+
+      - name: Export Windows, Linux and Web
+        run: bash tools/docker/build.sh all
+
+      - name: Check physics, race rules and Linux startup
+        run: |
+          export APEX_UID="$(id -u)" APEX_GID="$(id -g)"
+          docker compose run --rm --entrypoint bash build .github/scripts/verify-linux.sh
+
+      - name: Package source and exports
+        run: |
+          python3 .github/scripts/test-package-release.py
+          python3 tools/package-release.py --version 0.3.1
+
+      - name: Keep Windows package for its native check
+        uses: actions/upload-artifact@bbbca2ddaa5d8feaa63e36b76fdaad77386f024f # v7.0.0
+        with:
+          name: apex-windows-v0.3.1
+          path: |
+            build/packages/APEX_REBOOT_v0.3.1_Windows_x64.zip
+            build/packages/SHA256SUMS.txt
+          compression-level: 0
+          if-no-files-found: error
+          retention-days: 14
+
+      - name: Keep source, Linux and Web packages
+        uses: actions/upload-artifact@bbbca2ddaa5d8feaa63e36b76fdaad77386f024f # v7.0.0
+        with:
+          name: apex-source-linux-web-v0.3.1
+          path: |
+            build/packages/APEX_REBOOT_v0.3.1_Fuente_Godot.zip
+            build/packages/APEX_REBOOT_v0.3.1_Linux_x64.zip
+            build/packages/APEX_REBOOT_v0.3.1_Web.zip
+            build/packages/SHA256SUMS.txt
+          compression-level: 0
+          if-no-files-found: error
+          retention-days: 14
+
+      - name: Keep export and check logs
+        if: always()
+        uses: actions/upload-artifact@bbbca2ddaa5d8feaa63e36b76fdaad77386f024f # v7.0.0
+        with:
+          name: apex-linux-build-logs
+          path: build/logs/
+          if-no-files-found: ignore
+          retention-days: 14
+
+  windows:
+    name: Start the Windows export on Windows
+    needs: build
+    runs-on: windows-2022
+    timeout-minutes: 15
+    steps:
+      - name: Checkout only the verification scripts
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          sparse-checkout: .github
+          persist-credentials: false
+
+      - name: Download the Windows package from this run
+        uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333 # v8.0.2
+        with:
+          name: apex-windows-v0.3.1
+          path: incoming
+
+      - name: Verify checksum and start the packaged executable
+        shell: pwsh
+        run: ./.github/scripts/verify-windows.ps1 -PackageDir incoming
+
+      - name: Keep Windows startup logs
+        if: always()
+        uses: actions/upload-artifact@bbbca2ddaa5d8feaa63e36b76fdaad77386f024f # v7.0.0
+        with:
+          name: apex-windows-startup-logs
+          path: build/logs/
+          if-no-files-found: ignore
+          retention-days: 14

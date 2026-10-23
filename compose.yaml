@@ -1,0 +1,22 @@
+services:
+  build:
+    build:
+      context: .
+      target: builder
+      platforms: [linux/amd64]
+    platform: linux/amd64
+    user: "${APEX_UID:-1000}:${APEX_GID:-1000}"
+    init: true
+    network_mode: none
+    working_dir: /workspace
+    volumes:
+      - type: bind
+        source: .
+        target: /workspace
+      - type: volume
+        source: build-cache
+        target: /cache
+    command: [all]
+
+volumes:
+  build-cache:

@@ -1,0 +1,41 @@
+{
+  "scope": "CPU microbenchmark: indexed nearest route queries only; not an FPS measurement.",
+  "engine": "Godot 4.6.3 stable official 7d41c59c4",
+  "track": "Polonuevo - Baranoa (plano)",
+  "length_m": 14457.7727656364,
+  "samples": 3722,
+  "queries_per_round": 1200,
+  "rounds": 5,
+  "warmup_queries": 60,
+  "before": {
+    "version": "0.3.1",
+    "rounds_ms_sorted": [
+      1239.259,
+      1257.7,
+      1280.274,
+      1289.432,
+      1347.48
+    ],
+    "median_ms": 1280.274,
+    "checksum": 43358507.1956789
+  },
+  "after": {
+    "version": "0.3.2",
+    "rounds_ms_sorted": [
+      22.155,
+      22.476,
+      23.096,
+      23.56,
+      25.934
+    ],
+    "median_ms": 23.096,
+    "checksum": 43358507.1956789
+  },
+  "speedup_for_this_operation": 55.43271562175268,
+  "reproduce": "godot --headless --path . --script tools/benchmark_route_queries.gd -- data/tracks/polonuevo_baranoa.json",
+  "notes": [
+    "Same queries and numerical output checksum in both versions.",
+    "Times vary with CPU and background load.",
+    "No rendered frame rate or user GPU performance is inferred."
+  ]
+}

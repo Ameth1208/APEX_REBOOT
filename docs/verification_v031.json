@@ -1,0 +1,211 @@
+{
+  "release": "0.3.1",
+  "date": "2026-10-20",
+  "godot": "4.6.3.stable.official.7d41c59c4",
+  "scope": "HUD presentation and integration; no new vehicle physics calibration",
+  "ui_fixture": {
+    "status": "PASS",
+    "assertions": 752,
+    "failures": [],
+    "script": "tools/hud_layout_probe.gd",
+    "log": "tooling/hud_v031_layout_native_final.log",
+    "renderer": "Compatibility / OpenGL 4.5 / Mesa 25.2.8 / llvmpipe",
+    "synthetic_telemetry": true,
+    "gameplay_physics_exercised": false,
+    "scenarios": [
+      "motorcycle race",
+      "car time trial",
+      "motorcycle free drive",
+      "car open stage"
+    ],
+    "viewports": [
+      [
+        960,
+        540
+      ],
+      [
+        1024,
+        768
+      ],
+      [
+        1920,
+        1080
+      ],
+      [
+        2560,
+        1080
+      ]
+    ],
+    "fixture_captures": 16,
+    "capture_scope": "Temporary isolated HUD fixtures, not gameplay screenshots",
+    "warnings": [
+      "Graphics driver does not support changing V-Sync mode"
+    ]
+  },
+  "intervals": {
+    "status": "PASS",
+    "assertions": 21,
+    "failures": [],
+    "script": "tests/hud_intervals_checks.gd",
+    "log": "tooling/hud_v031_intervals_final.log",
+    "method": "Recorded crossing times with interpolation at equal race progress"
+  },
+  "application_flow": {
+    "status": "PASS",
+    "assertions": 32,
+    "failures": [],
+    "headless": true,
+    "script": "tools/v03_feature_probe.gd",
+    "log": "tooling/hud_v031_flow_final.log",
+    "input": "Remapped physical-key events delivered to the Godot input system",
+    "player_motion_verified": true,
+    "participants": 6,
+    "physics_hz": 120,
+    "harness_max_physics_steps_per_frame": 128,
+    "permanent_key_guide_absent": true
+  },
+  "packaging_fixtures": {
+    "status": "PASS",
+    "assertions": 3,
+    "bash_notice_script_syntax": "PASS"
+  },
+  "gameplay_captures": {
+    "status": "PASS",
+    "failures": [],
+    "script": "tools/hud_race_capture.gd",
+    "log": "tooling/hud_v031_race_capture_final.log",
+    "report": "tooling/hud-race-v031-final-data/godot/app_userdata/APEX REBOOT/qa/hud-race/report.json",
+    "headless": false,
+    "software_renderer": true,
+    "viewport": [
+      1600,
+      900
+    ],
+    "capture_count": 4,
+    "scenarios": [
+      "car cockpit",
+      "motorcycle",
+      "motorcycle night",
+      "optional F3 telemetry"
+    ],
+    "visual_review": "PASS",
+    "synthetic_telemetry": false,
+    "recorded_speed_kmh": {
+      "car": 86.8866943359375,
+      "motorcycle": 40.583757019043
+    },
+    "displayed_speed_kmh": {
+      "car": 87,
+      "motorcycle": 41
+    },
+    "throttle_percent": 65,
+    "capture_method": "Drive with engine input, pause simulation preserving velocity, and allow camera updates while rendering"
+  },
+  "exports": {
+    "Windows_x64": "PASS",
+    "Linux_x64": "PASS",
+    "Web": "PASS"
+  },
+  "browser_qa": {
+    "status": "PASS",
+    "browser": "155.0.8059.84",
+    "software_renderer": true,
+    "viewports": [
+      [
+        960,
+        540
+      ],
+      [
+        1600,
+        900
+      ]
+    ],
+    "functional_pass_before_final_position_fix": {
+      "status": "PASS",
+      "report": "tooling/web-qa-v031/report-before-position-fix.json",
+      "build_hashes": {
+        "index.html": {
+          "bytes": 5444,
+          "sha256": "5c285e5c78adddd64a26b1f20218720659d19ae032fa54479f13e1081b13ea1a"
+        },
+        "index.wasm": {
+          "bytes": 37700666,
+          "sha256": "26b61ce95247012ab3dca3ff51e96d1cdbff44ee91a8c20a83e150afca83f1b6"
+        },
+        "index.pck": {
+          "bytes": 182242676,
+          "sha256": "ec577944f63e2bcb70deb513e97d0899058b0c3fdadd3f16cbb2689560524b36"
+        }
+      },
+      "checks": [
+        "One loaded race with real participants",
+        "No permanent controls guide",
+        "Throttle 100 percent and 21 km/h via W",
+        "Brake 100 percent via S and return to zero after release",
+        "F3 telemetry on and off",
+        "1600x900 layout without clipping",
+        "Esc pause menu"
+      ],
+      "recovered_capture_timeouts": 1
+    },
+    "final_export_regression": {
+      "status": "PASS",
+      "report": "tooling/web-qa-v031/report.json",
+      "build_hashes": {
+        "index.html": {
+          "bytes": 5444,
+          "sha256": "3508bb1dbd561d10b55cbf8c81b5344eeceda61d621ba298bde93ce766ae1c7e"
+        },
+        "index.wasm": {
+          "bytes": 37700666,
+          "sha256": "26b61ce95247012ab3dca3ff51e96d1cdbff44ee91a8c20a83e150afca83f1b6"
+        },
+        "index.pck": {
+          "bytes": 182242724,
+          "sha256": "f4295b5e4e7f0978642703e2d4e267c5d9a253c468b9c875b63fb27d7ce83e96"
+        }
+      },
+      "method": "New browser instance fetched the final PCK; visual review during countdown",
+      "capture": "12-final-countdown-position.png",
+      "countdown": 3,
+      "header": "4 / 4",
+      "player_row": 4,
+      "functional_driving_repeated": false
+    },
+    "page_errors": 0,
+    "failed_requests": 0,
+    "http_errors": 0,
+    "expected_engine_warning": "Occlusion culling excluded from the Web template",
+    "performance_benchmark": false
+  },
+  "native_windows_execution_verified": false,
+  "docker_engine_executed": false,
+  "github_actions_executed": false,
+  "physics_recalibrated": false,
+  "physics_long_runs_repeated": false,
+  "target_hardware_performance_benchmark": false,
+  "export_log": "tooling/export_v031_final.log",
+  "export_exit_code": 0,
+  "linux_export_startup": {
+    "status": "PASS",
+    "headless": true,
+    "quit_after_frames": 180,
+    "exit_code": 0,
+    "log": "tooling/linux_v031_final_startup.log",
+    "after_position_fix": true
+  },
+  "position_regression": {
+    "status": "PASS",
+    "assertions": 5,
+    "failures": [],
+    "headless": true,
+    "script": "tests/hud_position_checks.gd",
+    "log": "tooling/hud_v031_position.log",
+    "covers": [
+      "Countdown header and player row agree",
+      "Overtaking updates header and rows together",
+      "Header preserves the displayed row snapshot between refreshes"
+    ]
+  },
+  "last_runtime_fix": "Race tower header uses the same classification snapshot as its rows; tested after the full native HUD passes"
+}

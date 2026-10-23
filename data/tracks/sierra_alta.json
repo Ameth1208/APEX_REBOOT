@@ -1,0 +1,160 @@
+{
+  "name": "Sierra Alta",
+  "description": "Viaductos, desnivel real y curvas de montaña; las cotas se conservan en los cruces.",
+  "thickness": 1.8,
+  "runoff_width": 3.7,
+  "runoff_surface": "gravel",
+  "terrain_surface": "grass",
+  "terrain_hills": 26.0,
+  "seed": 6091,
+  "points": [
+    {
+      "x": 0,
+      "y": 55,
+      "z": 0,
+      "width": 13,
+      "bank": 0,
+      "surface": "asphalt"
+    },
+    {
+      "x": 0,
+      "y": 64,
+      "z": -180,
+      "width": 12,
+      "bank": 1,
+      "surface": "asphalt"
+    },
+    {
+      "x": 150,
+      "y": 65,
+      "z": -330,
+      "width": 12,
+      "bank": 6,
+      "surface": "asphalt"
+    },
+    {
+      "x": 340,
+      "y": 70,
+      "z": -280,
+      "width": 12,
+      "bank": 5,
+      "surface": "asphalt"
+    },
+    {
+      "x": 400,
+      "y": 65,
+      "z": -60,
+      "width": 12,
+      "bank": 6,
+      "surface": "asphalt"
+    },
+    {
+      "x": 280,
+      "y": 57,
+      "z": 60,
+      "width": 12,
+      "bank": 4,
+      "surface": "asphalt"
+    },
+    {
+      "x": 130,
+      "y": 42,
+      "z": 0,
+      "width": 12,
+      "bank": -2,
+      "surface": "asphalt"
+    },
+    {
+      "x": -60,
+      "y": 28,
+      "z": -120,
+      "width": 12,
+      "bank": 0,
+      "surface": "asphalt"
+    },
+    {
+      "x": -250,
+      "y": 12,
+      "z": -220,
+      "width": 12,
+      "bank": 3,
+      "surface": "asphalt"
+    },
+    {
+      "x": -400,
+      "y": 4,
+      "z": -140,
+      "width": 12,
+      "bank": 6,
+      "surface": "asphalt"
+    },
+    {
+      "x": -350,
+      "y": 8,
+      "z": 70,
+      "width": 12,
+      "bank": 4,
+      "surface": "asphalt"
+    },
+    {
+      "x": -170,
+      "y": 15,
+      "z": 150,
+      "width": 12,
+      "bank": 0,
+      "surface": "asphalt"
+    },
+    {
+      "x": 10,
+      "y": 15,
+      "z": 190,
+      "width": 13,
+      "bank": -2,
+      "surface": "asphalt"
+    },
+    {
+      "x": 190,
+      "y": 8,
+      "z": 300,
+      "width": 12,
+      "bank": 6,
+      "surface": "asphalt"
+    },
+    {
+      "x": 170,
+      "y": 6,
+      "z": 470,
+      "width": 12,
+      "bank": 5,
+      "surface": "asphalt"
+    },
+    {
+      "x": -40,
+      "y": 10,
+      "z": 500,
+      "width": 12,
+      "bank": 3,
+      "surface": "asphalt"
+    },
+    {
+      "x": -200,
+      "y": 18,
+      "z": 390,
+      "width": 12,
+      "bank": 5,
+      "surface": "asphalt"
+    },
+    {
+      "x": -160,
+      "y": 52,
+      "z": 230,
+      "width": 12,
+      "bank": 4,
+      "surface": "asphalt"
+    }
+  ],
+  "version": 1,
+  "barriers": true,
+  "sample_spacing": 4.0,
+  "surface_textures": {}
+}

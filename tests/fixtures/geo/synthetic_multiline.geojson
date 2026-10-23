@@ -1,0 +1,16 @@
+{
+  "type": "FeatureCollection",
+  "description": "DATOS SINTÉTICOS; NO ES UNA MEDICIÓN DE BOGOTÁ",
+  "features": [
+    {"type":"Feature", "properties":{"name":"Dos segmentos sintéticos"}, "geometry": {
+      "type":"MultiLineString", "coordinates":[
+        [[-74.10,4.65,2500],[-74.099,4.65,2510]],
+        [[-74.10,4.651],[-74.099,4.651,2490]]
+      ]
+    }},
+    {"type":"Feature", "properties":{"name":"Línea sintética independiente"}, "geometry": {
+      "type":"LineString", "coordinates":[[-74.10,4.652,0],[-74.099,4.652,-5]]
+    }},
+    {"type":"Feature", "properties":{"name":"No es una ruta"}, "geometry":{"type":"Point","coordinates":[-74.10,4.65]}}
+  ]
+}

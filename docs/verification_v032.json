@@ -1,0 +1,433 @@
+{
+  "release": "0.3.2",
+  "date": "2026-10-20",
+  "godot": "4.6.3.stable.official.7d41c59c4",
+  "scope": "Track finish, native garage/editor polish, wheel/contact corrections, CPU route query optimization and adaptive presentation.",
+  "validation_status": "FUNCTIONAL_VALIDATION_COMPLETE_WITH_PLATFORM_LIMITS",
+  "physics_hz": 120,
+  "physics_interpolation_enabled": true,
+  "cpu_route_benchmark": {
+    "status": "PASS",
+    "report": "docs/benchmark_route_queries_v032.json",
+    "script": "tools/benchmark_route_queries.gd",
+    "track": "Polonuevo - Baranoa (plano)",
+    "samples": 3722,
+    "queries_per_round": 1200,
+    "rounds": 5,
+    "before_median_ms": 1280.274,
+    "after_median_ms": 23.096,
+    "shared_checksum": 43358507.1956789,
+    "speedup_for_this_operation": 55.43271562175268,
+    "gameplay_fps_measured": false,
+    "scope": "Single-threaded nearest-route queries with a previous-position hint; no rendering or user GPU benchmark."
+  },
+  "adaptive_quality": {
+    "implementation": "Automático uses sustained frame pressure and hysteresis; fixed Rendimiento, Equilibrado and Alto presets remain available.",
+    "target_fps": 60,
+    "guaranteed_fps": false,
+    "scale_3d_range": [
+      0.7,
+      1
+    ],
+    "native_ui_resolution_preserved": true,
+    "physics_hz_preserved": 120,
+    "transient_loading_hitches_reduce_quality": false,
+    "diagnostics_key": "F8",
+    "native_report_path": "user://diagnostics/APEX_rendimiento.json",
+    "web_report": "APEX_rendimiento.json download",
+    "retained_gameplay_frames": 1200,
+    "network_upload": false,
+    "fields": [
+      "cpu",
+      "graphics_adapter",
+      "renderer",
+      "window_px",
+      "quality",
+      "render_scale_3d",
+      "mean_fps",
+      "frame_p95_ms",
+      "draw_calls",
+      "last_gpu_ms",
+      "last_render_cpu_ms",
+      "last_physics_process_ms"
+    ],
+    "unavailable_gpu_timing": null
+  },
+  "ui_editing": {
+    "status": "PASS",
+    "script": "tests/ui_editing_checks.gd",
+    "assertions": 52,
+    "failures": [],
+    "headless": true,
+    "log": "tooling/ui-polish/data/godot/app_userdata/APEX REBOOT/logs/godot.log",
+    "scope": "Real text input, caret and selection, numeric draft, undo/redo, shared immutable source history, garage selection and menu bounds. Selected vehicle is revealed on narrow layouts; manual scrolling and input focus are preserved.",
+    "garage_viewports": [
+      [
+        960,
+        540
+      ],
+      [
+        1024,
+        768
+      ],
+      [
+        1280,
+        720
+      ],
+      [
+        1920,
+        1080
+      ],
+      [
+        2560,
+        1080
+      ]
+    ],
+    "editor_viewports": [
+      [
+        960,
+        540
+      ],
+      [
+        1280,
+        720
+      ],
+      [
+        1920,
+        1080
+      ]
+    ]
+  },
+  "hud_fixture": {
+    "status": "PASS",
+    "script": "tools/hud_layout_probe.gd",
+    "assertions": 752,
+    "failures": [],
+    "headless": true,
+    "synthetic_telemetry": true,
+    "gameplay_physics_exercised": false,
+    "captures_generated": false,
+    "report": "tooling/ui-polish-hud/data/godot/app_userdata/APEX REBOOT/qa/hud-layout-report.json",
+    "scenarios": [
+      "motorcycle race",
+      "car time trial",
+      "motorcycle free drive",
+      "car open stage"
+    ],
+    "viewports": [
+      [
+        960,
+        540
+      ],
+      [
+        1024,
+        768
+      ],
+      [
+        1920,
+        1080
+      ],
+      [
+        2560,
+        1080
+      ]
+    ]
+  },
+  "track_finish": {
+    "status": "PASS",
+    "script": "tests/track_finish_checks.gd",
+    "headless": true,
+    "source_editable_geometry_preserved": true,
+    "original_unknown_elevation_preserved": true,
+    "scope": "Render chunk bounds, triangle winding, metre-based UVs, matching road collision faces, kerb contacts and shared wetness/detail materials.",
+    "routes": [
+      {
+        "name": "Polonuevo - Baranoa (plano)",
+        "length_m": 14457.7727656364,
+        "road_chunks": 58,
+        "maximum_chunk_extent_m": 329.98828125,
+        "road_triangles": 29776,
+        "road_contact_queries": 360,
+        "road_contact_misses": 0,
+        "kerb_contact_queries": 120,
+        "kerb_hits": 120
+      },
+      {
+        "name": "Synthetic 14 km loop",
+        "length_m": 14000,
+        "road_chunks": 66,
+        "maximum_chunk_extent_m": 326,
+        "road_triangles": 28000,
+        "road_contact_queries": 360,
+        "road_contact_misses": 0,
+        "kerb_contact_queries": 120,
+        "kerb_hits": 120
+      }
+    ],
+    "visual_review": "PASS: reviewed native OpenGL screenshots of dry/wet surfaces, curbs and day/night lighting."
+  },
+  "wheel_rig": {
+    "status": "PASS",
+    "script": "tests/wheel_rig_checks.gd",
+    "log": "tooling/handling-review/wheel_rig_checks.log",
+    "assertions": 79,
+    "failures": [],
+    "headless": true,
+    "loads_actual_vehicle_assets": true,
+    "axle_contact_tolerance_m": 0.002,
+    "sampled_spin_angles": 16,
+    "measured_radial_runout_m": {
+      "senna_formula_1991": 0.00537607073784,
+      "porsche_992_gt3_rs_2024": 0.00027379393578,
+      "ferrari_312t_1976": 0.00068062543869,
+      "yamaha_yzf_2021": 0.00063681602478
+    },
+    "scope": "Independent wheels, contact hub alignment, imported vertex runout, signed rolling, locking, Ackermann steering and full extension.",
+    "source_model_assets_modified": false
+  },
+  "formula_handling": {
+    "status": "PASS",
+    "script": "tests/formula_handling_checks.gd",
+    "log": "tooling/handling-review/formula_handling_checks.log",
+    "assertions": 121,
+    "failures": [],
+    "headless": true,
+    "high_speed_scenario": {
+      "initial_speed_kmh": 306,
+      "duration_s": 3,
+      "before_minimum_chassis_height_m": 0.337834,
+      "after_minimum_chassis_height_m": 0.43942528963089,
+      "after_maximum_compression_m": 0.10916398286819,
+      "declared_suspension_travel_m": 0.2,
+      "final_speed_kmh": 297.61872253418,
+      "lost_tyre_contacts": false,
+      "damage": false
+    },
+    "engine_profile_point": {
+      "rpm": 13500,
+      "before_power_kw": 454.311997,
+      "after_power_kw": 540.6
+    },
+    "source": "https://global.honda/en/F1/machine/1991_McLarenHondaMP46/",
+    "estimated_parameters": [
+      "suspension_sag_m=0.035",
+      "torque interpolation between nominal points",
+      "tyre and aerodynamic coefficients"
+    ],
+    "manufacturer_telemetry_calibration": false
+  },
+  "physics_regressions": {
+    "physics_checks": {
+      "status": "PASS",
+      "script": "tests/physics_checks.gd",
+      "scope": "Car and motorcycle rest, acceleration, braking, steering, lean, slope and banking."
+    },
+    "collision_checks": {
+      "status": "PASS",
+      "script": "tests/collision_checks.gd",
+      "log": "tooling/handling-review/collision_checks.log",
+      "scope": "Barriers, four car/motorcycle collision pairs and solid scenery."
+    },
+    "vehicle_condition_checks": {
+      "status": "PASS",
+      "script": "tests/vehicle_condition_checks.gd",
+      "log": "tooling/handling-review/vehicle_condition_checks.log",
+      "scope": "Impact damage, motorcycle fall, disabled propulsion and explicit repair."
+    },
+    "open_route_ai": {
+      "status": "PASS",
+      "script": "tests/open_route_ai_checks.gd",
+      "log": "tooling/handling-review/open_route_ai_checks.log",
+      "scope": "Synthetic open route; each vehicle finishes a valid stage, brakes after the finish and uses no recovery.",
+      "vehicles": [
+        {
+          "id": "porsche_992_gt3_rs_2024",
+          "simulated_time_s": 27.5083333333324,
+          "max_lateral_error_m": 0.52919006347656,
+          "recoveries": 0
+        },
+        {
+          "id": "yamaha_yzf_2021",
+          "simulated_time_s": 33.4916666666654,
+          "max_lateral_error_m": 0.48226451873779,
+          "recoveries": 0
+        },
+        {
+          "id": "ferrari_312t_1976",
+          "simulated_time_s": 26.0583333333325,
+          "max_lateral_error_m": 0.64007765054703,
+          "recoveries": 0
+        },
+        {
+          "id": "senna_formula_1991",
+          "simulated_time_s": 23.3083333333327,
+          "max_lateral_error_m": 0.70842295885086,
+          "recoveries": 0
+        }
+      ]
+    },
+    "controls_camera_checks": {
+      "status": "PASS",
+      "script": "tests/controls_camera_checks.gd",
+      "assertions": 23
+    },
+    "motorcycle_camera_checks": {
+      "status": "PASS",
+      "script": "tests/motorcycle_camera_checks.gd",
+      "assertions": 18
+    },
+    "race_rules_checks": {
+      "status": "PASS",
+      "script": "tests/race_rules_checks.gd",
+      "assertions": null
+    },
+    "aero_wake_checks": {
+      "status": "PASS",
+      "script": "tests/aero_wake_checks.gd",
+      "assertions": null
+    }
+  },
+  "performance_contract_regression": {
+    "status": "PASS",
+    "script": "tests/performance_checks.gd",
+    "scope": "Independent 3D projection reference, open/closed routes, bridge levels, stale hints, 2 cm final segment, hysteresis, 250 ms loading hitch, native UI size and 120 Hz physics.",
+    "projection_queries": 53,
+    "failures": [],
+    "warnings": []
+  },
+  "gameplay_captures": {
+    "status": "PASS",
+    "report": "tools/hud_race_capture.gd; native Godot 4.6.3 OpenGL Compatibility / Mesa llvmpipe",
+    "synthetic_telemetry": false,
+    "performance_benchmark": false,
+    "scenarios": [
+      "Formula cockpit actual throttle 65 percent; 93.476 km/h",
+      "Motorcycle chase actual throttle 65 percent; 43.852 km/h",
+      "Motorcycle night",
+      "Optional telemetry"
+    ],
+    "viewport": [
+      1600,
+      900
+    ],
+    "software_renderer": true,
+    "harness_max_physics_steps_per_frame": 128,
+    "failures": []
+  },
+  "exports": {
+    "Windows_x64": "PASS: official Godot 4.6.3 release template, no script/export errors",
+    "Linux_x64": "PASS: official Godot 4.6.3 release template, no script/export errors",
+    "Web": "PASS: official Godot 4.6.3 release template, no script/export errors"
+  },
+  "linux_export_startup": {
+    "status": "PASS",
+    "mode": "Exported native executable with its PCK, 120 frames headless; exit 0",
+    "log": "tooling/release-v032/linux-export-startup.log"
+  },
+  "browser_qa": {
+    "status": "PASS_WITH_NONBLOCKING_NOTES",
+    "browser": "Chrome Headless Shell 151.0.7922.34",
+    "automation": "Playwright 1.62.1",
+    "viewport_px": [
+      1440,
+      900
+    ],
+    "renderer": "Godot 4.6.3 gl_compatibility / WebGL 2.0 / SwiftShader software rendering",
+    "core_flow": "Garaje -> clic CONDUCIR -> HUD de pista -> pausa -> volver al garaje -> editor; revisión visual de capturas del motor real.",
+    "cursor": {
+      "expected": "Costa Nueva Clara",
+      "actual": "Costa Nueva Clara",
+      "pass": true
+    },
+    "final_refresh": "Después de las correcciones de glifos y la reexportación, nuevo perfil de navegador: arranque, revisión visual del botón y descarga F8.",
+    "f8_download_verified": true,
+    "f8_scope": "Garage only: zero gameplay samples, mean_fps and frame_p95_ms correctly null.",
+    "uncaught_javascript_exceptions": 0,
+    "http_4xx_5xx": 0,
+    "notes": [
+      {
+        "kind": "engine_warning",
+        "text": "WARNING: Occlusion culling is disabled at build-time.",
+        "detail": "Godot prints this warning through console.error with a native source location; there is no JavaScript exception."
+      },
+      {
+        "kind": "request_cancelled",
+        "resource": "index.pck",
+        "status_before_cancel": 200,
+        "browser_event": "net::ERR_ABORTED",
+        "detail": "Observed once in both runs. The engine, models, track, menus and editor loaded successfully. No missing-resource/HTTP error was observed. Cancellation cause was not established; raw network logs are preserved."
+      },
+      {
+        "kind": "intentional_harness_stop",
+        "stage": "Final optional click to close the editor after cursor validation",
+        "detail": "The agent stopped the first QA browser after the required flow and successful clipboard validation. Its raw report contains mouse.click: Target page, context or browser has been closed. This is the deliberate harness interruption, not an application failure."
+      }
+    ],
+    "physical_gpu_benchmark": false,
+    "full_report": "docs/web_smoke_v032.json",
+    "post_browser_change": "After the successful browser smoke, the native-only QA helper moved to scripts/qa and its explicit --qa-distribution branch. The browser was not rerun on that exact PCK. Normal Web flow was unchanged; current distribution hashes were verified separately. The detailed report distinguishes tested and current artifact hashes."
+  },
+  "packaging": {
+    "status": "INPUTS_VALIDATED",
+    "targets": [
+      "Fuente_Godot",
+      "Windows_x64",
+      "Linux_x64",
+      "Web"
+    ],
+    "validation": "Required assets, documentation, licenses, launchers and export signatures checked by tools/package-release.py --dry-run.",
+    "hash_manifest": "SHA256SUMS.txt (delivered alongside the ZIP archives)",
+    "archive_integrity_report": "APEX_REBOOT_v0.3.2_Verificacion.json (external release report; avoids embedding archive hashes in the archives they identify)"
+  },
+  "native_windows_execution_verified": false,
+  "native_windows_execution_reason": "No functioning native Windows runtime available.",
+  "docker_engine_executed": false,
+  "docker_engine_reason": "Docker Engine unavailable in the validation environment.",
+  "github_actions_executed": false,
+  "target_hardware_performance_benchmark": false,
+  "physics_calibrated_to_real_telemetry": false,
+  "historical_reports": [
+    "docs/verification_v031.json"
+  ],
+  "pending_closeout": [],
+  "native_ui_captures": {
+    "status": "PASS",
+    "scenes": [
+      "Garage 1280x720",
+      "Garage 960x540",
+      "Polonuevo editor 1280x720"
+    ],
+    "source": "tools/release_visual_capture.gd",
+    "engine": "Godot 4.6.3 / Mesa llvmpipe",
+    "performance_benchmark": false
+  },
+  "vegetation": {
+    "status": "PASS",
+    "report": "docs/foliage_budget_v032.json",
+    "native_visual_review": "PASS"
+  },
+  "model_complexity": {
+    "report": "docs/model_render_budget_v032.json",
+    "source_meshes_modified": false
+  },
+  "native_export_integration": {
+    "status": "PASS",
+    "exit_code": 0,
+    "platform": "Linux x86_64",
+    "source": "Exported executable and its PCK, outside the editor",
+    "script": "scripts/qa/native_distribution_smoke.gd",
+    "track": "Polonuevo - Baranoa (plano)",
+    "throttle_input": 0.65,
+    "final_speed_kph": 159.233889770508,
+    "rendered_gameplay_frames": 18,
+    "f8_report_verified": true,
+    "f8_version": "0.3.2",
+    "physics_hz": 120,
+    "renderer": "OpenGL Compatibility / Mesa llvmpipe software rendering",
+    "performance_benchmark": false,
+    "harness_max_physics_steps_per_frame": 128,
+    "normal_product_configuration_changed_by_test": false,
+    "scope": "Short functional/visual integration, not a complete lap or target-GPU performance test.",
+    "failures": []
+  }
+}
