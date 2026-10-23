@@ -3,6 +3,23 @@ extends RefCounted
 ## The unloaded spring length includes sag, so ride_height is the static height.
 
 const Layout = preload("res://scripts/physics/wheel_layout.gd")
+const OsmTerrain = preload("res://scripts/world/osm_terrain.gd")
+
+## Static OSM surface zones set once per track build; queried per contact.
+static var _osm_zones: Dictionary = {}
+
+static func set_osm_zones(zones: Dictionary) -> void:
+	_osm_zones = zones
+
+## Determine surface at a world XZ point: OSM zones first, then collider meta.
+static func surface_at_point(xz: Vector2, collider: Object) -> String:
+	if not _osm_zones.is_empty():
+		var osm: String = OsmTerrain.surface_at(xz, _osm_zones, "")
+		if not osm.is_empty():
+			return osm
+	if is_instance_valid(collider):
+		return str(collider.get_meta("surface", "asphalt"))
+	return "asphalt"
 
 enum Type { MACPHERSON, DOUBLE_WISHBONE, MULTILINK, LEAF_SPRING, TORSION_BEAM }
 
@@ -91,7 +108,7 @@ func sample(state: PhysicsDirectBodyState3D, body_rid: RID) -> Array[Dictionary]
 		var bump_stop: float = maxf(compression - travel * 0.85, 0.0) * spring * 4.0
 		var load_n: float = clampf(compression * spring * progressive + bump_stop - velocity.dot(normal) * damper, 0.0, corner_mass * 9.81 * 7.0)
 		var collider: Object = hit["collider"]
-		var surface: String = str(collider.get_meta("surface", "asphalt")) if is_instance_valid(collider) else "asphalt"
+		var surface: String = surface_at_point(Vector2(position.x, position.z), collider)
 		contacts.append({"index": i, "position": relative, "normal": normal, "velocity": velocity, "load": load_n, "front": front, "surface": surface, "compression": compression, "corner_mass": corner_mass})
 	return contacts
 

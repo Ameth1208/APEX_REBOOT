@@ -2,6 +2,7 @@ class_name TrackTerrain
 extends RefCounted
 
 const OsmTerrain = preload("res://scripts/world/osm_terrain.gd")
+const SuspensionSolver = preload("res://scripts/physics/suspension.gd")
 const ApexBroadleafGeometry = preload("res://scripts/world/broadleaf_geometry.gd")
 const ApexTreeGeometry = preload("res://scripts/world/tree_geometry.gd")
 const ApexSceneryInstances = preload("res://scripts/world/scenery_instances.gd")
@@ -36,6 +37,8 @@ static func build(parent: Node3D, samples: Array[Dictionary], definition: Dictio
 	var surroundings: Dictionary = {}
 	if definition.get("geo", null) != null:
 		surroundings = OsmTerrain.fetch_surroundings(samples, definition, margin)
+		# Publish OSM zones so suspension can detect sand/grass/dirt per contact.
+		SuspensionSolver.set_osm_zones(surroundings)
 	# Build ONE blended mesh with vertex-colour surface weights.
 	var buffer: TrackMeshBuffer = TrackMeshBuffer.new()
 	var blend_radius: float = 18.0

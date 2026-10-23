@@ -41,12 +41,39 @@ static func contact(body, state: PhysicsDirectBodyState3D, wheel: Dictionary, fo
 
 static func aero(body, state: PhysicsDirectBodyState3D) -> void:
 	var velocity: Vector3 = state.linear_velocity
-	var pressure: float = 0.5 * 1.225 * velocity.length_squared()
+	var speed: float = velocity.length()
+	var pressure: float = 0.5 * 1.225 * speed * speed
+	# Drag and downforce areas from profile, adjusted by vehicle type.
 	var drag_area: float = float(body.profile.get("drag_area_m2", 0.62 if body.is_motorcycle else 0.72))
 	var aero_area: float = float(body.profile.get("downforce_area_m2", 0.0 if body.is_motorcycle else 0.8))
+	if body.is_motorcycle:
+		# Sport bikes with fairings cut drag; cruisers/dirt are upright (more drag).
+		var bike_type: String = str(body.profile.get("motorcycle_type", body.profile.get("bike_type", "sport"))).to_lower()
+		match bike_type:
+			"sport": drag_area *= 0.88
+			"cruiser": drag_area *= 1.18
+			"dirt": drag_area *= 1.25
+			"touring": drag_area *= 1.05
+	else:
+		# Car categories: sedans moderate, GTs low drag, pickups high drag.
+		var category: String = str(body.profile.get("category", "road_gt")).to_lower()
+		match category:
+			"road_sedan": drag_area *= 1.0
+			"road_gt": drag_area *= 0.92
+			"track_weapon": drag_area *= 0.85
+			"pickup": drag_area *= 1.30
+			_: drag_area *= 1.0
+	# Yaw sensitivity: aero less effective when the car is sideways.
+	var forward: Vector3 = -state.transform.basis.z.normalized()
+	var yaw_factor: float = 1.0
+	if speed > 1.0:
+		var aligned: float = velocity.normalized().dot(forward)
+		yaw_factor = clampf(aligned, 0.35, 1.0)
+		drag_area *= lerpf(1.15, 1.0, yaw_factor)
+		aero_area *= yaw_factor
 	var health: float = body._condition.aero_health
-	body.downforce_n = 0.5 * 1.225 * body._signed_speed * body._signed_speed * aero_area * maxf(body.aero_scale, 0.0) * clampf(body.downforce_multiplier, 0.4, 1.0) * health
-	if velocity.length_squared() > 0.01:
+	body.downforce_n = 0.5 * 1.225 * speed * speed * aero_area * maxf(body.aero_scale, 0.0) * clampf(body.downforce_multiplier, 0.4, 1.0) * health
+	if speed > 0.01:
 		state.apply_central_force(-velocity.normalized() * pressure * drag_area * clampf(body.drag_multiplier, 0.55, 1.0) * (1.0 + (1.0 - health) * 0.25))
 	state.apply_central_force(-state.transform.basis.y.normalized() * body.downforce_n)
 

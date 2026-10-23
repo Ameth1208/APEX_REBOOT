@@ -172,6 +172,16 @@ func _integrate_forces(state: PhysicsDirectBodyState3D) -> void:
 	var target_steer: float = _input.z * max_steer / (1.0 + absf(_signed_speed) * 0.045)
 	if is_motorcycle:
 		target_steer = _motorcycle.steering(_input.z, _signed_speed, max_steer, state.angular_velocity.dot(state.transform.basis.y), dt)
+	else:
+		# Cars: Ackermann-sensitive speed falloff. Sedans keep more angle at speed
+		# than sports cars (less twitchy); trucks steer slower.
+		var category: String = str(profile.get("category", "road_gt"))
+		var speed_falloff: float = 0.045
+		if category == "road_sedan": speed_falloff = 0.032
+		elif category == "road_gt": speed_falloff = 0.040
+		elif category == "track_weapon": speed_falloff = 0.055
+		elif category == "pickup": speed_falloff = 0.028
+		target_steer = _input.z * max_steer / (1.0 + absf(_signed_speed) * speed_falloff)
 	target_steer = target_steer * _condition.steering_scale() + _condition.steering_bias
 	steer_angle = move_toward(steer_angle, target_steer, dt * 1.8 * _condition.steering_scale())
 	var drive_torque: float = _engine.drive_torque(_signed_speed, _throttle, auto_transmission, dt)
