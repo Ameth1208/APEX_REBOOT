@@ -198,6 +198,10 @@ func _unhandled_input(event: InputEvent) -> void:
 			race.reset_player()
 			screens.hud.reset_session_history()
 		elif event.is_action_pressed("telemetry"): screens.hud.show_telemetry = not screens.hud.show_telemetry
+		elif event.is_action_pressed("physics_debug"):
+			if is_instance_valid(screens.hud) and screens.hud.physics_overlay != null:
+				screens.hud.physics_overlay.toggle()
+				screens.hud.notify("Modo Física: " + ("ACTIVO" if screens.hud.physics_overlay.is_enabled() else "oculto"))
 		elif event.is_action_pressed("autopilot"):
 			race.autopilot = not race.autopilot
 			screens.hud.notify("Piloto automático " + ("activado" if race.autopilot else "desactivado"))

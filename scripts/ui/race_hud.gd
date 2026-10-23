@@ -16,6 +16,7 @@ var message: Label
 var map: ApexMinimap
 var condition: ApexVehicleStatus
 var telemetry_box: ApexHudTelemetry
+var physics_overlay: PhysicsDebugOverlay
 var show_telemetry: bool = false
 var _ui: Dictionary = {}
 var _notice_time: float = 0.0
@@ -27,6 +28,10 @@ func build(session: ApexRaceSession) -> void:
 	_ui = ApexHudLayout.build(self, session)
 	for key: String in ["tower", "timing_panel", "cluster", "countdown", "message", "map", "condition", "telemetry_box"]:
 		set(key, _ui[key])
+	# Physics debug overlay (F8).
+	physics_overlay = PhysicsDebugOverlay.new()
+	add_child(physics_overlay)
+	physics_overlay.set_vehicle(session.player)
 	speed = cluster.speed
 	gear = cluster.gear
 	rpm = cluster.rpm

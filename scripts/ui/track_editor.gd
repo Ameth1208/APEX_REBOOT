@@ -125,6 +125,9 @@ func _delete_point(index: int) -> void:
 	_refresh()
 
 func _field_changed(key: String, value: Variant) -> void:
+	if key.begins_with("preset_"):
+		_apply_preset(key.trim_prefix("preset_"))
+		return
 	if key == "closed" and bool(value) and _definition["points"].size() < 4:
 		_status.text = "Añade al menos cuatro puntos para cerrar el circuito."
 		_refresh()
@@ -149,6 +152,33 @@ func _field_changed(key: String, value: Variant) -> void:
 func _mark_edited() -> void:
 	if _definition.has("geo"):
 		_definition.geo["edited_after_import"] = true
+
+func _apply_preset(name: String) -> void:
+	_snapshot()
+	_mark_edited()
+	match name:
+		"mountain":
+			_definition["terrain_hills"] = 25.0
+			_definition["runoff_width"] = 6.0
+			_definition["runoff_surface"] = "gravel"
+			_definition["terrain_surface"] = "grass"
+			_definition["barriers"] = true
+			_definition["closed"] = false
+		"urban":
+			_definition["terrain_hills"] = 1.0
+			_definition["runoff_width"] = 2.0
+			_definition["runoff_surface"] = "concrete"
+			_definition["terrain_surface"] = "concrete"
+			_definition["barriers"] = false
+		"circuit":
+			_definition["terrain_hills"] = 6.0
+			_definition["runoff_width"] = 5.0
+			_definition["runoff_surface"] = "gravel"
+			_definition["terrain_surface"] = "grass"
+			_definition["barriers"] = true
+			_definition["closed"] = true
+	_refresh()
+	_status.text = "Preset '%s' aplicado. Ajusta los puntos y pulsa APLICAR." % name
 
 func _texture_chosen(surface: String, path: String) -> void:
 	_snapshot()
