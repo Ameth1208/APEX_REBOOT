@@ -106,7 +106,16 @@ func sample(state: PhysicsDirectBodyState3D, body_rid: RID) -> Array[Dictionary]
 		var progress_ratio: float = clampf(compression / maxf(travel, 0.01), 0.0, 1.0)
 		var progressive: float = 1.0 + maxf(progress_ratio - 0.5, 0.0) * 1.2 * (1.0 + 0.3 * float(suspension_type == Type.DOUBLE_WISHBONE))
 		var bump_stop: float = maxf(compression - travel * 0.85, 0.0) * spring * 4.0
-		var load_n: float = clampf(compression * spring * progressive + bump_stop - velocity.dot(normal) * damper, 0.0, corner_mass * 9.81 * 7.0)
+		var spring_force: float = compression * spring * progressive + bump_stop
+		# Damping: asymmetric — bump stiffer than rebound, and never below
+		# a fraction of static load so the tyre keeps contact at speed.
+		var damp_velocity: float = velocity.dot(normal)
+		var damper_force: float = damp_velocity * damper
+		if damp_velocity < 0.0:
+			damper_force *= 1.6
+		var static_load: float = corner_mass * 9.81
+		var min_load: float = static_load * 0.15
+		var load_n: float = clampf(spring_force - damper_force, min_load, static_load * 7.0)
 		var collider: Object = hit["collider"]
 		var surface: String = surface_at_point(Vector2(position.x, position.z), collider)
 		contacts.append({"index": i, "position": relative, "normal": normal, "velocity": velocity, "load": load_n, "front": front, "surface": surface, "compression": compression, "corner_mass": corner_mass})

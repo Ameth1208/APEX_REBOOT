@@ -204,7 +204,7 @@ func _integrate_forces(state: PhysicsDirectBodyState3D) -> void:
 		for contact: Dictionary in wheel_contacts:
 			slip_speed = maxf(slip_speed, absf(float(contact.get("slide_speed", 0.0))))
 		var friction_power: float = float(wheel_contacts[0].get("load", 0.0)) * slip_speed
-		tyre_temp_c = Forces.advance_tyre_temperature(tyre_temp_c, friction_power, ambient_temp_c, dt)
+		tyre_temp_c = Forces.advance_tyre_temperature(tyre_temp_c, friction_power, ambient_temp_c, dt, absf(_signed_speed))
 	avg_tyre_temp_c = tyre_temp_c
 	if grounded_wheels > 0:
 		ground_normal = ground_normal.normalized()

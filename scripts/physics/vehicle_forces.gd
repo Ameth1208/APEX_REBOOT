@@ -77,5 +77,5 @@ static func aero(body, state: PhysicsDirectBodyState3D) -> void:
 		state.apply_central_force(-velocity.normalized() * pressure * drag_area * clampf(body.drag_multiplier, 0.55, 1.0) * (1.0 + (1.0 - health) * 0.25))
 	state.apply_central_force(-state.transform.basis.y.normalized() * body.downforce_n)
 
-static func advance_tyre_temperature(temp_c: float, friction_power: float, ambient_c: float, dt: float) -> float:
-	return Tyres.advance_temperature(temp_c, friction_power, ambient_c, dt)
+static func advance_tyre_temperature(temp_c: float, friction_power: float, ambient_c: float, dt: float, speed_mps: float = 0.0) -> float:
+	return Tyres.advance_temperature(temp_c, friction_power, ambient_c, dt, speed_mps)

@@ -44,12 +44,16 @@ static func temperature_grip_factor(temp_c: float) -> float:
 		return 0.82 - clampf((temp_c - 130.0) / 50.0, 0.0, 1.0) * 0.15
 
 ## Advance tyre temperature one step. Returns new temperature in °C.
-## Inputs: current temp, friction power (N·m/s ≈ force × slip speed), ambient °C, dt.
-static func advance_temperature(temp_c: float, friction_power: float, ambient_c: float, dt: float) -> float:
-	# Heating from friction (slip), cooling proportional to speed and delta to ambient.
-	var heating: float = friction_power * 0.000015
-	var cooling: float = (temp_c - ambient_c) * 0.08 * dt
-	return clampf(temp_c + heating * dt - cooling, ambient_c, 180.0)
+## Friction heats the tyre; airflow cools it proportional to speed.
+static func advance_temperature(temp_c: float, friction_power: float, ambient_c: float, dt: float, speed_mps: float = 0.0) -> float:
+	# Heating scales with friction power (force × slip speed).
+	var heating: float = friction_power * 0.00008
+	# Cooling: convection from speed + radiation to ambient. More speed = more cooling.
+	var convection: float = (0.04 + absf(speed_mps) * 0.004)
+	var cooling: float = (temp_c - ambient_c) * convection
+	var next: float = temp_c + heating * dt - cooling * dt
+	# Minimum floor: tyre cannot go below ambient.
+	return clampf(next, ambient_c, 200.0)
 
 ## WGS84 normal gravity (m/s²) from latitude (°) and altitude (m).
 ## Uses the Somigliana closed-form approximation.
@@ -91,14 +95,24 @@ static func solve(contact: Dictionary, forward: Vector3, drive_n: float, brake_n
 	if abs_active:
 		actual_brake = minf(actual_brake, limit_n * 0.90)
 	var long_force: float = drive_n - signf(longitudinal_speed) * actual_brake
-	var slip_angle: float = atan2(lateral_speed, maxf(absf(longitudinal_speed), 2.5))
-	var stiffness: float = float(contact.get("cornering_stiffness", 14.0))
-	var lateral_force: float = -slip_angle * load_n * stiffness
-	# A locked tyre has much less directional authority. ABS preserves it.
+	# --- Lateral force: smooth saturation curve, not linear-then-clamp. ---
+	# Slip ratio: lateral velocity normalised by forward speed. Peak grip
+	# occurs around slip_ratio ≈ 0.12 (≈7°); beyond that grip falls gently.
+	var speed_ref: float = maxf(absf(longitudinal_speed), 3.0)
+	var slip_ratio: float = lateral_speed / speed_ref
+	var peak_slip: float = 0.12
+	var normalised: float = absf(slip_ratio) / peak_slip
+	# Simplified Pacejka: F = load * mu * sin(C * atan(B * x)) shaped to peak
+	# at normalised=1 then gently decline (stable past peak, no cliff).
+	var curve_b: float = 8.0
+	var curve_c: float = 1.65
+	var curve: float = sin(curve_c * atan(curve_b * normalised))
+	# Grip falls to ~85% past peak (stable decline, no loss of control).
+	var post_peak: float = lerp(curve, 0.85 * curve, clampf((normalised - 1.0) * 0.4, 0.0, 1.0))
+	var lateral_force: float = -signf(slip_ratio) * post_peak * load_n * friction_mu
+	# Directional authority of a locked tyre is low; ABS preserves it.
 	if locked and not abs_active:
-		lateral_force *= 0.24
-	var stop_lateral: float = absf(lateral_speed) * corner_mass / maxf(dt, 0.001)
-	lateral_force = clampf(lateral_force, -stop_lateral, stop_lateral)
+		lateral_force *= 0.35
 	var combined: Vector2 = Vector2(long_force, lateral_force)
 	var demand: float = combined.length()
 	if demand > limit_n and demand > 0.001:
@@ -109,7 +123,7 @@ static func solve(contact: Dictionary, forward: Vector3, drive_n: float, brake_n
 	combined.x -= rolling
 	if combined.length() > limit_n and limit_n > 0.0:
 		combined = combined.limit_length(limit_n)
-	var slip: float = maxf(absf(slip_angle), maxf(absf(requested_drive) / maxf(limit_n, 1.0) - 1.0, 0.0))
+	var slip: float = maxf(absf(slip_ratio) / peak_slip, maxf(absf(requested_drive) / maxf(limit_n, 1.0) - 1.0, 0.0))
 	if locked and not abs_active:
 		slip = maxf(slip, minf(absf(longitudinal_speed) / 10.0, 1.5))
 	var slide_speed: float = absf(lateral_speed)
