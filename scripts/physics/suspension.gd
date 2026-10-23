@@ -4,6 +4,12 @@ extends RefCounted
 
 const Layout = preload("res://scripts/physics/wheel_layout.gd")
 
+enum Type { MACPHERSON, DOUBLE_WISHBONE, MULTILINK, LEAF_SPRING, TORSION_BEAM }
+
+var suspension_type: Type = Type.MACPHERSON
+var camber_deg: float = 0.0
+var caster_deg: float = 0.0
+
 var offsets: Array[Vector3] = []
 var wheel_radius: float = 0.34
 var ride_height: float = 0.62
@@ -24,8 +30,20 @@ func configure(data: Dictionary, motorcycle: bool, height: float) -> void:
 	mass_kg = float(data.get("mass_kg", data.get("mass", 1450.0)))
 	wheel_radius = float(data.get("wheel_radius_m", data.get("wheel_radius", 0.34)))
 	front_share = float(data.get("front_weight_fraction", 0.48 if motorcycle else 0.46))
-	travel = float(data.get("suspension_travel_m", 0.27))
-	damping_ratio = float(data.get("suspension_damping_ratio", 0.72))
+	# Resolve suspension type and apply per-type defaults.
+	var type_str: String = str(data.get("suspension_type", "macpherson")).to_lower()
+	match type_str:
+		"double_wishbone": suspension_type = Type.DOUBLE_WISHBONE
+		"multilink": suspension_type = Type.MULTILINK
+		"leaf_spring": suspension_type = Type.LEAF_SPRING
+		"torsion_beam": suspension_type = Type.TORSION_BEAM
+		_: suspension_type = Type.MACPHERSON
+	camber_deg = float(data.get("camber_deg", _default_camber()))
+	caster_deg = float(data.get("caster_deg", _default_caster()))
+	var default_travel: float = _default_travel()
+	var default_damping: float = _default_damping()
+	travel = float(data.get("suspension_travel_m", default_travel))
+	damping_ratio = float(data.get("suspension_damping_ratio", default_damping))
 	sag = Layout.sag(data, motorcycle)
 	offsets = Layout.offsets(data, motorcycle)
 	_corner_masses.clear()
@@ -73,3 +91,32 @@ func sample(state: PhysicsDirectBodyState3D, body_rid: RID) -> Array[Dictionary]
 		var surface: String = str(collider.get_meta("surface", "asphalt")) if is_instance_valid(collider) else "asphalt"
 		contacts.append({"index": i, "position": relative, "normal": normal, "velocity": velocity, "load": load_n, "front": front, "surface": surface, "compression": compression, "corner_mass": corner_mass})
 	return contacts
+
+func _default_travel() -> float:
+	match suspension_type:
+		Type.DOUBLE_WISHBONE: return 0.26
+		Type.MULTILINK: return 0.24
+		Type.LEAF_SPRING: return 0.20
+		Type.TORSION_BEAM: return 0.18
+		_: return 0.27
+
+func _default_damping() -> float:
+	match suspension_type:
+		Type.DOUBLE_WISHBONE: return 0.78
+		Type.MULTILINK: return 0.75
+		Type.LEAF_SPRING: return 0.70
+		Type.TORSION_BEAM: return 0.72
+		_: return 0.72
+
+func _default_camber() -> float:
+	match suspension_type:
+		Type.DOUBLE_WISHBONE: return -0.8
+		Type.MULTILINK: return -0.5
+		Type.TORSION_BEAM: return -0.3
+		_: return -0.5
+
+func _default_caster() -> float:
+	match suspension_type:
+		Type.DOUBLE_WISHBONE: return 6.0
+		Type.MULTILINK: return 5.0
+		_: return 4.0
