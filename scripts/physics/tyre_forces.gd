@@ -28,7 +28,9 @@ static func solve(contact: Dictionary, forward: Vector3, drive_n: float, brake_n
 	var longitudinal_speed: float = velocity.dot(wheel_forward)
 	var lateral_speed: float = velocity.dot(right)
 	var load_n: float = float(contact["load"])
-	var limit_n: float = friction_mu * load_n
+	# Load sensitivity: grip per newton falls as load grows (Box3D concept).
+	var mu_effective: float = friction_mu * maxf(0.55, 1.0 - 0.00008 * (load_n - 2000.0))
+	var limit_n: float = mu_effective * load_n
 	var corner_mass: float = float(contact["corner_mass"])
 	var requested_drive: float = drive_n
 	var tcs_intervening: bool = tcs_active and absf(drive_n) > limit_n * 0.92
