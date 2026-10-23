@@ -3,7 +3,7 @@
   "kind": "car",
   "simulation_status": "Sourced nominal specifications with uncalibrated simulation defaults; not manufacturer-certified dynamics.",
   "drive": "FWD",
-  "drivetrain_efficiency": 0.90,
+  "drivetrain_efficiency": 0.9,
   "idle_rpm": 700,
   "max_steer_deg": 30,
   "front_brake_bias": 0.68,
@@ -28,11 +28,11 @@
     "spring and damper rates",
     "collision body and centre of mass"
   ],
-  "display_name": "Toyota Corolla · 2024",
+  "display_name": "Toyota Corolla \u00c2\u00b7 2024",
   "short_name": "Corolla",
   "category": "road_sedan",
-  "category_label": "Sedán de calle",
-  "description": "Sedán compacto de tracción delantera, motor atmosférico de cuatro cilindros.",
+  "category_label": "Sed\u00c3\u00a1n de calle",
+  "description": "Sed\u00c3\u00a1n compacto de tracci\u00c3\u00b3n delantera, motor atmosf\u00c3\u00a9rico de cuatro cilindros.",
   "model_yaw_deg": 180,
   "length_m": 4.63,
   "body_width_m": 1.78,
@@ -72,7 +72,36 @@
   "base_color": "#c8102e",
   "headlights": true,
   "paint_materials": [],
-  "wheel_groups": [],
+  "wheel_groups": [
+    {
+      "id": "WheelFL",
+      "names": [
+        "WheelFL"
+      ],
+      "front": true
+    },
+    {
+      "id": "WheelFR",
+      "names": [
+        "WheelFR"
+      ],
+      "front": true
+    },
+    {
+      "id": "WheelRL",
+      "names": [
+        "WheelRL"
+      ],
+      "front": false
+    },
+    {
+      "id": "WheelRR",
+      "names": [
+        "WheelRR"
+      ],
+      "front": false
+    }
+  ],
   "sources": [
     {
       "url": "https://www.toyota.com/corolla/",
@@ -89,7 +118,7 @@
   "license_status": "Profile only; no third-party 3D model included.",
   "mass_note": "1300 kg curb plus 80 kg simulated driver.",
   "id": "toyota_corolla_2024",
-  "model_path": null,
+  "model_path": "res://assets/vehicles/toyota_corolla_2024/model.glb",
   "peak_torque_nm": 205,
   "drag_area": 0.7,
   "downforce_area": 0.0,
@@ -107,7 +136,7 @@
   "liveries": [
     {
       "id": "Original",
-      "name": "Decoración original",
+      "name": "Decoraci\u00c3\u00b3n original",
       "primary": "#c8102e",
       "secondary": "#ffffff",
       "accent": "#1b3a5c",
@@ -115,5 +144,5 @@
     }
   ],
   "model_offset_z_m": 0.0,
-  "align_wheels_to_physics": false
+  "align_wheels_to_physics": true
 }
