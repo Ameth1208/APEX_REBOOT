@@ -113,9 +113,9 @@ func sample(state: PhysicsDirectBodyState3D, body_rid: RID) -> Array[Dictionary]
 		var damper_force: float = damp_velocity * damper
 		if damp_velocity < 0.0:
 			damper_force *= 1.6
-		var static_load: float = corner_mass * 9.81
-		var min_load: float = static_load * 0.15
-		var load_n: float = clampf(spring_force - damper_force, min_load, static_load * 7.0)
+		# No min-load floor: let suspension settle to zero when wheel lifts.
+		# The asymmetric damping already prevents overshoot at speed.
+		var load_n: float = clampf(spring_force - damper_force, 0.0, corner_mass * 9.81 * 7.0)
 		var collider: Object = hit["collider"]
 		var surface: String = surface_at_point(Vector2(position.x, position.z), collider)
 		contacts.append({"index": i, "position": relative, "normal": normal, "velocity": velocity, "load": load_n, "front": front, "surface": surface, "compression": compression, "corner_mass": corner_mass})

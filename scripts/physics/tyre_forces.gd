@@ -3,31 +3,31 @@ extends RefCounted
 ## temperature window, combined slip friction ellipse, and proper slip ratio.
 
 const SURFACES: Dictionary = {
-	"asphalt": {"mu": 1.18, "rolling": 0.013, "wet_loss": 0.32, "k_c": 0.0, "k_phi": 0.0, "n": 0.0},
-	"concrete": {"mu": 1.05, "rolling": 0.016, "wet_loss": 0.30, "k_c": 0.0, "k_phi": 0.0, "n": 0.0},
-	"gravel": {"mu": 0.68, "rolling": 0.050, "wet_loss": 0.14, "k_c": 5.0, "k_phi": 90.0, "n": 1.1},
-	"grass": {"mu": 0.48, "rolling": 0.070, "wet_loss": 0.42, "k_c": 3.0, "k_phi": 60.0, "n": 1.2},
-	"sand": {"mu": 0.44, "rolling": 0.11, "wet_loss": 0.08, "k_c": 1.5, "k_phi": 40.0, "n": 1.3},
-	"dirt": {"mu": 0.62, "rolling": 0.045, "wet_loss": 0.30, "k_c": 4.0, "k_phi": 75.0, "n": 1.15}
+	"asphalt": {"mu": 1.05, "rolling": 0.013, "wet_loss": 0.32, "k_c": 0.0, "k_phi": 0.0, "n": 0.0},
+	"concrete": {"mu": 0.95, "rolling": 0.016, "wet_loss": 0.30, "k_c": 0.0, "k_phi": 0.0, "n": 0.0},
+	"gravel": {"mu": 0.60, "rolling": 0.050, "wet_loss": 0.14, "k_c": 5.0, "k_phi": 90.0, "n": 1.1},
+	"grass": {"mu": 0.42, "rolling": 0.070, "wet_loss": 0.42, "k_c": 3.0, "k_phi": 60.0, "n": 1.2},
+	"sand": {"mu": 0.38, "rolling": 0.11, "wet_loss": 0.08, "k_c": 1.5, "k_phi": 40.0, "n": 1.3},
+	"dirt": {"mu": 0.55, "rolling": 0.045, "wet_loss": 0.30, "k_c": 4.0, "k_phi": 75.0, "n": 1.15}
 }
 
 ## Pacejka coefficients per surface: B=stiffness, C=shape, E=curvature.
 ## Lower B = more gradual force build-up = less snappy at limit.
 const PACEJKA_LAT: Dictionary = {
-	"asphalt": {"B": 8.0, "C": 1.45, "E": 0.97},
-	"concrete": {"B": 7.5, "C": 1.40, "E": 0.97},
-	"gravel": {"B": 5.0, "C": 1.35, "E": 0.90},
-	"grass": {"B": 3.5, "C": 1.30, "E": 0.85},
-	"sand": {"B": 3.0, "C": 1.25, "E": 0.80},
-	"dirt": {"B": 4.5, "C": 1.32, "E": 0.88}
+	"asphalt": {"B": 5.0, "C": 1.45, "E": 0.97},
+	"concrete": {"B": 4.5, "C": 1.40, "E": 0.97},
+	"gravel": {"B": 3.5, "C": 1.35, "E": 0.90},
+	"grass": {"B": 2.5, "C": 1.30, "E": 0.85},
+	"sand": {"B": 2.0, "C": 1.25, "E": 0.80},
+	"dirt": {"B": 3.0, "C": 1.32, "E": 0.88}
 }
 const PACEJKA_LONG: Dictionary = {
-	"asphalt": {"B": 14.0, "C": 1.55, "E": 0.96},
-	"concrete": {"B": 13.0, "C": 1.50, "E": 0.96},
-	"gravel": {"B": 7.0, "C": 1.40, "E": 0.90},
-	"grass": {"B": 5.0, "C": 1.35, "E": 0.85},
-	"sand": {"B": 4.0, "C": 1.28, "E": 0.80},
-	"dirt": {"B": 6.5, "C": 1.38, "E": 0.88}
+	"asphalt": {"B": 9.0, "C": 1.55, "E": 0.96},
+	"concrete": {"B": 8.5, "C": 1.50, "E": 0.96},
+	"gravel": {"B": 5.0, "C": 1.40, "E": 0.90},
+	"grass": {"B": 3.5, "C": 1.35, "E": 0.85},
+	"sand": {"B": 3.0, "C": 1.28, "E": 0.80},
+	"dirt": {"B": 4.5, "C": 1.38, "E": 0.88}
 }
 
 ## Load sensitivity: mu falls as Fz grows beyond nominal.
@@ -128,6 +128,20 @@ static func solve(contact: Dictionary, forward: Vector3, drive_n: float, brake_n
 	var load_excess: float = maxf(load_n - NOMINAL_LOAD_N, 0.0)
 	var mu_eff: float = friction_mu * clampf(1.0 - LOAD_SENSITIVITY * load_excess / NOMINAL_LOAD_N, 0.60, 1.0)
 	var limit_n: float = mu_eff * load_n
+	# --- Static friction band: near-zero speed locks the contact. ---
+	# Only applies when there is NO drive demand and NO brake demand.
+	# Prevents creep at idle; allows normal launch.
+	var speed_total: float = velocity.length()
+	if speed_total < 1.5 and absf(drive_n) < 1.0 and brake_n < 1.0:
+		var stop_f: float = corner_mass * speed_total / maxf(dt, 0.001)
+		var cap: float = minf(stop_f, limit_n)
+		var force_dir: Vector3 = -velocity.normalized() if speed_total > 0.001 else Vector3.ZERO
+		var stop_vec: Vector3 = force_dir * cap
+		var fx: float = stop_vec.dot(wheel_forward)
+		var fy: float = stop_vec.dot(right)
+		return {"force": wheel_forward * fx + right * fy, "slip": 0.0, "slide_speed": 0.0,
+			"locked": false, "abs": false, "tcs": false}
+	# --- Normal Pacejka path ---
 	# --- Slip angle (Section 16): atan2(Vy, |Vx|+eps) ---
 	var slip_angle: float = atan2(lateral_speed, absf(longitudinal_speed) + 0.5)
 	# --- Longitudinal demand ---
