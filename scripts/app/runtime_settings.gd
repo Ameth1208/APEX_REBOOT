@@ -12,5 +12,8 @@ static func apply(race: ApexRaceSession, values: Dictionary) -> void:
 	race.player.set_assist_mode(str(values.assists))
 	race.player.auto_transmission = bool(values.automatic)
 	race.line.visible = bool(values.racing_line)
+	var app := race.get_parent()
+	if app != null and app.has_method("set_racing_line_visible"):
+		app.set_racing_line_visible(bool(values.racing_line))
 	race.set_lights(bool(values.night))
 	race.configure_ai(values)

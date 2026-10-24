@@ -6,7 +6,7 @@ extends RefCounted
 const ENDPOINT: String = "https://overpass-api.de/api/interpreter"
 
 static func fetch_bbox(south: float, west: float, north: float, east: float) -> Dictionary:
-	var query: String = "[out:json][timeout:25];\n(\n  way[\"landuse\"](%f,%f,%f,%f);\n  way[\"natural\"](%f,%f,%f,%f);\n  way[\"building\"](%f,%f,%f,%f);\n  way[\"waterway\"](%f,%f,%f,%f);\n);\nout body;\n>;\nout skel qt;" % [south, west, north, east, south, west, north, east, south, west, north, east, south, west, north, east]
+	var query: String = "[out:json][timeout:15];\n(\n  way[\"landuse\"](%f,%f,%f,%f);\n  way[\"natural\"](%f,%f,%f,%f);\n  way[\"building\"](%f,%f,%f,%f);\n  way[\"waterway\"](%f,%f,%f,%f);\n);\nout body;\n>;\nout skel qt;" % [south, west, north, east, south, west, north, east, south, west, north, east, south, west, north, east]
 	var http: HTTPClient = HTTPClient.new()
 	var err: int = http.connect_to_host("overpass-api.de", 443)
 	if err != OK:

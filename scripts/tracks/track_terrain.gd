@@ -17,8 +17,8 @@ static func build(parent: Node3D, samples: Array[Dictionary], definition: Dictio
 	var bounds: AABB = AABB(samples[0]["position"], Vector3.ZERO)
 	for sample: Dictionary in samples:
 		bounds = bounds.expand(sample["position"])
-	var margin: float = 180.0
-	var step: float = maxf(18.0, maxf(bounds.size.x, bounds.size.z) / 160.0)
+	var margin: float = 120.0
+	var step: float = maxf(24.0, maxf(bounds.size.x, bounds.size.z) / 120.0)
 	var start: Vector2 = Vector2(bounds.position.x - margin, bounds.position.z - margin)
 	var nx: int = ceili((bounds.size.x + margin * 2.0) / step) + 1
 	var nz: int = ceili((bounds.size.z + margin * 2.0) / step) + 1
@@ -149,10 +149,11 @@ static func _poly_distance(point: Vector2, polygon: Array[Vector2]) -> float:
 static func _elevation_field(samples: Array[Dictionary], start: Vector2, step: float, nx: int, nz: int) -> PackedFloat32Array:
 	var field: PackedFloat32Array = PackedFloat32Array()
 	field.resize(nx * nz)
-	# Subsample road points for speed (every ~4th sample).
+	# Subsample road points for speed (every ~8th sample, max 64 anchors).
 	var anchors: Array[Vector2] = []
 	var anchor_y: Array[float] = []
-	for i: int in range(0, samples.size(), 4):
+	var stride: int = maxi(1, samples.size() / 64)
+	for i: int in range(0, samples.size(), stride):
 		var p: Vector3 = samples[i]["position"]
 		anchors.append(Vector2(p.x, p.z))
 		anchor_y.append(p.y)
@@ -291,7 +292,8 @@ static func _spawn_vegetation(parent: Node3D, vegetation: Array, definition: Dic
 			maxp = Vector2(maxf(maxp.x, pt.x), maxf(maxp.y, pt.y))
 		var area_x: float = maxp.x - minp.x
 		var area_z: float = maxp.y - minp.y
-		var count: int = clampi(int(area_x * area_z / 40.0), 1, 200)
+		# Reduce count: 1 tree per 120m², cap at 60 for performance.
+		var count: int = clampi(int(area_x * area_z / 120.0), 1, 60)
 		for _i: int in range(count):
 			var xz: Vector2 = Vector2(rng.randf_range(minp.x, maxp.x), rng.randf_range(minp.y, maxp.y))
 			if not OsmTerrain.point_in_polygon(xz, polygon):

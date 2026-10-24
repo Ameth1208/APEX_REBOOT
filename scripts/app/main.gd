@@ -15,7 +15,7 @@ var _headlights: bool = false
 var _photo: bool = false
 var _track_intel: TrackIntelligence
 var _racing_line: RacingLineVisualizer
-var _racing_line_visible: bool = true
+var _racing_line_visible: bool = false
 var performance = preload("res://scripts/app/performance_manager.gd").new()
 
 func _ready() -> void:
@@ -193,13 +193,20 @@ func _build_racing_line() -> void:
 	var track: Node3D = race.track
 	if not ("samples" in track) or track.samples.is_empty():
 		return
+	# This visualizer is CPU-heavy and is disabled by default.
+	_racing_line_visible = bool(settings.values.get("racing_line", false))
 	_track_intel = TrackIntelligence.new()
 	var vehicle: Dictionary = race.player.profile if is_instance_valid(race.player) else {}
 	_track_intel.build(track.samples, vehicle, float(settings.values.get("wetness", 0.0)))
 	_racing_line = RacingLineVisualizer.new()
 	add_child(_racing_line)
 	_racing_line.set_intelligence(_track_intel)
-	_racing_line.visible = _racing_line_visible
+	_racing_line.set_line_visible(_racing_line_visible)
+
+func set_racing_line_visible(value: bool) -> void:
+	_racing_line_visible = value
+	if is_instance_valid(_racing_line):
+		_racing_line.set_line_visible(value)
 
 func _update_racing_line() -> void:
 	if not is_instance_valid(_racing_line) or not is_instance_valid(race) or not is_instance_valid(race.player):
@@ -234,8 +241,7 @@ func _unhandled_input(event: InputEvent) -> void:
 	elif event.is_action_pressed("toggle_night"):
 		change_setting("night", not bool(settings.values.night))
 	elif event.is_action_pressed("racing_line"):
-		_racing_line_visible = not _racing_line_visible
-		if is_instance_valid(_racing_line): _racing_line.visible = _racing_line_visible
+		set_racing_line_visible(not _racing_line_visible)
 		if is_instance_valid(screens.hud): screens.hud.notify("Línea de carrera: " + ("VISIBLE" if _racing_line_visible else "oculta"))
 	elif event.is_action_pressed("screenshot"):
 		ApexPhoto.capture(get_viewport(), screens.hud)

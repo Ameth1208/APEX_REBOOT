@@ -12,7 +12,7 @@ var _player_index: int = 0
 var _player_speed: float = 0.0
 var _is_braking: bool = false
 var _refresh_timer: float = 0.0
-var _refresh_rate: float = 1.0 / 30.0
+var _refresh_rate: float = 1.0 / 15.0
 var _smoothed_colors: PackedColorArray = PackedColorArray()
 var _visible: bool = true
 var _line_width: float = 0.35
@@ -42,9 +42,14 @@ func set_player_state(index: int, speed: float, braking: bool) -> void:
 	_player_speed = speed
 	_is_braking = braking
 
+func set_line_visible(value: bool) -> void:
+	_visible = value
+	visible = value
+	# A hidden optional visualizer must not keep evaluating braking risk.
+	set_process(value)
+
 func toggle_visible() -> void:
-	_visible = not _visible
-	visible = _visible
+	set_line_visible(not _visible)
 
 func is_visible_line() -> bool:
 	return _visible
@@ -56,7 +61,7 @@ func _process(delta: float) -> void:
 	if _refresh_timer <= 0.0:
 		_refresh_timer = _refresh_rate
 		_update_colors()
-		_rebuild_mesh()
+		_rebuild_mesh_near_player()
 
 func _update_colors() -> void:
 	var n: int = _intelligence.sample_count()
@@ -72,6 +77,51 @@ func _update_colors() -> void:
 		var k: float = 1.0 - exp(-8.0 * _refresh_rate)
 		if i < _smoothed_colors.size():
 			_smoothed_colors[i] = _smoothed_colors[i].lerp(target_color, k)
+
+## Only rebuild mesh segments near the player (chunk-based, not entire track).
+func _rebuild_mesh_near_player() -> void:
+	if _intelligence == null or _intelligence.sample_count() < 2:
+		return
+	var player_idx: int = _player_index
+	var n: int = _intelligence.sample_count()
+	# Only draw ~60 samples ahead and 10 behind (about 140m at 2m spacing).
+	var start_i: int = maxi(0, player_idx - 10)
+	var end_i: int = mini(n, player_idx + 60)
+	if end_i - start_i < 2:
+		return
+	var st: SurfaceTool = SurfaceTool.new()
+	st.begin(Mesh.PRIMITIVE_TRIANGLES)
+	var up: Vector3 = Vector3.UP
+	var segment_skip: int = 2
+	var segment_gap: float = 0.35
+	for i: int in range(start_i, end_i - segment_skip, segment_skip):
+		var j: int = mini(i + segment_skip, end_i - 1)
+		var p0: Vector3 = _intelligence.samples[i]["position"] + up * 0.03
+		var p1: Vector3 = _intelligence.samples[j]["position"] + up * 0.03
+		var right0: Vector3 = _intelligence.samples[i].get("right", Vector3.RIGHT)
+		var right1: Vector3 = _intelligence.samples[j].get("right", Vector3.RIGHT)
+		var offset0: float = _intelligence.line_offsets[i]
+		var offset1: float = _intelligence.line_offsets[j]
+		var dir: Vector3 = (p1 - p0).normalized()
+		p0 += dir * segment_gap * 0.5
+		p1 -= dir * segment_gap * 0.5
+		var w0: Vector3 = p0 + right0 * (offset0 - _line_width * 0.5)
+		var w1: Vector3 = p0 + right0 * (offset0 + _line_width * 0.5)
+		var w2: Vector3 = p1 + right1 * (offset1 + _line_width * 0.5)
+		var w3: Vector3 = p1 + right1 * (offset1 - _line_width * 0.5)
+		var c0: Color = _smoothed_colors[i] if i < _smoothed_colors.size() else Color.GREEN
+		c0.a = 0.7
+		var c1: Color = _smoothed_colors[mini(j, _smoothed_colors.size() - 1)]
+		c1.a = 0.7
+		st.set_color(c0); st.add_vertex(w0)
+		st.set_color(c0); st.add_vertex(w1)
+		st.set_color(c1); st.add_vertex(w2)
+		st.set_color(c0); st.add_vertex(w0)
+		st.set_color(c1); st.add_vertex(w2)
+		st.set_color(c1); st.add_vertex(w3)
+	st.generate_normals()
+	_mesh_instance.mesh = st.commit()
+	_mesh_instance.material_override = _material
 
 func _rebuild_mesh() -> void:
 	if _intelligence == null or _intelligence.sample_count() < 2:
