@@ -173,17 +173,20 @@ func _integrate_forces(state: PhysicsDirectBodyState3D) -> void:
 	if is_motorcycle:
 		target_steer = _motorcycle.steering(_input.z, _signed_speed, max_steer, state.angular_velocity.dot(state.transform.basis.y), dt)
 	else:
-		# Cars: Ackermann-sensitive speed falloff. Sedans keep more angle at speed
-		# than sports cars (less twitchy); trucks steer slower.
+		# Cars: Ackermann-sensitive speed falloff. Higher falloff = less angle
+		# at speed = more stable, prevents snap oversteer.
 		var category: String = str(profile.get("category", "road_gt"))
-		var speed_falloff: float = 0.045
-		if category == "road_sedan": speed_falloff = 0.032
-		elif category == "road_gt": speed_falloff = 0.040
-		elif category == "track_weapon": speed_falloff = 0.055
-		elif category == "pickup": speed_falloff = 0.028
+		var speed_falloff: float = 0.065
+		if category == "road_sedan": speed_falloff = 0.050
+		elif category == "road_gt": speed_falloff = 0.060
+		elif category == "track_weapon": speed_falloff = 0.085
+		elif category == "pickup": speed_falloff = 0.045
 		target_steer = _input.z * max_steer / (1.0 + absf(_signed_speed) * speed_falloff)
+	# Rate-limit steering more at speed to prevent sudden yaw.
+	var steer_rate: float = 1.8 * _condition.steering_scale()
+	steer_rate *= 1.0 / (1.0 + absf(_signed_speed) * 0.025)
 	target_steer = target_steer * _condition.steering_scale() + _condition.steering_bias
-	steer_angle = move_toward(steer_angle, target_steer, dt * 1.8 * _condition.steering_scale())
+	steer_angle = move_toward(steer_angle, target_steer, dt * steer_rate)
 	var drive_torque: float = _engine.drive_torque(_signed_speed, _throttle, auto_transmission, dt)
 	drive_torque *= _condition.power_scale()
 	rpm = _engine.rpm if can_drive() else 0.0
@@ -221,11 +224,17 @@ func _integrate_forces(state: PhysicsDirectBodyState3D) -> void:
 		lean_angle = 0.0
 		total_lean_angle = atan2(-state.transform.basis.x.dot(ground_normal), state.transform.basis.y.dot(ground_normal))
 	elif stability_enabled and grounded_wheels >= 3:
-		# Dampen excessive yaw only; this assist cannot supply lateral traction.
+		# Anti-spin: dampen yaw when exceeding steering demand.
 		var yaw_rate: float = state.angular_velocity.dot(ground_normal)
 		var desired_yaw: float = -_signed_speed * tan(steer_angle) / float(profile.get("wheelbase_m", profile.get("wheelbase", 2.65)))
-		var yaw_error: float = clampf(desired_yaw - yaw_rate, -0.8, 0.8)
-		state.apply_torque(ground_normal * yaw_error * mass * 0.45)
+		var yaw_error: float = clampf(desired_yaw - yaw_rate, -1.5, 1.5)
+		# Stronger when error is large (spinning), gentler when close.
+		var gain: float = 0.45 + absf(yaw_error) * 1.2
+		state.apply_torque(ground_normal * yaw_error * mass * gain)
+		# Yaw damping: resist rotation beyond demand.
+		var excess_yaw: float = yaw_rate - desired_yaw
+		if absf(excess_yaw) > 0.3:
+			state.apply_torque(-ground_normal * signf(excess_yaw) * mass * minf(absf(excess_yaw), 1.0) * 0.3)
 
 func _begin_fall(state: PhysicsDirectBodyState3D, forward: Vector3) -> void:
 	var direction: float = signf(total_lean_angle)

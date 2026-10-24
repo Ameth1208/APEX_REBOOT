@@ -67,11 +67,33 @@ func _update_labels() -> void:
 	var contacts: Array = v.get("wheel_contacts") if "wheel_contacts" in v else []
 	var idx: int = 0
 	_set_label(idx, "SUPERFICIE: %s" % str(t.get("surface", "?"))); idx += 1
-	var loads: Array = []
+	# Load by wheel index (FL/FR/RL/RR), not contact order.
+	var wheel_labels: Array[String] = ["FL", "FR", "RL", "RR"]
+	if v.is_motorcycle:
+		wheel_labels = ["F", "R"]
+	var loads_by_wheel: Array = []
 	for c: Dictionary in contacts:
-		loads.append("%.0f" % float(c.get("load", 0.0)))
-	var load_str: String = " / ".join(loads) if loads.size() > 0 else "sin contacto"
-	_set_label(idx, "CARGA N: %s" % load_str); idx += 1
+		var wi: int = int(c.get("index", 0))
+		var label: String = wheel_labels[wi] if wi < wheel_labels.size() else str(wi)
+		loads_by_wheel.append("%s:%.0f" % [label, float(c.get("load", 0.0))])
+	var load_str: String = "  ".join(loads_by_wheel) if loads_by_wheel.size() > 0 else "sin contacto"
+	_set_label(idx, "CARGA: %s" % load_str); idx += 1
+	# Weight transfer: left vs right totals.
+	var left_total: float = 0.0
+	var right_total: float = 0.0
+	for c: Dictionary in contacts:
+		var wi: int = int(c.get("index", 0))
+		var is_left: bool = (wi == 0 or wi == 2) if not v.is_motorcycle else false
+		if is_left:
+			left_total += float(c.get("load", 0.0))
+		else:
+			right_total += float(c.get("load", 0.0))
+	if left_total > 0 and right_total > 0:
+		var avg: float = (left_total + right_total) * 0.5
+		var diff_pct: float = (right_total - left_total) / maxf(avg, 1.0) * 100.0
+		_set_label(idx, "LATERAL: %.1f%% %s" % [absf(diff_pct), "→ der" if diff_pct > 0 else "← izq"]); idx += 1
+	else:
+		_set_label(idx, ""); idx += 1
 	_set_label(idx, "SLIP LATERAL: %.2f" % float(t.get("tire_slip", 0.0))); idx += 1
 	var slip_long: float = 0.0
 	for c: Dictionary in contacts:

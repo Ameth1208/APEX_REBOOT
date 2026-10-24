@@ -80,7 +80,7 @@ func _build() -> void:
 func _add_choice(title: String, desc: String, action: String) -> void:
 	var btn: Button = Button.new()
 	btn.text = title + "\n" + desc
-	btn.alignment = HBoxContainer.ALIGNMENT_LEFT
+	btn.alignment = HORIZONTAL_ALIGNMENT_LEFT
 	btn.custom_minimum_size.y = 52
 	btn.pressed.connect(func(): _on_choice(action))
 	_choice_box.add_child(btn)
@@ -229,7 +229,7 @@ func _show_result(result: Dictionary) -> void:
 	var advanced: Button = Button.new()
 	advanced.text = "Controles avanzados >"
 	advanced.flat = true
-	advanced.alignment = HBoxContainer.ALIGNMENT_CENTER
+	advanced.alignment = HORIZONTAL_ALIGNMENT_CENTER
 	advanced.add_theme_color_override("font_color", ApexUI.MUTED)
 	advanced.pressed.connect(func():
 		_show_status("Controles avanzados disponibles en el editor de pistas."))

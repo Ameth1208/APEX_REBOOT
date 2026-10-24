@@ -79,7 +79,14 @@ func _physics_process(delta: float) -> void:
 		countdown -= delta
 		for body in vehicles:
 			body.set_controls(0, 1, 0)
+			body.freeze = true
 		return
+	# Unfreeze when countdown ends.
+	for body in vehicles:
+		if body.freeze:
+			body.freeze = false
+			body.linear_velocity = Vector3.ZERO
+			body.angular_velocity = Vector3.ZERO
 	if _finished:
 		for body in vehicles:
 			body.set_controls(0, 1, 0)

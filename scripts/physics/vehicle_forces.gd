@@ -29,6 +29,21 @@ static func contact(body, state: PhysicsDirectBodyState3D, wheel: Dictionary, fo
 	var mu: float = Tyres.friction(body.surface_name, body.wetness, body.grip_factor)
 	mu *= Tyres.speed_grip_factor(state.linear_velocity.length())
 	mu *= Tyres.temperature_grip_factor(body.tyre_temp_c)
+	# Power cut on detected lateral slide of driven wheel (power-oversteer fix).
+	# If this wheel is sliding sideways while being driven, cut torque.
+	if driven and body.tcs_enabled:
+		var lateral_slide: float = absf(float(wheel.get("slide_speed", 0.0)))
+		if lateral_slide > 3.0:
+			var cut: float = clampf(1.0 - (lateral_slide - 3.0) / 8.0, 0.2, 1.0)
+			drive_n *= cut
+	# Also cut if body yaw rate exceeds steering demand (spin detection).
+	if driven and body.stability_enabled:
+		var ground_up: Vector3 = wheel["normal"]
+		var yaw_rate: float = state.angular_velocity.dot(ground_up)
+		var desired_yaw: float = -body._signed_speed * tan(body.steer_angle) / float(body.profile.get("wheelbase_m", 2.65))
+		var yaw_slip: float = absf(yaw_rate - desired_yaw)
+		if yaw_slip > 0.5:
+			drive_n *= clampf(1.0 - (yaw_slip - 0.5) * 0.6, 0.1, 1.0)
 	var result: Dictionary = Tyres.solve(wheel, direction, drive_n, brake_n, mu, body.abs_enabled and body._input.w < 0.1, body.tcs_enabled, dt)
 	state.apply_force(Vector3(result["force"]), position)
 	wheel["slip"] = result["slip"]

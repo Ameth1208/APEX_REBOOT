@@ -33,6 +33,7 @@ func show_menu(values: Dictionary, career: ApexCareer) -> void:
 	menu.changed.connect(func(key: String, value: Variant): changed.emit(key, value))
 	menu.editor_requested.connect(func(): action_requested.emit("editor"))
 	menu.options_requested.connect(func(): action_requested.emit("options"))
+	menu.credits_requested.connect(func(): action_requested.emit("credits"))
 
 func show_hud(session: ApexRaceSession) -> void:
 	_release(menu)

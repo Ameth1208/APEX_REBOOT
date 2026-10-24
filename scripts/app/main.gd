@@ -171,6 +171,8 @@ func handle_action(action: String) -> void:
 		"options":
 			get_tree().paused = is_instance_valid(race)
 			screens.show_options(settings.values)
+		"credits":
+			screens.show_modal("CRÉDITOS", "APEX REBOOT — Simulador de conducción para academia.\nFísica: Pacejka, Box3D concepts, suspensión progresiva.\nEntorno: OpenStreetMap, terrain blending, biomas.", {"close": "Volver"})
 
 func apply_track(definition: Dictionary) -> void:
 	custom_track = definition.duplicate(true)

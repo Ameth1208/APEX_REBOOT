@@ -6,6 +6,7 @@ const Layout = preload("res://scripts/ui/menu/garage_layout.gd")
 signal start_requested
 signal editor_requested
 signal options_requested
+signal credits_requested
 signal changed(key: String, value: Variant)
 
 var name_label: Label

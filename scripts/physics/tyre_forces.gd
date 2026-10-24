@@ -3,22 +3,23 @@ extends RefCounted
 ## temperature window, combined slip friction ellipse, and proper slip ratio.
 
 const SURFACES: Dictionary = {
-	"asphalt": {"mu": 1.35, "rolling": 0.013, "wet_loss": 0.32, "k_c": 0.0, "k_phi": 0.0, "n": 0.0},
-	"concrete": {"mu": 1.20, "rolling": 0.016, "wet_loss": 0.30, "k_c": 0.0, "k_phi": 0.0, "n": 0.0},
-	"gravel": {"mu": 0.72, "rolling": 0.050, "wet_loss": 0.14, "k_c": 5.0, "k_phi": 90.0, "n": 1.1},
-	"grass": {"mu": 0.52, "rolling": 0.070, "wet_loss": 0.42, "k_c": 3.0, "k_phi": 60.0, "n": 1.2},
-	"sand": {"mu": 0.48, "rolling": 0.11, "wet_loss": 0.08, "k_c": 1.5, "k_phi": 40.0, "n": 1.3},
-	"dirt": {"mu": 0.68, "rolling": 0.045, "wet_loss": 0.30, "k_c": 4.0, "k_phi": 75.0, "n": 1.15}
+	"asphalt": {"mu": 1.18, "rolling": 0.013, "wet_loss": 0.32, "k_c": 0.0, "k_phi": 0.0, "n": 0.0},
+	"concrete": {"mu": 1.05, "rolling": 0.016, "wet_loss": 0.30, "k_c": 0.0, "k_phi": 0.0, "n": 0.0},
+	"gravel": {"mu": 0.68, "rolling": 0.050, "wet_loss": 0.14, "k_c": 5.0, "k_phi": 90.0, "n": 1.1},
+	"grass": {"mu": 0.48, "rolling": 0.070, "wet_loss": 0.42, "k_c": 3.0, "k_phi": 60.0, "n": 1.2},
+	"sand": {"mu": 0.44, "rolling": 0.11, "wet_loss": 0.08, "k_c": 1.5, "k_phi": 40.0, "n": 1.3},
+	"dirt": {"mu": 0.62, "rolling": 0.045, "wet_loss": 0.30, "k_c": 4.0, "k_phi": 75.0, "n": 1.15}
 }
 
 ## Pacejka coefficients per surface: B=stiffness, C=shape, E=curvature.
+## Lower B = more gradual force build-up = less snappy at limit.
 const PACEJKA_LAT: Dictionary = {
-	"asphalt": {"B": 11.0, "C": 1.45, "E": 0.97},
-	"concrete": {"B": 10.0, "C": 1.40, "E": 0.97},
-	"gravel": {"B": 6.0, "C": 1.35, "E": 0.90},
-	"grass": {"B": 4.5, "C": 1.30, "E": 0.85},
-	"sand": {"B": 3.5, "C": 1.25, "E": 0.80},
-	"dirt": {"B": 5.5, "C": 1.32, "E": 0.88}
+	"asphalt": {"B": 8.0, "C": 1.45, "E": 0.97},
+	"concrete": {"B": 7.5, "C": 1.40, "E": 0.97},
+	"gravel": {"B": 5.0, "C": 1.35, "E": 0.90},
+	"grass": {"B": 3.5, "C": 1.30, "E": 0.85},
+	"sand": {"B": 3.0, "C": 1.25, "E": 0.80},
+	"dirt": {"B": 4.5, "C": 1.32, "E": 0.88}
 }
 const PACEJKA_LONG: Dictionary = {
 	"asphalt": {"B": 14.0, "C": 1.55, "E": 0.96},
@@ -131,9 +132,11 @@ static func solve(contact: Dictionary, forward: Vector3, drive_n: float, brake_n
 	var slip_angle: float = atan2(lateral_speed, absf(longitudinal_speed) + 0.5)
 	# --- Longitudinal demand ---
 	var requested_drive: float = drive_n
-	var tcs_intervening: bool = tcs_active and absf(drive_n) > limit_n * 0.92
+	# TCS: cut drive when combined demand nears or exceeds grip limit.
+	# During cornering, lateral force already uses part of the budget.
+	var tcs_intervening: bool = tcs_active and absf(drive_n) > limit_n * 0.75
 	if tcs_intervening:
-		drive_n = clampf(drive_n, -limit_n * 0.92, limit_n * 0.92)
+		drive_n = clampf(drive_n, -limit_n * 0.75, limit_n * 0.75)
 	var stop_force: float = absf(longitudinal_speed) * corner_mass / maxf(dt, 0.001)
 	var actual_brake: float = minf(brake_n, stop_force)
 	var locked: bool = actual_brake > limit_n and absf(longitudinal_speed) > 1.0

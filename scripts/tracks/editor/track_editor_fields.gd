@@ -75,7 +75,7 @@ func _ready() -> void:
 	_advanced_toggle = Button.new()
 	_advanced_toggle.text = "▸ Avanzado (terreno, texturas, estructura)"
 	_advanced_toggle.flat = true
-	_advanced_toggle.alignment = HBoxContainer.ALIGNMENT_LEFT
+	_advanced_toggle.alignment = HORIZONTAL_ALIGNMENT_LEFT
 	_advanced_toggle.pressed.connect(_toggle_advanced)
 	add_child(_advanced_toggle)
 	_advanced_box = VBoxContainer.new()
