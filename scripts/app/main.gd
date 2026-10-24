@@ -13,6 +13,9 @@ var custom_track: Dictionary = {}
 var _building: bool = false
 var _headlights: bool = false
 var _photo: bool = false
+var _track_intel: TrackIntelligence
+var _racing_line: RacingLineVisualizer
+var _racing_line_visible: bool = true
 var performance = preload("res://scripts/app/performance_manager.gd").new()
 
 func _ready() -> void:
@@ -103,6 +106,8 @@ func start_race() -> void:
 	environment.set_night(bool(options.night))
 	environment.set_wetness(float(options.wetness))
 	_headlights = bool(options.night)
+	# Build track intelligence and racing line.
+	_build_racing_line()
 	screens.show_hud(race)
 	get_viewport().gui_release_focus()
 	_building = false
@@ -171,10 +176,44 @@ func apply_track(definition: Dictionary) -> void:
 	get_tree().paused = false
 	start_race()
 
+func _build_racing_line() -> void:
+	# Clean up previous.
+	if is_instance_valid(_racing_line):
+		_racing_line.queue_free()
+	if is_instance_valid(_track_intel):
+		_track_intel = null
+	if not is_instance_valid(race) or not is_instance_valid(race.track):
+		return
+	var track: Node3D = race.track
+	if not ("samples" in track) or track.samples.is_empty():
+		return
+	_track_intel = TrackIntelligence.new()
+	var vehicle: Dictionary = race.player.profile if is_instance_valid(race.player) else {}
+	_track_intel.build(track.samples, vehicle, float(settings.values.get("wetness", 0.0)))
+	_racing_line = RacingLineVisualizer.new()
+	add_child(_racing_line)
+	_racing_line.set_intelligence(_track_intel)
+	_racing_line.visible = _racing_line_visible
+
+func _update_racing_line() -> void:
+	if not is_instance_valid(_racing_line) or not is_instance_valid(race) or not is_instance_valid(race.player):
+		return
+	if _track_intel == null:
+		return
+	var player: RigidBody3D = race.player
+	var pos: Vector3 = player.global_position
+	var idx: int = _track_intel.sample_at_position(pos)
+	var speed: float = player.linear_velocity.length()
+	var braking: bool = false
+	if "_brake" in player:
+		braking = float(player.get("_brake")) > 0.1
+	_racing_line.set_player_state(idx, speed, braking)
+
 func _process(delta: float) -> void:
 	performance.sample(delta, is_instance_valid(race) and not _building and not get_tree().paused)
 	if is_instance_valid(race) and is_instance_valid(screens.hud) and not _building:
 		screens.hud.update_session(race, ApexCamera.NAMES[camera.mode], delta)
+	_update_racing_line()
 
 func _unhandled_input(event: InputEvent) -> void:
 	if _building or event.is_echo():
@@ -188,6 +227,10 @@ func _unhandled_input(event: InputEvent) -> void:
 		handle_action("editor")
 	elif event.is_action_pressed("toggle_night"):
 		change_setting("night", not bool(settings.values.night))
+	elif event.is_action_pressed("racing_line"):
+		_racing_line_visible = not _racing_line_visible
+		if is_instance_valid(_racing_line): _racing_line.visible = _racing_line_visible
+		if is_instance_valid(screens.hud): screens.hud.notify("Línea de carrera: " + ("VISIBLE" if _racing_line_visible else "oculta"))
 	elif event.is_action_pressed("screenshot"):
 		ApexPhoto.capture(get_viewport(), screens.hud)
 	elif is_instance_valid(race) and not get_tree().paused:

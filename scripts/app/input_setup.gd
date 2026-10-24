@@ -9,7 +9,7 @@ static func install(bindings: Dictionary = {}) -> void:
 		"shift_down": [KEY_Q], "reset_car": [KEY_R], "camera_next": [KEY_C],
 		"pause_game": [KEY_ESCAPE], "toggle_lights": [KEY_L], "toggle_night": [KEY_N],
 		"editor": [KEY_F2], "telemetry": [KEY_F3], "autopilot": [KEY_F4],
-		"physics_debug": [KEY_F7],
+		"racing_line": [KEY_F5], "physics_debug": [KEY_F7],
 		"photo": [KEY_F6], "performance_report": [KEY_F8], "screenshot": [KEY_F12]
 	}
 	for action in keys:
