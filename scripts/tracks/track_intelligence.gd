@@ -32,7 +32,9 @@ var _wetness: float = 0.0
 func build(track_samples: Array[Dictionary], vehicle: Dictionary, wetness: float = 0.0) -> void:
 	samples = track_samples
 	_wetness = wetness
-	_vehicle_profile = vehicle
+	_vehicle_profile = vehicle.duplicate(true)
+	var brake_spec: ApexEngineSpec = ApexEngineSpec.from_dictionary(vehicle, str(vehicle.get("kind", "")) == "motorcycle", float(vehicle.get("mass_kg", 1000.0)))
+	_vehicle_profile["brake_force_n"] = brake_spec.brake_force_total_n
 	if samples.size() < 2:
 		return
 	_compute_distances()

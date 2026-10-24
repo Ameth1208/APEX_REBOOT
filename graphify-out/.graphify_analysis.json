@@ -1,0 +1,207 @@
+{
+  "communities": {
+    "0": [
+      "basehttprequesthandler",
+      "functools",
+      "http_server",
+      "os",
+      "pathlib",
+      "tests_fixtures_geo_local_http_server",
+      "tests_fixtures_geo_local_http_server_handler",
+      "tests_fixtures_geo_local_http_server_handler_do_get",
+      "tests_fixtures_geo_local_http_server_handler_log_message",
+      "tests_fixtures_geo_local_http_server_png_chunk",
+      "tests_fixtures_geo_local_http_server_rationale_1",
+      "threading",
+      "time",
+      "tools_docker_launchers_servir_web",
+      "tools_docker_launchers_servir_web_rationale_1",
+      "urllib_parse",
+      "zlib"
+    ],
+    "1": [
+      "oserror",
+      "re",
+      "shutil",
+      "stat",
+      "sys",
+      "tools_package_release",
+      "tools_package_release_collect",
+      "tools_package_release_documentation",
+      "tools_package_release_inventory",
+      "tools_package_release_main",
+      "tools_package_release_py_path",
+      "tools_package_release_raise_walk_error",
+      "tools_package_release_rationale_2",
+      "tools_package_release_rationale_40",
+      "tools_package_release_require",
+      "tools_package_release_write_archive"
+    ],
+    "2": [
+      "tools_docker_export",
+      "tools_docker_export_export_target",
+      "tools_docker_export_run_godot",
+      "tools_docker_export_sh__entry",
+      "tools_docker_export_xdg_cache_home",
+      "tools_docker_export_xdg_config_home",
+      "tools_docker_export_xdg_data_home",
+      "tools_docker_godot",
+      "tools_docker_install_godot",
+      "tools_docker_install_godot_download_verified",
+      "tools_docker_install_godot_sh__entry"
+    ],
+    "3": [
+      "argparse",
+      "hashlib",
+      "json",
+      "struct",
+      "tools_import_assets",
+      "tools_import_assets_import_one",
+      "tools_import_assets_inspect_glb",
+      "tools_import_assets_main",
+      "tools_import_assets_py_path",
+      "tools_import_assets_rationale_2"
+    ],
+    "4": [
+      "contextlib",
+      "github_scripts_test_package_release",
+      "github_scripts_test_package_release_rationale_1",
+      "importlib_util",
+      "io",
+      "tempfile",
+      "unittest",
+      "zipfile"
+    ],
+    "5": [
+      "github_scripts_test_package_release_packagingchecks",
+      "github_scripts_test_package_release_packagingchecks_put",
+      "github_scripts_test_package_release_packagingchecks_run_package",
+      "github_scripts_test_package_release_packagingchecks_setup",
+      "github_scripts_test_package_release_packagingchecks_test_dry_run_writes_nothing",
+      "github_scripts_test_package_release_packagingchecks_test_four_archives_keep_source_metadata_and_current_notices",
+      "github_scripts_test_package_release_packagingchecks_test_invalid_pck_stops_before_any_archive_is_written"
+    ],
+    "6": [
+      "github_scripts_verify_linux",
+      "github_scripts_verify_linux_run_check",
+      "github_scripts_verify_linux_sh__entry",
+      "github_scripts_verify_linux_xdg_cache_home",
+      "github_scripts_verify_linux_xdg_config_home",
+      "github_scripts_verify_linux_xdg_data_home"
+    ],
+    "7": [
+      "tools_docker_build_apex_gid",
+      "tools_docker_build_apex_uid",
+      "tools_docker_build_sh__entry",
+      "tools_docker_build_sh_tools_docker_build"
+    ],
+    "8": [
+      "tools_export_download",
+      "tools_export_sh__entry",
+      "tools_export_sh_tools_export",
+      "tools_export_verify"
+    ],
+    "9": [
+      "tools_export_get_apexfile",
+      "tools_export_ps1_tools_export",
+      "tools_export_test_apexhash"
+    ],
+    "10": [
+      "compilar_docker",
+      "compilar_docker_sh__entry"
+    ],
+    "11": [
+      "exportar_linux",
+      "exportar_linux_sh__entry"
+    ],
+    "12": [
+      "tools_docker_launchers_iniciar_linux",
+      "tools_docker_launchers_iniciar_linux_sh__entry"
+    ],
+    "13": [
+      "tools_docker_package_notices",
+      "tools_docker_package_notices_sh__entry"
+    ],
+    "14": [
+      "github_scripts_verify_windows"
+    ],
+    "15": [
+      "tools_docker_build_ps1_tools_docker_build"
+    ]
+  },
+  "cohesion": {
+    "0": 0.125,
+    "1": 0.225,
+    "2": 0.2545454545454545,
+    "3": 0.24444444444444444,
+    "4": 0.25,
+    "5": 0.5238095238095238,
+    "6": 0.4,
+    "7": 0.5,
+    "8": 0.8333333333333334,
+    "9": 0.6666666666666666,
+    "10": 1.0,
+    "11": 1.0,
+    "12": 1.0,
+    "13": 1.0,
+    "14": 1.0,
+    "15": 1.0
+  },
+  "gods": [
+    {
+      "id": "github_scripts_test_package_release_packagingchecks",
+      "label": "PackagingChecks",
+      "degree": 7
+    },
+    {
+      "id": "tools_package_release_collect",
+      "label": "collect()",
+      "degree": 6
+    },
+    {
+      "id": "tools_package_release_inventory",
+      "label": "inventory()",
+      "degree": 6
+    },
+    {
+      "id": "tools_package_release_documentation",
+      "label": "documentation()",
+      "degree": 5
+    },
+    {
+      "id": "tests_fixtures_geo_local_http_server_handler",
+      "label": "Handler",
+      "degree": 4
+    },
+    {
+      "id": "tools_import_assets_import_one",
+      "label": "import_one()",
+      "degree": 4
+    },
+    {
+      "id": "tools_package_release_require",
+      "label": "require()",
+      "degree": 4
+    },
+    {
+      "id": "tools_docker_export_sh__entry",
+      "label": "export.sh script",
+      "degree": 3
+    },
+    {
+      "id": "tools_docker_export_run_godot",
+      "label": "run_godot()",
+      "degree": 3
+    },
+    {
+      "id": "tools_docker_export_export_target",
+      "label": "export_target()",
+      "degree": 3
+    }
+  ],
+  "surprises": [],
+  "tokens": {
+    "input": 0,
+    "output": 0
+  }
+}

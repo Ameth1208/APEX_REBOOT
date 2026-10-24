@@ -19,6 +19,7 @@ var motion_amount: float = 0.55
 var _motion := ApexCameraMotion.new()
 
 func configure(values: Dictionary) -> void:
+	mode = clampi(int(values.get("camera", mode)), 0, NAMES.size() - 1)
 	base_fov = clampf(float(values.get("camera_fov", 65.0)), 50.0, 95.0)
 	bank_amount = clampf(float(values.get("camera_bank", 1.0)), 0.0, 1.0)
 	motion_amount = clampf(float(values.get("camera_motion", 0.55)), 0.0, 1.0)
@@ -39,17 +40,23 @@ func follow(node: Node3D, garage: bool = false) -> void:
 	_motion.reset()
 
 func cycle() -> void:
+	if NAMES.is_empty():
+		return
 	mode = (mode + 1) % NAMES.size()
 	_first = true
 
 func _process(delta: float) -> void:
 	if not is_instance_valid(target):
 		return
-	var speed: float = 0.0 if showroom else float(target.get("speed_kph"))
+	var speed: float = 0.0 if showroom else maxf(0.0, float(target.get("speed_kph")))
 	var bike: bool = false if showroom else bool(target.get("is_motorcycle"))
 	var pose: Transform3D = target.get_global_transform_interpolated() if target is PhysicsBody3D and not showroom else target.global_transform
+	if not pose.origin.is_finite() or not pose.basis.is_finite():
+		return
 	var origin: Vector3 = pose.origin
 	var basis: Basis = pose.basis.orthonormalized()
+	if not basis.is_finite():
+		return
 	var active_mode: int = 4 if showroom or photo_mode else mode
 	var follow_lean: bool = bike and active_mode in [0, 1, 2]
 	if follow_lean:
@@ -64,7 +71,8 @@ func _process(delta: float) -> void:
 	var desired: Vector3
 	if not showroom:
 		var visual: Node3D = target.get_node_or_null("Visual")
-		if visual != null: visual.set_cockpit_view(active_mode == 2)
+		if visual != null and visual.has_method("set_cockpit_view"):
+			visual.set_cockpit_view(active_mode == 2)
 	match active_mode:
 		0:
 			desired = origin + basis.z * (6.5 + speed * 0.005) + camera_up * 2.5
@@ -73,10 +81,20 @@ func _process(delta: float) -> void:
 			desired = origin + basis * Vector3(0, 0.55 if bike else 0.42, -0.55 if bike else -1.4)
 			aim = desired - basis.z * 40 + basis.y * 0.4
 		2:
-			var position_values: Array = target.profile.get("cockpit_camera_ground", [0, 1.1, 0.1])
-			var cockpit := Vector3(float(position_values[0]), float(position_values[1]) - float(target.ride_height), float(position_values[2]))
-			desired = origin + basis * cockpit
-			aim = desired - basis.z * 40 - basis.y * 0.4
+			var profile: Dictionary = target.get("profile") if target.get("profile") is Dictionary else {}
+			var raw_position: Variant = profile.get("cockpit_camera_ground", [0.0, 1.1, 0.1])
+			var position_values: Array = raw_position if raw_position is Array else [0.0, 1.1, 0.1]
+			if position_values.size() >= 3:
+				var cockpit := Vector3(float(position_values[0]), float(position_values[1]) - float(target.get("ride_height")), float(position_values[2]))
+				if cockpit.is_finite():
+					desired = origin + basis * cockpit
+					aim = desired - basis.z * 40 - basis.y * 0.4
+				else:
+					desired = origin + basis * Vector3(0, 0.42, -1.4)
+					aim = desired - basis.z * 40 + basis.y * 0.4
+			else:
+				desired = origin + basis * Vector3(0, 0.42, -1.4)
+				aim = desired - basis.z * 40 + basis.y * 0.4
 		3:
 			desired = origin + basis.z * 11 + Vector3.UP * 5 + basis.x * 6
 			aim = origin - basis.z * 4
@@ -84,6 +102,8 @@ func _process(delta: float) -> void:
 			if showroom and not Input.is_mouse_button_pressed(MOUSE_BUTTON_RIGHT):
 				orbit += delta * 0.055
 			desired = aim + Vector3(sin(orbit), sin(orbit_pitch), -cos(orbit)) * orbit_distance
+	if not desired.is_finite() or not aim.is_finite():
+		return
 	var factor: float = 1.0 if _first or active_mode in [1, 2, 4] else 1.0 - exp(-delta * 7.0)
 	if not showroom and active_mode in [0, 3]:
 		var query := PhysicsRayQueryParameters3D.create(aim, desired, 1)

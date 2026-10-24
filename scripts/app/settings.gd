@@ -8,10 +8,18 @@ var values: Dictionary = {
 	"wetness": 0.0, "racing_line": false, "volume": 0.55,
 	"aero": 1.0, "grip": 1.0, "camera": 0, "quality": "Automático",
 	"paint": "Original", "livery": "Original", "fullscreen": false,
+	"render_vegetation": true, "render_buildings": true, "render_water": true,
+	"render_lamps": true, "render_props": true, "render_shadows": true, "render_fog": true,
 	"ai_difficulty": "Normal", "camera_fov": 65.0, "camera_bank": 1.0,
 	"camera_motion": 0.55, "steering_response": 1.0, "steering_curve": 1.2,
 	"pedal_curve": 1.0, "steering_deadzone": 0.12, "pedal_deadzone": 0.03,
-	"key_bindings": {}, "vehicle_looks": {}
+	"wheel_device": -1, "wheel_steering_axis": 0, "wheel_throttle_axis": 5,
+	"wheel_brake_axis": 4, "wheel_invert_steering": false,
+	"wheel_steering_min": -1.0, "wheel_steering_center": 0.0, "wheel_steering_max": 1.0,
+	"wheel_throttle_min": -1.0, "wheel_throttle_max": 1.0,
+	"wheel_brake_min": -1.0, "wheel_brake_max": 1.0,
+	"key_bindings": {}, "vehicle_looks": {},
+	"hud_minimap": true, "hud_standings": true, "hud_timing": true, "hud_cluster_scale": 1.0
 }
 
 func load_preferences(path: String = "user://settings.cfg") -> void:
@@ -29,6 +37,17 @@ func load_preferences(path: String = "user://settings.cfg") -> void:
 	for key: String in ["camera_fov", "camera_bank", "camera_motion", "steering_response", "steering_curve", "pedal_curve", "steering_deadzone", "pedal_deadzone"]:
 		if not is_finite(float(values[key])):
 			values[key] = 65.0 if key == "camera_fov" else 1.0
+	for key: String in ["wheel_steering_min", "wheel_steering_center", "wheel_steering_max", "wheel_throttle_min", "wheel_throttle_max", "wheel_brake_min", "wheel_brake_max"]:
+		if not is_finite(float(values[key])):
+			values[key] = 0.0 if key == "wheel_steering_center" else (-1.0 if key.ends_with("_min") else 1.0)
+	for prefix: String in ["wheel_steering", "wheel_throttle", "wheel_brake"]:
+		var minimum: float = float(values[prefix + "_min"])
+		var maximum: float = float(values[prefix + "_max"])
+		if maximum - minimum < 0.01:
+			values[prefix + "_min"] = -1.0
+			values[prefix + "_max"] = 1.0
+	if values["wheel_steering_center"] < values["wheel_steering_min"] or values["wheel_steering_center"] > values["wheel_steering_max"]:
+		values["wheel_steering_center"] = 0.0
 	if not values.key_bindings is Dictionary:
 		values.key_bindings = {}
 	if not values.vehicle_looks is Dictionary:

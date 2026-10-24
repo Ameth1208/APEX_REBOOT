@@ -58,7 +58,8 @@ static func arrange(hud: Control, ui: Dictionary) -> void:
 	ui.condition.size = ui.condition.custom_minimum_size
 	_place(ui.tower, margin, factor)
 	_place(ui.timing_panel, Vector2(hud.size.x - margin.x - ui.timing_panel.size.x * factor, margin.y), factor)
-	_place(ui.cluster, Vector2((hud.size.x - ui.cluster.size.x * factor) * 0.5, hud.size.y - margin.y - ui.cluster.size.y * factor), factor)
+	var instrument_factor: float = factor * float(hud.get("cluster_scale"))
+	_place(ui.cluster, Vector2((hud.size.x - ui.cluster.size.x * instrument_factor) * 0.5, hud.size.y - margin.y - ui.cluster.size.y * instrument_factor), instrument_factor)
 	_place(ui.map, Vector2(margin.x, hud.size.y - margin.y - ui.map.size.y * factor), factor)
 	_place(ui.condition, Vector2(hud.size.x - margin.x - ui.condition.size.x * factor, hud.size.y - margin.y - ui.condition.size.y * factor), factor)
 	_place(ui.telemetry_box, Vector2(ui.timing_panel.position.x, ui.timing_panel.position.y + (ui.timing_panel.size.y + 12) * factor), factor)

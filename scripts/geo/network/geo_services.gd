@@ -4,6 +4,8 @@ extends RefCounted
 
 const USER_AGENT: String = "APEX-Reboot/0.2 (Godot geographic track editor)"
 const MAP_URL: String = "https://tile.openstreetmap.org/{z}/{x}/{y}.png"
+# ArcGIS REST tile order is level / row (y) / column (x).
+const SATELLITE_URL: String = "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}.jpg"
 const SRTM_URL: String = "https://api.opentopodata.org/v1/srtm30m"
 const COPERNICUS_URL: String = "https://api.open-meteo.com/v1/elevation"
 const Proxy = preload("res://scripts/geo/network/geo_proxy.gd")

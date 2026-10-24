@@ -6,6 +6,9 @@ signal edit_started
 signal point_moved(index: int, point: Vector2)
 signal point_added(point: Vector2, after: int)
 signal delete_requested(index: int)
+signal freehand_finished(points: Array[Vector2])
+signal undo_requested
+signal redo_requested
 
 var definition: Dictionary = {}
 var selected: int = 0
@@ -14,6 +17,13 @@ var center: Vector2 = Vector2.ZERO
 var _dragging: bool = false
 var _panning: bool = false
 var _sampler: TrackSampler = TrackSampler.new()
+var tool: String = "select"
+var _freehand: Array[Vector2] = []
+
+func set_tool(value: String) -> void:
+	tool = value
+	mouse_default_cursor_shape = Control.CURSOR_CROSS if tool != "select" else Control.CURSOR_ARROW
+	queue_redraw()
 
 func _ready() -> void:
 	focus_mode = Control.FOCUS_ALL
@@ -43,6 +53,11 @@ func fit() -> void:
 
 func _draw() -> void:
 	TrackMapPaint.draw(self, _sampler)
+	if _freehand.size() > 1:
+		var preview: PackedVector2Array = PackedVector2Array()
+		for point: Vector2 in _freehand:
+			preview.append(to_screen(point))
+		draw_polyline(preview, ApexUI.ACCENT, 4.0, true)
 
 func _gui_input(event: InputEvent) -> void:
 	if event is InputEventMouseButton:
@@ -56,7 +71,12 @@ func _gui_input(event: InputEvent) -> void:
 			queue_redraw()
 		elif mouse.button_index == MOUSE_BUTTON_LEFT:
 			grab_focus()
-			if mouse.pressed and mouse.double_click:
+			if mouse.pressed and tool == "draw":
+				_freehand = [to_world(mouse.position)]
+				queue_redraw()
+			elif mouse.pressed and tool == "add":
+				point_added.emit(to_world(mouse.position), _nearest_segment(to_world(mouse.position)))
+			elif mouse.pressed and mouse.double_click:
 				point_added.emit(to_world(mouse.position), _nearest_segment(to_world(mouse.position)))
 			elif mouse.pressed:
 				var hit: int = _hit_point(mouse.position)
@@ -67,6 +87,10 @@ func _gui_input(event: InputEvent) -> void:
 					_dragging = true
 					queue_redraw()
 			else:
+				if tool == "draw" and not _freehand.is_empty():
+					if _freehand.size() > 1:
+						freehand_finished.emit(_freehand.duplicate())
+					_freehand.clear()
 				_dragging = false
 		accept_event()
 	elif event is InputEventMouseMotion:
@@ -79,11 +103,23 @@ func _gui_input(event: InputEvent) -> void:
 			if motion.shift_pressed:
 				world = world.snapped(Vector2(10.0, 10.0))
 			point_moved.emit(selected, world)
+		elif tool == "draw" and not _freehand.is_empty():
+			var world: Vector2 = to_world(motion.position)
+			if _freehand[-1].distance_to(world) >= maxf(2.0, 8.0 / zoom):
+				_freehand.append(world)
+				queue_redraw()
 	elif event is InputEventKey:
 		var key: InputEventKey = event
-		if key.pressed and key.keycode == KEY_DELETE:
-			delete_requested.emit(selected)
-			accept_event()
+		if key.pressed:
+			if key.keycode == KEY_DELETE:
+				delete_requested.emit(selected)
+				accept_event()
+			elif key.ctrl_pressed and key.keycode == KEY_Z:
+				redo_requested.emit() if key.shift_pressed else undo_requested.emit()
+				accept_event()
+			elif key.keycode == KEY_F:
+				fit()
+				accept_event()
 
 func to_screen(world: Vector2) -> Vector2:
 	return (world - center) * zoom + size * 0.5

@@ -21,6 +21,14 @@ var show_telemetry: bool = false
 var _ui: Dictionary = {}
 var _notice_time: float = 0.0
 var _map_refresh: float = 0.0
+var cluster_scale: float = 1.0
+
+func apply_preferences(values: Dictionary) -> void:
+	map.visible = bool(values.get("hud_minimap", true))
+	tower.visible = bool(values.get("hud_standings", true))
+	timing_panel.visible = bool(values.get("hud_timing", true))
+	cluster_scale = clampf(float(values.get("hud_cluster_scale", 1.0)), 0.7, 1.2)
+	_arrange()
 
 func build(session: ApexRaceSession) -> void:
 	set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
@@ -45,6 +53,11 @@ func build(session: ApexRaceSession) -> void:
 	_arrange.call_deferred()
 
 func update_session(session: ApexRaceSession, camera_mode: String, delta: float) -> void:
+	# The HUD can exist for one or two frames while a session is being rebuilt
+	# (editor, restart, camera change). Do not dereference the player in that
+	# transition; it used to spam errors and could make the render loop unstable.
+	if session == null or not is_instance_valid(session.player):
+		return
 	var data: Dictionary = session.player.telemetry()
 	cluster.update_state(data, float(session.player.profile.get("max_rpm", 8000)))
 	tower.update_session(session, delta)

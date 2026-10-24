@@ -27,7 +27,10 @@ static func build(parent: Node3D, track: Node3D) -> void:
 			var pose: Transform3D = Transform3D(basis, hit.position - Vector3.UP * 0.04)
 			var variant: int = rng.randi_range(0, 3)
 			groups[variant].append(pose)
-			Obstacles.cylinder(trunks, pose.translated_local(Vector3(0, 3.8, 0)), 0.28, 7.6)
+			# Distant trees are decoration only. Keep collision bodies near the
+			# route where an off-road recovery can actually hit them.
+			if distance <= 50.0:
+				Obstacles.cylinder(trunks, pose.translated_local(Vector3(0, 3.8, 0)), 0.28, 7.6)
 	for variant: int in range(4):
 		var transforms: Array[Transform3D] = []
 		transforms.assign(groups[variant])

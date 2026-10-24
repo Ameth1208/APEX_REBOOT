@@ -27,7 +27,6 @@ func _ready() -> void:
 	_material.no_depth_test = false
 	_material.render_priority = 10
 	_material.cull_mode = BaseMaterial3D.CULL_DISABLED
-	add_child(_mesh_instance)
 	visible = true
 
 func set_intelligence(intel: TrackIntelligence) -> void:

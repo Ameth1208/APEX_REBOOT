@@ -1,0 +1,1351 @@
+{
+  "version": 2,
+  "name": "Baranoa → Juan de Acosta",
+  "description": "Ruta vial real generada desde Baranoa hasta Juan de Acosta con elevación del terreno.",
+  "closed": false,
+  "interpolation": "catmull_rom",
+  "points": [
+    {
+      "x": 0,
+      "y": 0,
+      "z": 0,
+      "width": 12,
+      "bank": 0,
+      "surface": "asphalt",
+      "raw_index": 0,
+      "source_index": 0,
+      "elevation_source": "open_meteo"
+    },
+    {
+      "x": -0.437,
+      "y": -3,
+      "z": 138.259,
+      "width": 12,
+      "bank": 0,
+      "surface": "asphalt",
+      "raw_index": 1,
+      "source_index": 1,
+      "elevation_source": "open_meteo"
+    },
+    {
+      "x": 106.398,
+      "y": -5,
+      "z": 140.486,
+      "width": 12,
+      "bank": 0,
+      "surface": "asphalt",
+      "raw_index": 2,
+      "source_index": 2,
+      "elevation_source": "open_meteo"
+    },
+    {
+      "x": 135.595,
+      "y": -2,
+      "z": -51.207,
+      "width": 12,
+      "bank": 0,
+      "surface": "asphalt",
+      "raw_index": 3,
+      "source_index": 3,
+      "elevation_source": "open_meteo"
+    },
+    {
+      "x": 150.904,
+      "y": -1,
+      "z": -200.265,
+      "width": 12,
+      "bank": 0,
+      "surface": "asphalt",
+      "raw_index": 4,
+      "source_index": 4,
+      "elevation_source": "open_meteo"
+    },
+    {
+      "x": 157.246,
+      "y": 0,
+      "z": -268.949,
+      "width": 12,
+      "bank": 0,
+      "surface": "asphalt",
+      "raw_index": 5,
+      "source_index": 5,
+      "elevation_source": "open_meteo"
+    },
+    {
+      "x": 189.176,
+      "y": -4,
+      "z": -435.373,
+      "width": 12,
+      "bank": 0,
+      "surface": "asphalt",
+      "raw_index": 6,
+      "source_index": 6,
+      "elevation_source": "open_meteo"
+    },
+    {
+      "x": 69.984,
+      "y": -4,
+      "z": -445.391,
+      "width": 12,
+      "bank": 0,
+      "surface": "asphalt",
+      "raw_index": 7,
+      "source_index": 7,
+      "elevation_source": "open_meteo"
+    },
+    {
+      "x": 62.986,
+      "y": -4,
+      "z": -507.063,
+      "width": 12,
+      "bank": 0,
+      "surface": "asphalt",
+      "raw_index": 8,
+      "source_index": 8,
+      "elevation_source": "open_meteo"
+    },
+    {
+      "x": 11.263,
+      "y": -1,
+      "z": -511.738,
+      "width": 12,
+      "bank": 0,
+      "surface": "asphalt",
+      "raw_index": 9,
+      "source_index": 9,
+      "elevation_source": "open_meteo"
+    },
+    {
+      "x": -279.281,
+      "y": 3,
+      "z": -539.568,
+      "width": 12,
+      "bank": 0,
+      "surface": "asphalt",
+      "raw_index": 10,
+      "source_index": 10,
+      "elevation_source": "open_meteo"
+    },
+    {
+      "x": -575.403,
+      "y": 4,
+      "z": -562.611,
+      "width": 12,
+      "bank": 0,
+      "surface": "asphalt",
+      "raw_index": 11,
+      "source_index": 11,
+      "elevation_source": "open_meteo"
+    },
+    {
+      "x": -717.121,
+      "y": 7,
+      "z": -620.832,
+      "width": 12,
+      "bank": 0,
+      "surface": "asphalt",
+      "raw_index": 12,
+      "source_index": 12,
+      "elevation_source": "open_meteo"
+    },
+    {
+      "x": -994.981,
+      "y": 10,
+      "z": -787.366,
+      "width": 12,
+      "bank": 0,
+      "surface": "asphalt",
+      "raw_index": 13,
+      "source_index": 13,
+      "elevation_source": "open_meteo"
+    },
+    {
+      "x": -1218.493,
+      "y": 12,
+      "z": -990.637,
+      "width": 12,
+      "bank": 0,
+      "surface": "asphalt",
+      "raw_index": 14,
+      "source_index": 14,
+      "elevation_source": "open_meteo"
+    },
+    {
+      "x": -1310.785,
+      "y": 13,
+      "z": -1196.245,
+      "width": 12,
+      "bank": 0,
+      "surface": "asphalt",
+      "raw_index": 15,
+      "source_index": 15,
+      "elevation_source": "open_meteo"
+    },
+    {
+      "x": -1391.704,
+      "y": 15,
+      "z": -1415.768,
+      "width": 12,
+      "bank": 0,
+      "surface": "asphalt",
+      "raw_index": 16,
+      "source_index": 16,
+      "elevation_source": "open_meteo"
+    },
+    {
+      "x": -1537.25,
+      "y": 22,
+      "z": -1603.231,
+      "width": 12,
+      "bank": 0,
+      "surface": "asphalt",
+      "raw_index": 17,
+      "source_index": 17,
+      "elevation_source": "open_meteo"
+    },
+    {
+      "x": -1801.222,
+      "y": 23,
+      "z": -1663.343,
+      "width": 12,
+      "bank": 0,
+      "surface": "asphalt",
+      "raw_index": 18,
+      "source_index": 18,
+      "elevation_source": "open_meteo"
+    },
+    {
+      "x": -2755.634,
+      "y": 38,
+      "z": -1611.802,
+      "width": 12,
+      "bank": 0,
+      "surface": "asphalt",
+      "raw_index": 19,
+      "source_index": 19,
+      "elevation_source": "open_meteo"
+    },
+    {
+      "x": -4490.48,
+      "y": 63,
+      "z": -1666.906,
+      "width": 12,
+      "bank": 0,
+      "surface": "asphalt",
+      "raw_index": 20,
+      "source_index": 20,
+      "elevation_source": "open_meteo"
+    },
+    {
+      "x": -4766.59,
+      "y": 55,
+      "z": -1804.831,
+      "width": 12,
+      "bank": 0,
+      "surface": "asphalt",
+      "raw_index": 21,
+      "source_index": 21,
+      "elevation_source": "open_meteo"
+    },
+    {
+      "x": -5256.153,
+      "y": 87,
+      "z": -1826.984,
+      "width": 12,
+      "bank": 0,
+      "surface": "asphalt",
+      "raw_index": 22,
+      "source_index": 22,
+      "elevation_source": "open_meteo"
+    },
+    {
+      "x": -5535.106,
+      "y": 53,
+      "z": -1811.844,
+      "width": 12,
+      "bank": 0,
+      "surface": "asphalt",
+      "raw_index": 23,
+      "source_index": 23,
+      "elevation_source": "open_meteo"
+    },
+    {
+      "x": -5761.571,
+      "y": 55,
+      "z": -1838.672,
+      "width": 12,
+      "bank": 0,
+      "surface": "asphalt",
+      "raw_index": 24,
+      "source_index": 24,
+      "elevation_source": "open_meteo"
+    },
+    {
+      "x": -5975.679,
+      "y": 49,
+      "z": -1456.622,
+      "width": 12,
+      "bank": 0,
+      "surface": "asphalt",
+      "raw_index": 25,
+      "source_index": 25,
+      "elevation_source": "open_meteo"
+    },
+    {
+      "x": -6144.845,
+      "y": 38,
+      "z": -1341.963,
+      "width": 12,
+      "bank": 0,
+      "surface": "asphalt",
+      "raw_index": 26,
+      "source_index": 26,
+      "elevation_source": "open_meteo"
+    },
+    {
+      "x": -6664.697,
+      "y": 42,
+      "z": -1225.856,
+      "width": 12,
+      "bank": 0,
+      "surface": "asphalt",
+      "raw_index": 27,
+      "source_index": 27,
+      "elevation_source": "open_meteo"
+    },
+    {
+      "x": -6965.302,
+      "y": 74,
+      "z": -954.012,
+      "width": 12,
+      "bank": 0,
+      "surface": "asphalt",
+      "raw_index": 28,
+      "source_index": 28,
+      "elevation_source": "open_meteo"
+    },
+    {
+      "x": -7261.642,
+      "y": 51,
+      "z": -876.422,
+      "width": 12,
+      "bank": 0,
+      "surface": "asphalt",
+      "raw_index": 29,
+      "source_index": 29,
+      "elevation_source": "open_meteo"
+    },
+    {
+      "x": -7594.395,
+      "y": 41,
+      "z": -817.423,
+      "width": 12,
+      "bank": 0,
+      "surface": "asphalt",
+      "raw_index": 30,
+      "source_index": 30,
+      "elevation_source": "open_meteo"
+    },
+    {
+      "x": -7736.004,
+      "y": 48,
+      "z": -805.178,
+      "width": 12,
+      "bank": 0,
+      "surface": "asphalt",
+      "raw_index": 31,
+      "source_index": 31,
+      "elevation_source": "open_meteo"
+    },
+    {
+      "x": -7904.295,
+      "y": 23,
+      "z": -894.011,
+      "width": 12,
+      "bank": 0,
+      "surface": "asphalt",
+      "raw_index": 32,
+      "source_index": 32,
+      "elevation_source": "open_meteo"
+    },
+    {
+      "x": -8056.511,
+      "y": 17,
+      "z": -1010.786,
+      "width": 12,
+      "bank": 0,
+      "surface": "asphalt",
+      "raw_index": 33,
+      "source_index": 33,
+      "elevation_source": "open_meteo"
+    },
+    {
+      "x": -8144.429,
+      "y": 20,
+      "z": -1015.127,
+      "width": 12,
+      "bank": 0,
+      "surface": "asphalt",
+      "raw_index": 34,
+      "source_index": 34,
+      "elevation_source": "open_meteo"
+    },
+    {
+      "x": -8254.435,
+      "y": 9,
+      "z": -1010.34,
+      "width": 12,
+      "bank": 0,
+      "surface": "asphalt",
+      "raw_index": 35,
+      "source_index": 35,
+      "elevation_source": "open_meteo"
+    },
+    {
+      "x": -8322.451,
+      "y": 9,
+      "z": -1024.144,
+      "width": 12,
+      "bank": 0,
+      "surface": "asphalt",
+      "raw_index": 36,
+      "source_index": 36,
+      "elevation_source": "open_meteo"
+    },
+    {
+      "x": -8439.238,
+      "y": 15,
+      "z": -1172.088,
+      "width": 12,
+      "bank": 0,
+      "surface": "asphalt",
+      "raw_index": 37,
+      "source_index": 37,
+      "elevation_source": "open_meteo"
+    },
+    {
+      "x": -8786.972,
+      "y": 27,
+      "z": -1062.995,
+      "width": 12,
+      "bank": 0,
+      "surface": "asphalt",
+      "raw_index": 38,
+      "source_index": 38,
+      "elevation_source": "open_meteo"
+    },
+    {
+      "x": -8960.73,
+      "y": 33,
+      "z": -1063.551,
+      "width": 12,
+      "bank": 0,
+      "surface": "asphalt",
+      "raw_index": 39,
+      "source_index": 39,
+      "elevation_source": "open_meteo"
+    },
+    {
+      "x": -9295.234,
+      "y": 47,
+      "z": -918.056,
+      "width": 12,
+      "bank": 0,
+      "surface": "asphalt",
+      "raw_index": 40,
+      "source_index": 40,
+      "elevation_source": "open_meteo"
+    },
+    {
+      "x": -9476.428,
+      "y": 29,
+      "z": -886.886,
+      "width": 12,
+      "bank": 0,
+      "surface": "asphalt",
+      "raw_index": 41,
+      "source_index": 41,
+      "elevation_source": "open_meteo"
+    },
+    {
+      "x": -9636.954,
+      "y": 20,
+      "z": -929.411,
+      "width": 12,
+      "bank": 0,
+      "surface": "asphalt",
+      "raw_index": 42,
+      "source_index": 42,
+      "elevation_source": "open_meteo"
+    },
+    {
+      "x": -9949.041,
+      "y": 15,
+      "z": -933.641,
+      "width": 12,
+      "bank": 0,
+      "surface": "asphalt",
+      "raw_index": 43,
+      "source_index": 43,
+      "elevation_source": "open_meteo"
+    },
+    {
+      "x": -10159.978,
+      "y": 1,
+      "z": -931.08,
+      "width": 12,
+      "bank": 0,
+      "surface": "asphalt",
+      "raw_index": 44,
+      "source_index": 44,
+      "elevation_source": "open_meteo"
+    },
+    {
+      "x": -10361.292,
+      "y": -14,
+      "z": -929.633,
+      "width": 12,
+      "bank": 0,
+      "surface": "asphalt",
+      "raw_index": 45,
+      "source_index": 45,
+      "elevation_source": "open_meteo"
+    },
+    {
+      "x": -10469.112,
+      "y": -16,
+      "z": -910.041,
+      "width": 12,
+      "bank": 0,
+      "surface": "asphalt",
+      "raw_index": 46,
+      "source_index": 46,
+      "elevation_source": "open_meteo"
+    },
+    {
+      "x": -10586.117,
+      "y": 1,
+      "z": -857.943,
+      "width": 12,
+      "bank": 0,
+      "surface": "asphalt",
+      "raw_index": 47,
+      "source_index": 47,
+      "elevation_source": "open_meteo"
+    },
+    {
+      "x": -10605.144,
+      "y": 3,
+      "z": -781.021,
+      "width": 12,
+      "bank": 0,
+      "surface": "asphalt",
+      "raw_index": 48,
+      "source_index": 48,
+      "elevation_source": "open_meteo"
+    },
+    {
+      "x": -10664.084,
+      "y": 12,
+      "z": -754.304,
+      "width": 12,
+      "bank": 0,
+      "surface": "asphalt",
+      "raw_index": 49,
+      "source_index": 49,
+      "elevation_source": "open_meteo"
+    },
+    {
+      "x": -10791.368,
+      "y": 17,
+      "z": -791.374,
+      "width": 12,
+      "bank": 0,
+      "surface": "asphalt",
+      "raw_index": 50,
+      "source_index": 50,
+      "elevation_source": "open_meteo"
+    },
+    {
+      "x": -11008.757,
+      "y": 50,
+      "z": -905.366,
+      "width": 12,
+      "bank": 0,
+      "surface": "asphalt",
+      "raw_index": 51,
+      "source_index": 51,
+      "elevation_source": "open_meteo"
+    },
+    {
+      "x": -11309.143,
+      "y": 51,
+      "z": -928.52,
+      "width": 12,
+      "bank": 0,
+      "surface": "asphalt",
+      "raw_index": 52,
+      "source_index": 52,
+      "elevation_source": "open_meteo"
+    },
+    {
+      "x": -11512.972,
+      "y": 57,
+      "z": -966.48,
+      "width": 12,
+      "bank": 0,
+      "surface": "asphalt",
+      "raw_index": 53,
+      "source_index": 53,
+      "elevation_source": "open_meteo"
+    },
+    {
+      "x": -11668.031,
+      "y": 65,
+      "z": -948.558,
+      "width": 12,
+      "bank": 0,
+      "surface": "asphalt",
+      "raw_index": 54,
+      "source_index": 54,
+      "elevation_source": "open_meteo"
+    },
+    {
+      "x": -12081.595,
+      "y": 78,
+      "z": -1055.425,
+      "width": 12,
+      "bank": 0,
+      "surface": "asphalt",
+      "raw_index": 55,
+      "source_index": 55,
+      "elevation_source": "open_meteo"
+    },
+    {
+      "x": -12149.502,
+      "y": 84,
+      "z": -1113.089,
+      "width": 12,
+      "bank": 0,
+      "surface": "asphalt",
+      "raw_index": 56,
+      "source_index": 56,
+      "elevation_source": "open_meteo"
+    },
+    {
+      "x": -12221.892,
+      "y": 70,
+      "z": -1201.365,
+      "width": 12,
+      "bank": 0,
+      "surface": "asphalt",
+      "raw_index": 57,
+      "source_index": 57,
+      "elevation_source": "open_meteo"
+    },
+    {
+      "x": -12291.657,
+      "y": 67,
+      "z": -1213.277,
+      "width": 12,
+      "bank": 0,
+      "surface": "asphalt",
+      "raw_index": 58,
+      "source_index": 58,
+      "elevation_source": "open_meteo"
+    },
+    {
+      "x": -12367.109,
+      "y": 24,
+      "z": -1273.501,
+      "width": 12,
+      "bank": 0,
+      "surface": "asphalt",
+      "raw_index": 59,
+      "source_index": 59,
+      "elevation_source": "open_meteo"
+    },
+    {
+      "x": -12311.669,
+      "y": 39,
+      "z": -1623.157,
+      "width": 12,
+      "bank": 0,
+      "surface": "asphalt",
+      "raw_index": 60,
+      "source_index": 60,
+      "elevation_source": "open_meteo"
+    },
+    {
+      "x": -12284.768,
+      "y": 15,
+      "z": -1814.739,
+      "width": 12,
+      "bank": 0,
+      "surface": "asphalt",
+      "raw_index": 61,
+      "source_index": 61,
+      "elevation_source": "open_meteo"
+    },
+    {
+      "x": -12350.707,
+      "y": 4,
+      "z": -2158.161,
+      "width": 12,
+      "bank": 0,
+      "surface": "asphalt",
+      "raw_index": 62,
+      "source_index": 62,
+      "elevation_source": "open_meteo"
+    },
+    {
+      "x": -12374.764,
+      "y": 1,
+      "z": -2349.743,
+      "width": 12,
+      "bank": 0,
+      "surface": "asphalt",
+      "raw_index": 63,
+      "source_index": 63,
+      "elevation_source": "open_meteo"
+    },
+    {
+      "x": -12429.877,
+      "y": -9,
+      "z": -2555.351,
+      "width": 12,
+      "bank": 0,
+      "surface": "asphalt",
+      "raw_index": 64,
+      "source_index": 64,
+      "elevation_source": "open_meteo"
+    },
+    {
+      "x": -12380.887,
+      "y": -42,
+      "z": -2914.246,
+      "width": 12,
+      "bank": 0,
+      "surface": "asphalt",
+      "raw_index": 65,
+      "source_index": 65,
+      "elevation_source": "open_meteo"
+    },
+    {
+      "x": -12418.176,
+      "y": -46,
+      "z": -2978.255,
+      "width": 12,
+      "bank": 0,
+      "surface": "asphalt",
+      "raw_index": 66,
+      "source_index": 66,
+      "elevation_source": "open_meteo"
+    },
+    {
+      "x": -12651.639,
+      "y": -52,
+      "z": -3076.551,
+      "width": 12,
+      "bank": 0,
+      "surface": "asphalt",
+      "raw_index": 67,
+      "source_index": 67,
+      "elevation_source": "open_meteo"
+    },
+    {
+      "x": -12897.569,
+      "y": -65,
+      "z": -3290.397,
+      "width": 12,
+      "bank": 0,
+      "surface": "asphalt",
+      "raw_index": 68,
+      "source_index": 68,
+      "elevation_source": "open_meteo"
+    },
+    {
+      "x": -12967.772,
+      "y": -68,
+      "z": -3406.503,
+      "width": 12,
+      "bank": 0,
+      "surface": "asphalt",
+      "raw_index": 69,
+      "source_index": 69,
+      "elevation_source": "open_meteo"
+    },
+    {
+      "x": -13133.219,
+      "y": -69,
+      "z": -3651.185,
+      "width": 12,
+      "bank": 0,
+      "surface": "asphalt",
+      "raw_index": 70,
+      "source_index": 70,
+      "elevation_source": "open_meteo"
+    },
+    {
+      "x": -13151.809,
+      "y": -71,
+      "z": -3829.853,
+      "width": 12,
+      "bank": 0,
+      "surface": "asphalt",
+      "raw_index": 71,
+      "source_index": 71,
+      "elevation_source": "open_meteo"
+    },
+    {
+      "x": -13026.712,
+      "y": -72,
+      "z": -3964.773,
+      "width": 12,
+      "bank": 0,
+      "surface": "asphalt",
+      "raw_index": 72,
+      "source_index": 72,
+      "elevation_source": "open_meteo"
+    }
+  ],
+  "raw_route": [
+    {
+      "lat": 10.793601,
+      "lon": -74.915446,
+      "ele": 118,
+      "elevation_source": "open_meteo",
+      "source_index": 0
+    },
+    {
+      "lat": 10.792359,
+      "lon": -74.91545,
+      "ele": 115,
+      "elevation_source": "open_meteo",
+      "source_index": 1
+    },
+    {
+      "lat": 10.792339,
+      "lon": -74.914473,
+      "ele": 113,
+      "elevation_source": "open_meteo",
+      "source_index": 2
+    },
+    {
+      "lat": 10.794061,
+      "lon": -74.914206,
+      "ele": 116,
+      "elevation_source": "open_meteo",
+      "source_index": 3
+    },
+    {
+      "lat": 10.7954,
+      "lon": -74.914066,
+      "ele": 117,
+      "elevation_source": "open_meteo",
+      "source_index": 4
+    },
+    {
+      "lat": 10.796017,
+      "lon": -74.914008,
+      "ele": 118,
+      "elevation_source": "open_meteo",
+      "source_index": 5
+    },
+    {
+      "lat": 10.797512,
+      "lon": -74.913716,
+      "ele": 114,
+      "elevation_source": "open_meteo",
+      "source_index": 6
+    },
+    {
+      "lat": 10.797602,
+      "lon": -74.914806,
+      "ele": 114,
+      "elevation_source": "open_meteo",
+      "source_index": 7
+    },
+    {
+      "lat": 10.798156,
+      "lon": -74.91487,
+      "ele": 114,
+      "elevation_source": "open_meteo",
+      "source_index": 8
+    },
+    {
+      "lat": 10.798198,
+      "lon": -74.915343,
+      "ele": 117,
+      "elevation_source": "open_meteo",
+      "source_index": 9
+    },
+    {
+      "lat": 10.798448,
+      "lon": -74.918,
+      "ele": 121,
+      "elevation_source": "open_meteo",
+      "source_index": 10
+    },
+    {
+      "lat": 10.798655,
+      "lon": -74.920708,
+      "ele": 122,
+      "elevation_source": "open_meteo",
+      "source_index": 11
+    },
+    {
+      "lat": 10.799178,
+      "lon": -74.922004,
+      "ele": 125,
+      "elevation_source": "open_meteo",
+      "source_index": 12
+    },
+    {
+      "lat": 10.800674,
+      "lon": -74.924545,
+      "ele": 128,
+      "elevation_source": "open_meteo",
+      "source_index": 13
+    },
+    {
+      "lat": 10.8025,
+      "lon": -74.926589,
+      "ele": 130,
+      "elevation_source": "open_meteo",
+      "source_index": 14
+    },
+    {
+      "lat": 10.804347,
+      "lon": -74.927433,
+      "ele": 131,
+      "elevation_source": "open_meteo",
+      "source_index": 15
+    },
+    {
+      "lat": 10.806319,
+      "lon": -74.928173,
+      "ele": 133,
+      "elevation_source": "open_meteo",
+      "source_index": 16
+    },
+    {
+      "lat": 10.808003,
+      "lon": -74.929504,
+      "ele": 140,
+      "elevation_source": "open_meteo",
+      "source_index": 17
+    },
+    {
+      "lat": 10.808543,
+      "lon": -74.931918,
+      "ele": 141,
+      "elevation_source": "open_meteo",
+      "source_index": 18
+    },
+    {
+      "lat": 10.80808,
+      "lon": -74.940646,
+      "ele": 156,
+      "elevation_source": "open_meteo",
+      "source_index": 19
+    },
+    {
+      "lat": 10.808575,
+      "lon": -74.956511,
+      "ele": 181,
+      "elevation_source": "open_meteo",
+      "source_index": 20
+    },
+    {
+      "lat": 10.809814,
+      "lon": -74.959036,
+      "ele": 173,
+      "elevation_source": "open_meteo",
+      "source_index": 21
+    },
+    {
+      "lat": 10.810013,
+      "lon": -74.963513,
+      "ele": 205,
+      "elevation_source": "open_meteo",
+      "source_index": 22
+    },
+    {
+      "lat": 10.809877,
+      "lon": -74.966064,
+      "ele": 171,
+      "elevation_source": "open_meteo",
+      "source_index": 23
+    },
+    {
+      "lat": 10.810118,
+      "lon": -74.968135,
+      "ele": 173,
+      "elevation_source": "open_meteo",
+      "source_index": 24
+    },
+    {
+      "lat": 10.806686,
+      "lon": -74.970093,
+      "ele": 167,
+      "elevation_source": "open_meteo",
+      "source_index": 25
+    },
+    {
+      "lat": 10.805656,
+      "lon": -74.97164,
+      "ele": 156,
+      "elevation_source": "open_meteo",
+      "source_index": 26
+    },
+    {
+      "lat": 10.804613,
+      "lon": -74.976394,
+      "ele": 160,
+      "elevation_source": "open_meteo",
+      "source_index": 27
+    },
+    {
+      "lat": 10.802171,
+      "lon": -74.979143,
+      "ele": 192,
+      "elevation_source": "open_meteo",
+      "source_index": 28
+    },
+    {
+      "lat": 10.801474,
+      "lon": -74.981853,
+      "ele": 169,
+      "elevation_source": "open_meteo",
+      "source_index": 29
+    },
+    {
+      "lat": 10.800944,
+      "lon": -74.984896,
+      "ele": 159,
+      "elevation_source": "open_meteo",
+      "source_index": 30
+    },
+    {
+      "lat": 10.800834,
+      "lon": -74.986191,
+      "ele": 166,
+      "elevation_source": "open_meteo",
+      "source_index": 31
+    },
+    {
+      "lat": 10.801632,
+      "lon": -74.98773,
+      "ele": 141,
+      "elevation_source": "open_meteo",
+      "source_index": 32
+    },
+    {
+      "lat": 10.802681,
+      "lon": -74.989122,
+      "ele": 135,
+      "elevation_source": "open_meteo",
+      "source_index": 33
+    },
+    {
+      "lat": 10.80272,
+      "lon": -74.989926,
+      "ele": 138,
+      "elevation_source": "open_meteo",
+      "source_index": 34
+    },
+    {
+      "lat": 10.802677,
+      "lon": -74.990932,
+      "ele": 127,
+      "elevation_source": "open_meteo",
+      "source_index": 35
+    },
+    {
+      "lat": 10.802801,
+      "lon": -74.991554,
+      "ele": 127,
+      "elevation_source": "open_meteo",
+      "source_index": 36
+    },
+    {
+      "lat": 10.80413,
+      "lon": -74.992622,
+      "ele": 133,
+      "elevation_source": "open_meteo",
+      "source_index": 37
+    },
+    {
+      "lat": 10.80315,
+      "lon": -74.995802,
+      "ele": 145,
+      "elevation_source": "open_meteo",
+      "source_index": 38
+    },
+    {
+      "lat": 10.803155,
+      "lon": -74.997391,
+      "ele": 151,
+      "elevation_source": "open_meteo",
+      "source_index": 39
+    },
+    {
+      "lat": 10.801848,
+      "lon": -75.00045,
+      "ele": 165,
+      "elevation_source": "open_meteo",
+      "source_index": 40
+    },
+    {
+      "lat": 10.801568,
+      "lon": -75.002107,
+      "ele": 147,
+      "elevation_source": "open_meteo",
+      "source_index": 41
+    },
+    {
+      "lat": 10.80195,
+      "lon": -75.003575,
+      "ele": 138,
+      "elevation_source": "open_meteo",
+      "source_index": 42
+    },
+    {
+      "lat": 10.801988,
+      "lon": -75.006429,
+      "ele": 133,
+      "elevation_source": "open_meteo",
+      "source_index": 43
+    },
+    {
+      "lat": 10.801965,
+      "lon": -75.008358,
+      "ele": 119,
+      "elevation_source": "open_meteo",
+      "source_index": 44
+    },
+    {
+      "lat": 10.801952,
+      "lon": -75.010199,
+      "ele": 104,
+      "elevation_source": "open_meteo",
+      "source_index": 45
+    },
+    {
+      "lat": 10.801776,
+      "lon": -75.011185,
+      "ele": 102,
+      "elevation_source": "open_meteo",
+      "source_index": 46
+    },
+    {
+      "lat": 10.801308,
+      "lon": -75.012255,
+      "ele": 119,
+      "elevation_source": "open_meteo",
+      "source_index": 47
+    },
+    {
+      "lat": 10.800617,
+      "lon": -75.012429,
+      "ele": 121,
+      "elevation_source": "open_meteo",
+      "source_index": 48
+    },
+    {
+      "lat": 10.800377,
+      "lon": -75.012968,
+      "ele": 130,
+      "elevation_source": "open_meteo",
+      "source_index": 49
+    },
+    {
+      "lat": 10.80071,
+      "lon": -75.014132,
+      "ele": 135,
+      "elevation_source": "open_meteo",
+      "source_index": 50
+    },
+    {
+      "lat": 10.801734,
+      "lon": -75.01612,
+      "ele": 168,
+      "elevation_source": "open_meteo",
+      "source_index": 51
+    },
+    {
+      "lat": 10.801942,
+      "lon": -75.018867,
+      "ele": 169,
+      "elevation_source": "open_meteo",
+      "source_index": 52
+    },
+    {
+      "lat": 10.802283,
+      "lon": -75.020731,
+      "ele": 175,
+      "elevation_source": "open_meteo",
+      "source_index": 53
+    },
+    {
+      "lat": 10.802122,
+      "lon": -75.022149,
+      "ele": 183,
+      "elevation_source": "open_meteo",
+      "source_index": 54
+    },
+    {
+      "lat": 10.803082,
+      "lon": -75.025931,
+      "ele": 196,
+      "elevation_source": "open_meteo",
+      "source_index": 55
+    },
+    {
+      "lat": 10.8036,
+      "lon": -75.026552,
+      "ele": 202,
+      "elevation_source": "open_meteo",
+      "source_index": 56
+    },
+    {
+      "lat": 10.804393,
+      "lon": -75.027214,
+      "ele": 188,
+      "elevation_source": "open_meteo",
+      "source_index": 57
+    },
+    {
+      "lat": 10.8045,
+      "lon": -75.027852,
+      "ele": 185,
+      "elevation_source": "open_meteo",
+      "source_index": 58
+    },
+    {
+      "lat": 10.805041,
+      "lon": -75.028542,
+      "ele": 142,
+      "elevation_source": "open_meteo",
+      "source_index": 59
+    },
+    {
+      "lat": 10.808182,
+      "lon": -75.028035,
+      "ele": 157,
+      "elevation_source": "open_meteo",
+      "source_index": 60
+    },
+    {
+      "lat": 10.809903,
+      "lon": -75.027789,
+      "ele": 133,
+      "elevation_source": "open_meteo",
+      "source_index": 61
+    },
+    {
+      "lat": 10.812988,
+      "lon": -75.028392,
+      "ele": 122,
+      "elevation_source": "open_meteo",
+      "source_index": 62
+    },
+    {
+      "lat": 10.814709,
+      "lon": -75.028612,
+      "ele": 119,
+      "elevation_source": "open_meteo",
+      "source_index": 63
+    },
+    {
+      "lat": 10.816556,
+      "lon": -75.029116,
+      "ele": 109,
+      "elevation_source": "open_meteo",
+      "source_index": 64
+    },
+    {
+      "lat": 10.81978,
+      "lon": -75.028668,
+      "ele": 76,
+      "elevation_source": "open_meteo",
+      "source_index": 65
+    },
+    {
+      "lat": 10.820355,
+      "lon": -75.029009,
+      "ele": 72,
+      "elevation_source": "open_meteo",
+      "source_index": 66
+    },
+    {
+      "lat": 10.821238,
+      "lon": -75.031144,
+      "ele": 66,
+      "elevation_source": "open_meteo",
+      "source_index": 67
+    },
+    {
+      "lat": 10.823159,
+      "lon": -75.033393,
+      "ele": 53,
+      "elevation_source": "open_meteo",
+      "source_index": 68
+    },
+    {
+      "lat": 10.824202,
+      "lon": -75.034035,
+      "ele": 50,
+      "elevation_source": "open_meteo",
+      "source_index": 69
+    },
+    {
+      "lat": 10.8264,
+      "lon": -75.035548,
+      "ele": 49,
+      "elevation_source": "open_meteo",
+      "source_index": 70
+    },
+    {
+      "lat": 10.828005,
+      "lon": -75.035718,
+      "ele": 47,
+      "elevation_source": "open_meteo",
+      "source_index": 71
+    },
+    {
+      "lat": 10.829217,
+      "lon": -75.034574,
+      "ele": 46,
+      "elevation_source": "open_meteo",
+      "source_index": 72
+    }
+  ],
+  "geo": {
+    "source": "OpenStreetMap / OSRM",
+    "origin_lat": 10.793601,
+    "origin_lon": -74.915446,
+    "origin_alt_m": 118.0,
+    "projection": "wgs84_local",
+    "horizontal_datum": "WGS84",
+    "axes": "x east, y up, z south",
+    "elevation_source": "Open-Meteo",
+    "elevation_status": "complete",
+    "elevation_source_name": "Open-Meteo DEM",
+    "raw_point_count": 73,
+    "control_point_count": 73,
+    "route_distance_m": 18268.5,
+    "route_duration_s": 1288.1
+  },
+  "requires_elevation": false,
+  "requires_geometry_review": false,
+  "sample_spacing": 3,
+  "thickness": 1.1,
+  "runoff_width": 4,
+  "runoff_surface": "gravel",
+  "terrain_surface": "grass",
+  "terrain_hills": 0,
+  "barriers": true,
+  "seed": 8421
+}

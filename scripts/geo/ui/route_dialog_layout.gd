@@ -16,10 +16,37 @@ static func build(parent: Control) -> Dictionary:
 	layout.add_theme_constant_override("separation", 12)
 	margin.add_child(layout)
 	var header: HBoxContainer = GeoUi.row(layout)
-	var title: Label = GeoUi.label(header, "DEL MAPA A LA PISTA", 27)
+	var title: Label = GeoUi.label(header, "01  /  PLANIFICADOR DE RUTA", 27)
 	title.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	ui.close = GeoUi.button(header, "Volver al editor")
-	GeoUi.label(layout, "Traza puntos siguiendo la carretera o importa una ruta GPS. Cada segmento se convierte en una pista editable.", 14)
+	var intro: Label = GeoUi.label(layout, "Escribe una salida y una llegada. APEX calcula la ruta vial, adapta la pista al terreno y después te deja editarla.", 15)
+	intro.add_theme_color_override("font_color", Color("9aa8b8"))
+	intro.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	var planner: PanelContainer = PanelContainer.new()
+	planner.add_theme_stylebox_override("panel", ApexUI.style(Color("111a25"), Color("334256"), 8))
+	layout.add_child(planner)
+	var planner_row: HBoxContainer = GeoUi.row(planner)
+	var from_label: Label = GeoUi.label(planner_row, "DESDE", 12)
+	from_label.add_theme_color_override("font_color", Color("8da2ad"))
+	ui.start = LineEdit.new()
+	ui.start.placeholder_text = "Baranoa, Atlántico"
+	ui.start.text = "Baranoa, Atlántico"
+	ui.start.custom_minimum_size.x = 210
+	planner_row.add_child(ui.start)
+	var arrow: Label = GeoUi.label(planner_row, "→", 22)
+	arrow.add_theme_color_override("font_color", ApexUI.ACCENT)
+	var to_label: Label = GeoUi.label(planner_row, "HASTA", 12)
+	to_label.add_theme_color_override("font_color", Color("8da2ad"))
+	ui.finish = LineEdit.new()
+	ui.finish.placeholder_text = "Juan de Acosta, Atlántico"
+	ui.finish.text = "Juan de Acosta, Atlántico"
+	ui.finish.custom_minimum_size.x = 230
+	planner_row.add_child(ui.finish)
+	ui.plan = GeoUi.button(planner_row, "GENERAR RUTA  ↗")
+	ui.plan.custom_minimum_size.x = 170
+	ui.plan.tooltip_text = "Busca los lugares y genera una ruta siguiendo las carreteras"
+	ui.plan_status = GeoUi.label(layout, "Ruta vial automática disponible. También puedes importar un GPX o añadir puntos en el mapa.", 12)
+	ui.plan_status.add_theme_color_override("font_color", Color("8da2ad"))
 	var bar: HBoxContainer = GeoUi.row(layout)
 	ui.import_button = GeoUi.button(bar, "Importar GPX / GeoJSON…")
 	GeoUi.label(bar, "Latitud", 13)
@@ -37,12 +64,20 @@ static func build(parent: Control) -> Dictionary:
 	content.add_child(map_column)
 	ui.map = GeographicMap.new()
 	map_column.add_child(ui.map)
+	var layer_bar: HBoxContainer = GeoUi.row(map_column)
+	ui.layer = CheckBox.new()
+	ui.layer.text = "Vista satélite"
+	ui.layer.button_pressed = true
+	ui.layer.tooltip_text = "Usa imagen aérea como referencia; no modifica la geometría de la pista."
+	layer_bar.add_child(ui.layer)
+	var layer_hint: Label = GeoUi.label(layer_bar, "La pista se dibuja encima", 11)
+	layer_hint.add_theme_color_override("font_color", Color("8da2ad"))
 	var attribution: LinkButton = LinkButton.new()
-	attribution.text = GeoServices.setting("map_attribution", "© OpenStreetMap contributors")
-	attribution.uri = GeoServices.setting("map_license_url", "https://www.openstreetmap.org/copyright")
+	attribution.text = "© Esri — World Imagery · © OpenStreetMap contributors"
+	attribution.uri = "https://www.esri.com/en-us/legal/terms/full-master-agreement"
 	attribution.add_theme_font_size_override("font_size", 13)
 	map_column.add_child(attribution)
-	GeoUi.label(map_column, "Clic: añadir · Clic derecho: quitar último · Botón central: desplazar · Rueda: zoom", 12)
+	GeoUi.label(map_column, "Clic: añadir punto · Clic derecho: quitar último · Botón central: desplazar · Rueda: zoom", 12)
 	var scroll: ScrollContainer = ScrollContainer.new()
 	scroll.custom_minimum_size.x = 320
 	scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
@@ -51,7 +86,7 @@ static func build(parent: Control) -> Dictionary:
 	side.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	side.add_theme_constant_override("separation", 10)
 	scroll.add_child(side)
-	GeoUi.label(side, "TU RECORRIDO", 17)
+	GeoUi.label(side, "AJUSTES DE LA PISTA", 17)
 	ui.name = LineEdit.new()
 	ui.name.placeholder_text = "Nombre de la ruta"
 	ui.name.text = "Mi ruta real"
@@ -69,7 +104,7 @@ static func build(parent: Control) -> Dictionary:
 	ui.clear = GeoUi.button(edit, "Limpiar ruta")
 	ui.summary = GeoUi.label(side, "Añade al menos dos puntos.", 14)
 	side.add_child(HSeparator.new())
-	GeoUi.label(side, "ALTURAS DEL TERRENO", 17)
+	GeoUi.label(side, "TERRENO REAL", 17)
 	ui.provider = OptionButton.new()
 	ui.provider.add_item("SRTM ~30 m · Open Topo Data")
 	ui.provider.add_item("Copernicus GLO-90 · Open-Meteo")
@@ -78,7 +113,7 @@ static func build(parent: Control) -> Dictionary:
 	ui.replace = CheckBox.new()
 	ui.replace.text = "Sustituir también las cotas del archivo"
 	side.add_child(ui.replace)
-	ui.elevate = GeoUi.button(side, "Obtener cotas y analizar")
+	ui.elevate = GeoUi.button(side, "ADAPTAR AL TERRENO")
 	ui.cancel = GeoUi.button(side, "Cancelar consulta")
 	ui.cancel.visible = false
 	ui.flat = CheckBox.new()
@@ -91,11 +126,11 @@ static func build(parent: Control) -> Dictionary:
 	source.add_theme_font_size_override("font_size", 11)
 	side.add_child(source)
 	side.add_child(HSeparator.new())
-	GeoUi.label(side, "La ruta sigue los puntos dibujados: no se ajusta automáticamente a las calles. Anchura, peralte y paisaje se editan después.", 12)
+	GeoUi.label(side, "La ruta vial se calcula automáticamente. Aquí puedes cambiar anchura, cotas y tipo de recorrido; los detalles finos se editan después.", 12)
 	ui.status = GeoUi.label(layout, "Mapa centrado en Bogotá. Puedes ir a cualquier coordenada o importar tu propio archivo.", 13)
 	var footer: HBoxContainer = GeoUi.row(layout)
 	var hint: Label = GeoUi.label(footer, "Las rutas abiertas conservan su salida y llegada; no se añade una carretera de regreso.", 12)
 	hint.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	hint.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	ui.create = GeoUi.button(footer, "Crear pista y ver perfil ›")
+	ui.create = GeoUi.button(footer, "CONTINUAR Y EDITAR  ›")
 	return ui

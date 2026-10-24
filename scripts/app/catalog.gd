@@ -17,7 +17,8 @@ static func vehicle(index: int) -> Dictionary:
 
 static func track(index: int) -> Dictionary:
 	var paths: Array = entries("tracks")
-	return read_json(str(paths[clampi(index, 0, paths.size() - 1)])) if not paths.is_empty() else {}
+	var source: Dictionary = read_json(str(paths[clampi(index, 0, paths.size() - 1)])) if not paths.is_empty() else {}
+	return preload("res://scripts/geo/route_terrain_profile.gd").apply(source)
 
 static func entries(kind: String) -> Array:
 	var path: String = "res://data/%s/catalog.json" % kind

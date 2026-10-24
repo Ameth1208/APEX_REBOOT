@@ -24,3 +24,14 @@ static func apply_scenery(node: Node, quality: String) -> void:
 		if child is GeometryInstance3D and child.has_meta("quality_visibility_range"):
 			child.visibility_range_end = float(child.get_meta("quality_visibility_range")) * multiplier
 		apply_scenery(child, quality)
+
+static func apply_features(node: Node, settings: Dictionary) -> void:
+	# Feature switches are deliberately metadata-driven so new scenery can opt in
+	# without changing this manager or the physics tree.
+	for child: Node in node.get_children():
+		var category: String = str(child.get_meta("render_category", ""))
+		if not category.is_empty():
+			var enabled: bool = bool(settings.get("render_" + category, true))
+			child.set_meta("render_feature_enabled", enabled)
+			child.visible = enabled
+		apply_features(child, settings)

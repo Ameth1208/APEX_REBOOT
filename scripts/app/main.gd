@@ -27,6 +27,7 @@ func _ready() -> void:
 	settings.apply_display()
 	add_child(environment)
 	environment.set_quality(str(settings.values.quality))
+	environment.set_render_features(settings.values)
 	performance.configure(get_viewport(), environment, str(settings.values.quality))
 	add_child(showroom)
 	add_child(camera)
@@ -47,6 +48,10 @@ func _ready() -> void:
 
 func show_garage() -> void:
 	get_tree().paused = false
+	if is_instance_valid(_racing_line):
+		_racing_line.queue_free()
+		_racing_line = null
+	_track_intel = null
 	_photo = false
 	camera.photo_mode = false
 	if is_instance_valid(race):
@@ -102,6 +107,9 @@ func start_race() -> void:
 	scenery.target = race.player
 	scenery.night = bool(options.night)
 	await scenery.build(race.track)
+	ApexRenderQuality.apply_features(scenery, options)
+	ApexRenderQuality.apply_features(race.track, options)
+	environment.set_render_features(options)
 	performance.bind_scenery(scenery)
 	environment.set_night(bool(options.night))
 	environment.set_wetness(float(options.wetness))
@@ -109,6 +117,7 @@ func start_race() -> void:
 	# Build track intelligence and racing line.
 	_build_racing_line()
 	screens.show_hud(race)
+	screens.hud.apply_preferences(settings.values)
 	get_viewport().gui_release_focus()
 	_building = false
 	settings.save_preferences()
@@ -117,6 +126,8 @@ func change_setting(key: String, value: Variant) -> void:
 	if key == "vehicle":
 		ApexVehiclePreferences.remember(settings.values)
 	settings.values[key] = value
+	if key.begins_with("hud_") and is_instance_valid(screens.hud):
+		screens.hud.apply_preferences(settings.values)
 	if key == "vehicle":
 		ApexVehiclePreferences.restore(settings.values)
 	if key in ["paint", "livery"]:
@@ -134,6 +145,10 @@ func change_setting(key: String, value: Variant) -> void:
 		environment.set_night(bool(settings.values.night))
 		environment.set_wetness(float(settings.values.wetness))
 		if is_instance_valid(scenery): scenery.night = bool(settings.values.night)
+	if key.begins_with("render_"):
+		environment.set_render_features(settings.values)
+		if is_instance_valid(scenery): ApexRenderQuality.apply_features(scenery, settings.values)
+		if is_instance_valid(race) and is_instance_valid(race.track): ApexRenderQuality.apply_features(race.track, settings.values)
 	if key == "track": custom_track.clear()
 	if is_instance_valid(screens.menu) and showroom.visible:
 		environment.set_showroom()
@@ -143,15 +158,34 @@ func change_setting(key: String, value: Variant) -> void:
 			camera.follow(showroom.target, true)
 		if key == "paint": showroom.vehicle.set_paint(ApexCatalog.paint_color(str(value)), str(value) == "Original")
 		if key == "livery": showroom.vehicle.set_livery(str(value))
-	if is_instance_valid(race) and not _building and key in ["wetness", "aero", "grip", "assists", "automatic", "racing_line", "night", "ai_difficulty", "steering_response", "steering_curve", "pedal_curve"]:
+	if is_instance_valid(race) and not _building and (key in ["wetness", "aero", "grip", "assists", "automatic", "racing_line", "night", "ai_difficulty", "steering_response", "steering_curve", "pedal_curve"] or key.begins_with("wheel_")):
 		ApexRuntimeSettings.apply(race, settings.values)
 
 func handle_action(action: String) -> void:
 	match action:
 		"pause":
 			get_tree().paused = true
-			screens.show_modal("EN PAUSA", "La siguiente curva puede esperar.", {"resume": "CONTINUAR", "restart": "Reiniciar sesión", "editor": "Editor de circuitos", "options": "Ajustes", "retire": "Retirarme · DNF", "garage": "Volver al garaje"})
+			screens.show_modal("PAUSA", "Tu sesión está detenida.", {"resume": "CONTINUAR", "confirm_restart": "REINICIAR", "pause_camera": "CAMBIAR CÁMARA", "pause_photo": "MODO FOTO", "pause_controls": "CONTROLES", "options": "AJUSTES", "editor": "EDITAR PISTA", "confirm_garage": "VOLVER AL GARAJE"})
+		"confirm_restart":
+			screens.show_modal("¿REINICIAR?", "Comenzarás de nuevo esta sesión.", {"restart": "REINICIAR SESIÓN", "pause": "SEGUIR EN PAUSA"})
+		"confirm_garage":
+			screens.show_modal("¿VOLVER AL GARAJE?", "Se perderá el progreso de esta sesión.", {"garage": "VOLVER AL GARAJE", "pause": "SEGUIR EN PAUSA"})
+		"pause_camera":
+			camera.cycle()
+			settings.values.camera = camera.mode
+			handle_action("resume")
+		"pause_photo":
+			screens.clear_overlay()
+			_photo = true
+			camera.photo_mode = true
+			screens.hud.visible = false
+		"pause_controls":
+			screens.show_options(settings.values)
+			screens.options._select_category(0)
 		"resume", "close_overlay":
+			if action == "close_overlay" and is_instance_valid(screens.options) and is_instance_valid(race) and get_tree().paused:
+				handle_action("pause")
+				return
 			screens.clear_overlay()
 			get_tree().paused = false
 			_photo = false
@@ -167,7 +201,14 @@ func handle_action(action: String) -> void:
 				var definition: Dictionary = race.track.definition
 				screens.show_editor(definition)
 			else:
-				screens.show_creation_flow()
+				# Start the map editor from the currently selected catalog route.
+				var track_index: int = clampi(int(settings.values.track), 0, maxi(0, ApexCatalog.entries("tracks").size() - 1))
+				screens.show_editor(ApexCatalog.track(track_index))
+		"load_track":
+			screens.show_creation_flow()
+		"route_planner":
+			var route_index: int = clampi(int(settings.values.track), 0, maxi(0, ApexCatalog.entries("tracks").size() - 1))
+			screens.show_route_planner(ApexCatalog.track(route_index))
 		"options":
 			get_tree().paused = is_instance_valid(race)
 			screens.show_options(settings.values)
@@ -190,11 +231,16 @@ func _build_racing_line() -> void:
 		_track_intel = null
 	if not is_instance_valid(race) or not is_instance_valid(race.track):
 		return
+	# Use one driving-line renderer, not both the legacy strip and dynamic overlay.
+	if is_instance_valid(race.line):
+		race.line.visible = false
 	var track: Node3D = race.track
 	if not ("samples" in track) or track.samples.is_empty():
 		return
 	# This visualizer is CPU-heavy and is disabled by default.
 	_racing_line_visible = bool(settings.values.get("racing_line", false))
+	if not _racing_line_visible:
+		return
 	_track_intel = TrackIntelligence.new()
 	var vehicle: Dictionary = race.player.profile if is_instance_valid(race.player) else {}
 	_track_intel.build(track.samples, vehicle, float(settings.values.get("wetness", 0.0)))
@@ -205,11 +251,19 @@ func _build_racing_line() -> void:
 
 func set_racing_line_visible(value: bool) -> void:
 	_racing_line_visible = value
+	settings.values["racing_line"] = value
+	if _building:
+		return # start_race builds intelligence once, after scenery is ready.
+	if is_instance_valid(race) and is_instance_valid(race.line):
+		race.line.visible = false
+	if value and not is_instance_valid(_racing_line) and is_instance_valid(race):
+		_build_racing_line()
+		return
 	if is_instance_valid(_racing_line):
 		_racing_line.set_line_visible(value)
 
 func _update_racing_line() -> void:
-	if not is_instance_valid(_racing_line) or not is_instance_valid(race) or not is_instance_valid(race.player):
+	if not _racing_line_visible or not is_instance_valid(_racing_line) or not is_instance_valid(race) or not is_instance_valid(race.player):
 		return
 	if _track_intel == null:
 		return

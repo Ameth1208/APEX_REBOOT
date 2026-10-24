@@ -13,6 +13,7 @@ var _selected_surface: String = "asphalt"
 var _advanced_box: VBoxContainer
 var _advanced_toggle: Button
 var _advanced_visible: bool = false
+var _source_note: Label
 
 func _ready() -> void:
 	custom_minimum_size.x = 264.0
@@ -102,6 +103,20 @@ func _build_advanced() -> void:
 	_select_into(_advanced_box, "runoff_surface", "Material escapatoria")
 	_select_into(_advanced_box, "terrain_surface", "Material terreno")
 	_spin_into(_advanced_box, "terrain_hills", "Relieve · m", 0.0, 60.0, 1.0)
+	var mode_label: Label = Label.new()
+	mode_label.text = "Modo de construcción"
+	mode_label.add_theme_font_size_override("font_size", 13)
+	_advanced_box.add_child(mode_label)
+	var mode: OptionButton = OptionButton.new()
+	mode.add_item("Fiel a los datos y al terreno")
+	mode.add_item("Diseño de carrera · estilizar")
+	mode.item_selected.connect(func(index: int) -> void: _emit("construction_mode", "race_design" if index == 1 else "faithful"))
+	_advanced_box.add_child(mode)
+	_inputs["construction_mode"] = mode
+	_source_note = Label.new()
+	_source_note.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	_source_note.add_theme_font_size_override("font_size", 11)
+	_advanced_box.add_child(_source_note)
 	var interp_label: Label = Label.new()
 	interp_label.text = "Textura personalizada…"
 	interp_label.add_theme_font_size_override("font_size", 13)
@@ -123,6 +138,7 @@ func show_point(definition: Dictionary, index: int) -> void:
 	var points: Array = definition["points"]
 	var point: Dictionary = points[clampi(index, 0, points.size() - 1)]
 	_point_title.text = "Punto %02d / %02d" % [index + 1, points.size()]
+	_update_source_note(definition)
 	_selected_surface = str(point["surface"])
 	for key: String in _inputs:
 		var input: Control = _inputs[key]
@@ -138,9 +154,37 @@ func show_point(definition: Dictionary, index: int) -> void:
 		elif input is OptionButton:
 			if key == "interpolation":
 				(input as OptionButton).select(1 if str(value) == "linear" else 0)
+			elif key == "construction_mode":
+				(input as OptionButton).select(1 if str(value) == "race_design" else 0)
 			else:
 				(input as OptionButton).select(maxi(0, TrackDefinition.SURFACES.find(str(value))))
 	_refreshing = false
+
+func _update_source_note(definition: Dictionary) -> void:
+	if _source_note == null:
+		return
+	var geo_variant: Variant = definition.get("geo", {})
+	var geo: Dictionary = geo_variant if geo_variant is Dictionary else {}
+	var source_elevation: String = str(geo.get("source_elevation_status", ""))
+	var flat_test: bool = bool(geo.get("is_flat_test", false))
+	var surfaces: Dictionary = {}
+	for raw: Variant in definition.get("points", []):
+		if raw is Dictionary:
+			var surface: String = str(raw.get("surface", ""))
+			if not surface.is_empty():
+				surfaces[surface] = true
+	var surface_names: PackedStringArray = PackedStringArray()
+	for surface: String in surfaces.keys():
+		surface_names.append(surface)
+	if flat_test or source_elevation == "missing":
+		_source_note.text = "Fuente incompleta: no hay alturas medidas. Fiel conserva la ruta plana; importa GPX/alturas para relieve real."
+		_source_note.add_theme_color_override("font_color", Color(0.95, 0.72, 0.32))
+	elif surface_names.size() <= 1:
+		_source_note.text = "Superficie disponible en la fuente: %s. Fiel no inventa tramos mixtos." % (surface_names[0] if not surface_names.is_empty() else "sin datos")
+		_source_note.add_theme_color_override("font_color", Color(0.55, 0.7, 0.75))
+	else:
+		_source_note.text = "Fiel conserva las superficies por tramo: %s." % ", ".join(surface_names)
+		_source_note.add_theme_color_override("font_color", Color(0.45, 0.85, 0.65))
 
 func _spin(key: String, title: String, minimum: float, maximum: float, step: float) -> void:
 	_spin_into(self, key, title, minimum, maximum, step)

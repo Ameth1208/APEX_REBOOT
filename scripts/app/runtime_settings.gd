@@ -2,7 +2,7 @@ class_name ApexRuntimeSettings
 extends RefCounted
 
 static func apply(race: ApexRaceSession, values: Dictionary) -> void:
-	for key: String in ["wetness", "aero", "grip", "assists", "automatic", "racing_line", "night", "ai_difficulty", "steering_response", "steering_curve", "pedal_curve"]:
+	for key: String in ["wetness", "aero", "grip", "assists", "automatic", "racing_line", "night", "ai_difficulty", "steering_response", "steering_curve", "pedal_curve", "wheel_device", "wheel_steering_axis", "wheel_throttle_axis", "wheel_brake_axis", "wheel_invert_steering", "wheel_steering_min", "wheel_steering_center", "wheel_steering_max", "wheel_throttle_min", "wheel_throttle_max", "wheel_brake_min", "wheel_brake_max"]:
 		if values.has(key): race.settings[key] = values[key]
 	race.configure_player_input(values)
 	for body in race.vehicles:

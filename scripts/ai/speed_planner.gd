@@ -20,7 +20,8 @@ func build(track: Node3D, profile: Dictionary, wetness: float, pace: float = 0.9
 	braking_limits.resize(count)
 	var tyre_scale: float = float(profile.get("tire_grip_scale", profile.get("grip_factor", float(profile.get("grip", 1.22)) / 1.22)))
 	var mass_kg: float = float(profile.get("mass_kg", 1000.0))
-	var mechanical_braking: float = float(profile.get("brake_force_n", mass_kg * 16.0)) / maxf(mass_kg, 1.0)
+	var brake_spec: ApexEngineSpec = ApexEngineSpec.from_dictionary(profile, str(profile.get("kind", "")) == "motorcycle", mass_kg)
+	var mechanical_braking: float = brake_spec.brake_force_total_n / maxf(mass_kg, 1.0)
 	var aero: float = float(profile.get("downforce_area_m2", 0.5))
 	var max_speed: float = float(profile.get("top_speed_kph", 280.0)) / 3.6
 	var motorcycle: bool = str(profile.get("kind", profile.get("category", "car"))) == "motorcycle"

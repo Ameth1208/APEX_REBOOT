@@ -14,9 +14,13 @@ static func clean(source: Dictionary) -> Dictionary:
 	result["runoff_width"] = clampf(float(source.get("runoff_width", 4.0)), 1.0, 12.0)
 	result["runoff_surface"] = valid_surface(str(source.get("runoff_surface", "gravel")))
 	result["terrain_surface"] = valid_surface(str(source.get("terrain_surface", "grass")))
+	result["terrain_type"] = str(source.get("terrain_type", "auto"))
+	result["terrain_surface_auto"] = bool(source.get("terrain_surface_auto", false))
 	result["terrain_hills"] = clampf(float(source.get("terrain_hills", 8.0)), 0.0, 60.0)
 	result["sample_spacing"] = clampf(float(source.get("sample_spacing", 4.0)), 2.0, 12.0)
 	result["barriers"] = bool(source.get("barriers", true))
+	var construction_mode: String = str(source.get("construction_mode", "faithful"))
+	result["construction_mode"] = construction_mode if construction_mode in ["faithful", "race_design"] else "faithful"
 	var points: Array[Dictionary] = []
 	var source_points: Variant = source.get("points", [])
 	if source_points is Array:

@@ -4,6 +4,11 @@
   "description": "Circuito cerrado de Polonuevo - Baranoa, convertido desde RacetrackDesign. Versión plana de prueba: el archivo original no contiene alturas. Ancho original de 12 m; asfalto y peralte cero asumidos.",
   "closed": true,
   "interpolation": "linear",
+  "construction_mode": "faithful",
+  "elevation_profile_path": "res://data/tracks/polonuevo_baranoa_elevation.json",
+  "terrain_grid_path": "res://data/tracks/polonuevo_baranoa_terrain.json",
+  "surroundings_path": "res://data/tracks/polonuevo_baranoa_surroundings.json",
+  "landcover_path": "res://data/tracks/polonuevo_baranoa_landcover.json",
   "points": [
     {
       "x": 0.0,

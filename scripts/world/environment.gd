@@ -50,6 +50,10 @@ func set_quality(quality: String) -> void:
 	sun.shadow_bias = 0.10 if high else 0.24
 	sun.shadow_normal_bias = 2.0 if high else 4.0
 
+func set_render_features(settings: Dictionary) -> void:
+	sun.shadow_enabled = bool(settings.get("render_shadows", true))
+	world.environment.fog_enabled = bool(settings.get("render_fog", true))
+
 func set_night(enabled: bool) -> void:
 	night = enabled
 	_showroom = false

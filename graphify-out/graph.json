@@ -1,0 +1,2485 @@
+{
+  "directed": false,
+  "multigraph": false,
+  "graph": {},
+  "nodes": [
+    {
+      "id": "tests_fixtures_geo_local_http_server_handler",
+      "label": "Handler",
+      "_callable": true,
+      "_callable_class": true,
+      "_origin": "ast",
+      "community": 0,
+      "file_type": "code",
+      "norm_label": "handler",
+      "source_file": "tests/fixtures/geo/local_http_server.py",
+      "source_location": "L25"
+    },
+    {
+      "id": "github_scripts_test_package_release_packagingchecks",
+      "label": "PackagingChecks",
+      "_callable": true,
+      "_callable_class": true,
+      "_origin": "ast",
+      "community": 5,
+      "file_type": "code",
+      "norm_label": "packagingchecks",
+      "source_file": ".github/scripts/test-package-release.py",
+      "source_location": "L16"
+    },
+    {
+      "id": "tests_fixtures_geo_local_http_server_handler_do_get",
+      "label": ".do_GET()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 0,
+      "file_type": "code",
+      "norm_label": ".do_get()",
+      "source_file": "tests/fixtures/geo/local_http_server.py",
+      "source_location": "L29"
+    },
+    {
+      "id": "tests_fixtures_geo_local_http_server_handler_log_message",
+      "label": ".log_message()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 0,
+      "file_type": "code",
+      "norm_label": ".log_message()",
+      "source_file": "tests/fixtures/geo/local_http_server.py",
+      "source_location": "L26"
+    },
+    {
+      "id": "tests_fixtures_geo_local_http_server_png_chunk",
+      "label": "png_chunk()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 0,
+      "file_type": "code",
+      "norm_label": "png_chunk()",
+      "source_file": "tests/fixtures/geo/local_http_server.py",
+      "source_location": "L17"
+    },
+    {
+      "id": "tools_package_release_collect",
+      "label": "collect()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 1,
+      "file_type": "code",
+      "norm_label": "collect()",
+      "source_file": "tools/package-release.py",
+      "source_location": "L39"
+    },
+    {
+      "id": "tools_package_release_documentation",
+      "label": "documentation()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 1,
+      "file_type": "code",
+      "norm_label": "documentation()",
+      "source_file": "tools/package-release.py",
+      "source_location": "L71"
+    },
+    {
+      "id": "tools_package_release_inventory",
+      "label": "inventory()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 1,
+      "file_type": "code",
+      "norm_label": "inventory()",
+      "source_file": "tools/package-release.py",
+      "source_location": "L85"
+    },
+    {
+      "id": "tools_package_release_main",
+      "label": "main()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 1,
+      "file_type": "code",
+      "norm_label": "main()",
+      "source_file": "tools/package-release.py",
+      "source_location": "L138"
+    },
+    {
+      "id": "tools_package_release_raise_walk_error",
+      "label": "raise_walk_error()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 1,
+      "file_type": "code",
+      "norm_label": "raise_walk_error()",
+      "source_file": "tools/package-release.py",
+      "source_location": "L61"
+    },
+    {
+      "id": "tools_package_release_require",
+      "label": "require()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 1,
+      "file_type": "code",
+      "norm_label": "require()",
+      "source_file": "tools/package-release.py",
+      "source_location": "L65"
+    },
+    {
+      "id": "tools_package_release_write_archive",
+      "label": "write_archive()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 1,
+      "file_type": "code",
+      "norm_label": "write_archive()",
+      "source_file": "tools/package-release.py",
+      "source_location": "L114"
+    },
+    {
+      "id": "tools_import_assets_import_one",
+      "label": "import_one()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 3,
+      "file_type": "code",
+      "norm_label": "import_one()",
+      "source_file": "tools/import_assets.py",
+      "source_location": "L48"
+    },
+    {
+      "id": "tools_import_assets_inspect_glb",
+      "label": "inspect_glb()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 3,
+      "file_type": "code",
+      "norm_label": "inspect_glb()",
+      "source_file": "tools/import_assets.py",
+      "source_location": "L24"
+    },
+    {
+      "id": "tools_import_assets_main",
+      "label": "main()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 3,
+      "file_type": "code",
+      "norm_label": "main()",
+      "source_file": "tools/import_assets.py",
+      "source_location": "L101"
+    },
+    {
+      "id": "github_scripts_test_package_release_packagingchecks_put",
+      "label": ".put()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 5,
+      "file_type": "code",
+      "norm_label": ".put()",
+      "source_file": ".github/scripts/test-package-release.py",
+      "source_location": "L41"
+    },
+    {
+      "id": "github_scripts_test_package_release_packagingchecks_run_package",
+      "label": ".run_package()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 5,
+      "file_type": "code",
+      "norm_label": ".run_package()",
+      "source_file": ".github/scripts/test-package-release.py",
+      "source_location": "L47"
+    },
+    {
+      "id": "github_scripts_test_package_release_packagingchecks_setup",
+      "label": ".setUp()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 5,
+      "file_type": "code",
+      "norm_label": ".setup()",
+      "source_file": ".github/scripts/test-package-release.py",
+      "source_location": "L17"
+    },
+    {
+      "id": "github_scripts_test_package_release_packagingchecks_test_dry_run_writes_nothing",
+      "label": ".test_dry_run_writes_nothing()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 5,
+      "file_type": "code",
+      "norm_label": ".test_dry_run_writes_nothing()",
+      "source_file": ".github/scripts/test-package-release.py",
+      "source_location": "L80"
+    },
+    {
+      "id": "github_scripts_test_package_release_packagingchecks_test_four_archives_keep_source_metadata_and_current_notices",
+      "label": ".test_four_archives_keep_source_metadata_and_current_notices()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 5,
+      "file_type": "code",
+      "norm_label": ".test_four_archives_keep_source_metadata_and_current_notices()",
+      "source_file": ".github/scripts/test-package-release.py",
+      "source_location": "L51"
+    },
+    {
+      "id": "github_scripts_test_package_release_packagingchecks_test_invalid_pck_stops_before_any_archive_is_written",
+      "label": ".test_invalid_pck_stops_before_any_archive_is_written()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 5,
+      "file_type": "code",
+      "norm_label": ".test_invalid_pck_stops_before_any_archive_is_written()",
+      "source_file": ".github/scripts/test-package-release.py",
+      "source_location": "L84"
+    },
+    {
+      "id": "basehttprequesthandler",
+      "label": "BaseHTTPRequestHandler",
+      "_origin": "ast",
+      "community": 0,
+      "file_type": "code",
+      "norm_label": "basehttprequesthandler",
+      "source_file": "",
+      "source_location": ""
+    },
+    {
+      "id": "tests_fixtures_geo_local_http_server",
+      "label": "local_http_server.py",
+      "_origin": "ast",
+      "community": 0,
+      "file_type": "code",
+      "norm_label": "local_http_server.py",
+      "source_file": "tests/fixtures/geo/local_http_server.py",
+      "source_location": "L1"
+    },
+    {
+      "id": "tools_docker_launchers_servir_web",
+      "label": "SERVIR_WEB.py",
+      "_origin": "ast",
+      "community": 0,
+      "file_type": "code",
+      "norm_label": "servir_web.py",
+      "source_file": "tools/docker/launchers/SERVIR_WEB.py",
+      "source_location": "L1"
+    },
+    {
+      "id": "tests_fixtures_geo_local_http_server_rationale_1",
+      "label": "Bounded local fixture server; all coordinates/heights/images are synthetic.",
+      "_origin": "ast",
+      "community": 0,
+      "file_type": "rationale",
+      "norm_label": "bounded local fixture server; all coordinates/heights/images are synthetic.",
+      "source_file": "tests/fixtures/geo/local_http_server.py",
+      "source_location": "L1"
+    },
+    {
+      "id": "tools_docker_launchers_servir_web_rationale_1",
+      "label": "Servidor local para la exportaci\u00f3n Web; requiere Python 3 en el ordenador.",
+      "_origin": "ast",
+      "community": 0,
+      "file_type": "rationale",
+      "norm_label": "servidor local para la exportacion web; requiere python 3 en el ordenador.",
+      "source_file": "tools/docker/launchers/SERVIR_WEB.py",
+      "source_location": "L1"
+    },
+    {
+      "id": "oserror",
+      "label": "OSError",
+      "_origin": "ast",
+      "community": 1,
+      "file_type": "code",
+      "norm_label": "oserror",
+      "source_file": "",
+      "source_location": ""
+    },
+    {
+      "id": "tools_package_release",
+      "label": "package-release.py",
+      "_origin": "ast",
+      "community": 1,
+      "file_type": "code",
+      "norm_label": "package-release.py",
+      "source_file": "tools/package-release.py",
+      "source_location": "L1"
+    },
+    {
+      "id": "tools_package_release_py_path",
+      "label": "Path",
+      "_origin": "ast",
+      "community": 1,
+      "file_type": "code",
+      "norm_label": "path",
+      "source_file": "",
+      "source_location": ""
+    },
+    {
+      "id": "tools_package_release_rationale_2",
+      "label": "Package existing Godot exports and source with Python 3.10+ standard library.",
+      "_origin": "ast",
+      "community": 1,
+      "file_type": "rationale",
+      "norm_label": "package existing godot exports and source with python 3.10+ standard library.",
+      "source_file": "tools/package-release.py",
+      "source_location": "L2"
+    },
+    {
+      "id": "tools_package_release_rationale_40",
+      "label": "Include useful dotfiles explicitly; prune caches before descending.",
+      "_origin": "ast",
+      "community": 1,
+      "file_type": "rationale",
+      "norm_label": "include useful dotfiles explicitly; prune caches before descending.",
+      "source_file": "tools/package-release.py",
+      "source_location": "L40"
+    },
+    {
+      "id": "compilar_docker",
+      "label": "COMPILAR_DOCKER.sh",
+      "_origin": "ast",
+      "community": 10,
+      "file_type": "code",
+      "metadata": {
+        "language": "bash",
+        "kind": "file"
+      },
+      "norm_label": "compilar_docker.sh",
+      "source_file": "COMPILAR_DOCKER.sh",
+      "source_location": "L1"
+    },
+    {
+      "id": "compilar_docker_sh__entry",
+      "label": "COMPILAR_DOCKER.sh script",
+      "_origin": "ast",
+      "community": 10,
+      "file_type": "code",
+      "metadata": {
+        "language": "bash",
+        "kind": "bash_entrypoint"
+      },
+      "norm_label": "compilar_docker.sh script",
+      "source_file": "COMPILAR_DOCKER.sh",
+      "source_location": "L1"
+    },
+    {
+      "id": "exportar_linux",
+      "label": "EXPORTAR_LINUX.sh",
+      "_origin": "ast",
+      "community": 11,
+      "file_type": "code",
+      "metadata": {
+        "language": "bash",
+        "kind": "file"
+      },
+      "norm_label": "exportar_linux.sh",
+      "source_file": "EXPORTAR_LINUX.sh",
+      "source_location": "L1"
+    },
+    {
+      "id": "exportar_linux_sh__entry",
+      "label": "EXPORTAR_LINUX.sh script",
+      "_origin": "ast",
+      "community": 11,
+      "file_type": "code",
+      "metadata": {
+        "language": "bash",
+        "kind": "bash_entrypoint"
+      },
+      "norm_label": "exportar_linux.sh script",
+      "source_file": "EXPORTAR_LINUX.sh",
+      "source_location": "L1"
+    },
+    {
+      "id": "tools_docker_launchers_iniciar_linux",
+      "label": "INICIAR_LINUX.sh",
+      "_origin": "ast",
+      "community": 12,
+      "file_type": "code",
+      "metadata": {
+        "language": "bash",
+        "kind": "file"
+      },
+      "norm_label": "iniciar_linux.sh",
+      "source_file": "tools/docker/launchers/INICIAR_LINUX.sh",
+      "source_location": "L1"
+    },
+    {
+      "id": "tools_docker_launchers_iniciar_linux_sh__entry",
+      "label": "INICIAR_LINUX.sh script",
+      "_origin": "ast",
+      "community": 12,
+      "file_type": "code",
+      "metadata": {
+        "language": "bash",
+        "kind": "bash_entrypoint"
+      },
+      "norm_label": "iniciar_linux.sh script",
+      "source_file": "tools/docker/launchers/INICIAR_LINUX.sh",
+      "source_location": "L1"
+    },
+    {
+      "id": "tools_docker_package_notices",
+      "label": "package-notices.sh",
+      "_origin": "ast",
+      "community": 13,
+      "file_type": "code",
+      "metadata": {
+        "language": "bash",
+        "kind": "file"
+      },
+      "norm_label": "package-notices.sh",
+      "source_file": "tools/docker/package-notices.sh",
+      "source_location": "L1"
+    },
+    {
+      "id": "tools_docker_package_notices_sh__entry",
+      "label": "package-notices.sh script",
+      "_origin": "ast",
+      "community": 13,
+      "file_type": "code",
+      "metadata": {
+        "language": "bash",
+        "kind": "bash_entrypoint"
+      },
+      "norm_label": "package-notices.sh script",
+      "source_file": "tools/docker/package-notices.sh",
+      "source_location": "L1"
+    },
+    {
+      "id": "github_scripts_verify_windows",
+      "label": "verify-windows.ps1",
+      "_origin": "ast",
+      "community": 14,
+      "file_type": "code",
+      "norm_label": "verify-windows.ps1",
+      "source_file": ".github/scripts/verify-windows.ps1",
+      "source_location": "L1"
+    },
+    {
+      "id": "tools_docker_build_ps1_tools_docker_build",
+      "label": "build.ps1",
+      "_origin": "ast",
+      "community": 15,
+      "file_type": "code",
+      "norm_label": "build.ps1",
+      "source_file": "tools/docker/build.ps1",
+      "source_location": "L1"
+    },
+    {
+      "id": "tools_docker_export",
+      "label": "docker/export.sh",
+      "_origin": "ast",
+      "community": 2,
+      "file_type": "code",
+      "metadata": {
+        "language": "bash",
+        "kind": "file"
+      },
+      "norm_label": "docker/export.sh",
+      "source_file": "tools/docker/export.sh",
+      "source_location": "L1"
+    },
+    {
+      "id": "tools_docker_export_export_target",
+      "label": "export_target()",
+      "_origin": "ast",
+      "community": 2,
+      "file_type": "code",
+      "metadata": {
+        "language": "bash",
+        "kind": "bash_function"
+      },
+      "norm_label": "export_target()",
+      "source_file": "tools/docker/export.sh",
+      "source_location": "L37"
+    },
+    {
+      "id": "tools_docker_export_run_godot",
+      "label": "run_godot()",
+      "_origin": "ast",
+      "community": 2,
+      "file_type": "code",
+      "metadata": {
+        "language": "bash",
+        "kind": "bash_function"
+      },
+      "norm_label": "run_godot()",
+      "source_file": "tools/docker/export.sh",
+      "source_location": "L26"
+    },
+    {
+      "id": "tools_docker_export_sh__entry",
+      "label": "export.sh script",
+      "_origin": "ast",
+      "community": 2,
+      "file_type": "code",
+      "metadata": {
+        "language": "bash",
+        "kind": "bash_entrypoint"
+      },
+      "norm_label": "export.sh script",
+      "source_file": "tools/docker/export.sh",
+      "source_location": "L1"
+    },
+    {
+      "id": "tools_docker_export_xdg_cache_home",
+      "label": "XDG_CACHE_HOME",
+      "_origin": "ast",
+      "community": 2,
+      "file_type": "code",
+      "metadata": {
+        "language": "bash",
+        "kind": "code"
+      },
+      "norm_label": "xdg_cache_home",
+      "source_file": "tools/docker/export.sh",
+      "source_location": "L19"
+    },
+    {
+      "id": "tools_docker_export_xdg_config_home",
+      "label": "XDG_CONFIG_HOME",
+      "_origin": "ast",
+      "community": 2,
+      "file_type": "code",
+      "metadata": {
+        "language": "bash",
+        "kind": "code"
+      },
+      "norm_label": "xdg_config_home",
+      "source_file": "tools/docker/export.sh",
+      "source_location": "L18"
+    },
+    {
+      "id": "tools_docker_export_xdg_data_home",
+      "label": "XDG_DATA_HOME",
+      "_origin": "ast",
+      "community": 2,
+      "file_type": "code",
+      "metadata": {
+        "language": "bash",
+        "kind": "code"
+      },
+      "norm_label": "xdg_data_home",
+      "source_file": "tools/docker/export.sh",
+      "source_location": "L17"
+    },
+    {
+      "id": "tools_docker_install_godot",
+      "label": "install-godot.sh",
+      "_origin": "ast",
+      "community": 2,
+      "file_type": "code",
+      "metadata": {
+        "language": "bash",
+        "kind": "file"
+      },
+      "norm_label": "install-godot.sh",
+      "source_file": "tools/docker/install-godot.sh",
+      "source_location": "L1"
+    },
+    {
+      "id": "tools_docker_install_godot_download_verified",
+      "label": "download_verified()",
+      "_origin": "ast",
+      "community": 2,
+      "file_type": "code",
+      "metadata": {
+        "language": "bash",
+        "kind": "bash_function"
+      },
+      "norm_label": "download_verified()",
+      "source_file": "tools/docker/install-godot.sh",
+      "source_location": "L15"
+    },
+    {
+      "id": "tools_docker_install_godot_sh__entry",
+      "label": "install-godot.sh script",
+      "_origin": "ast",
+      "community": 2,
+      "file_type": "code",
+      "metadata": {
+        "language": "bash",
+        "kind": "bash_entrypoint"
+      },
+      "norm_label": "install-godot.sh script",
+      "source_file": "tools/docker/install-godot.sh",
+      "source_location": "L1"
+    },
+    {
+      "id": "tools_import_assets",
+      "label": "import_assets.py",
+      "_origin": "ast",
+      "community": 3,
+      "file_type": "code",
+      "norm_label": "import_assets.py",
+      "source_file": "tools/import_assets.py",
+      "source_location": "L1"
+    },
+    {
+      "id": "tools_import_assets_py_path",
+      "label": "Path",
+      "_origin": "ast",
+      "community": 3,
+      "file_type": "code",
+      "norm_label": "path",
+      "source_file": "",
+      "source_location": ""
+    },
+    {
+      "id": "tools_import_assets_rationale_2",
+      "label": "Restore the four supplied models, preserving embedded materials and notices.\u2026",
+      "_origin": "ast",
+      "community": 3,
+      "file_type": "rationale",
+      "norm_label": "restore the four supplied models, preserving embedded materials and notices....",
+      "source_file": "tools/import_assets.py",
+      "source_location": "L2"
+    },
+    {
+      "id": "github_scripts_test_package_release",
+      "label": "test-package-release.py",
+      "_origin": "ast",
+      "community": 4,
+      "file_type": "code",
+      "norm_label": "test-package-release.py",
+      "source_file": ".github/scripts/test-package-release.py",
+      "source_location": "L1"
+    },
+    {
+      "id": "github_scripts_test_package_release_rationale_1",
+      "label": "Tiny disposable fixtures verify packaging without exporting or shipping a game.",
+      "_origin": "ast",
+      "community": 4,
+      "file_type": "rationale",
+      "norm_label": "tiny disposable fixtures verify packaging without exporting or shipping a game.",
+      "source_file": ".github/scripts/test-package-release.py",
+      "source_location": "L1"
+    },
+    {
+      "id": "github_scripts_verify_linux",
+      "label": "verify-linux.sh",
+      "_origin": "ast",
+      "community": 6,
+      "file_type": "code",
+      "metadata": {
+        "language": "bash",
+        "kind": "file"
+      },
+      "norm_label": "verify-linux.sh",
+      "source_file": ".github/scripts/verify-linux.sh",
+      "source_location": "L1"
+    },
+    {
+      "id": "github_scripts_verify_linux_run_check",
+      "label": "run_check()",
+      "_origin": "ast",
+      "community": 6,
+      "file_type": "code",
+      "metadata": {
+        "language": "bash",
+        "kind": "bash_function"
+      },
+      "norm_label": "run_check()",
+      "source_file": ".github/scripts/verify-linux.sh",
+      "source_location": "L12"
+    },
+    {
+      "id": "github_scripts_verify_linux_sh__entry",
+      "label": "verify-linux.sh script",
+      "_origin": "ast",
+      "community": 6,
+      "file_type": "code",
+      "metadata": {
+        "language": "bash",
+        "kind": "bash_entrypoint"
+      },
+      "norm_label": "verify-linux.sh script",
+      "source_file": ".github/scripts/verify-linux.sh",
+      "source_location": "L1"
+    },
+    {
+      "id": "github_scripts_verify_linux_xdg_cache_home",
+      "label": "XDG_CACHE_HOME",
+      "_origin": "ast",
+      "community": 6,
+      "file_type": "code",
+      "metadata": {
+        "language": "bash",
+        "kind": "code"
+      },
+      "norm_label": "xdg_cache_home",
+      "source_file": ".github/scripts/verify-linux.sh",
+      "source_location": "L8"
+    },
+    {
+      "id": "github_scripts_verify_linux_xdg_config_home",
+      "label": "XDG_CONFIG_HOME",
+      "_origin": "ast",
+      "community": 6,
+      "file_type": "code",
+      "metadata": {
+        "language": "bash",
+        "kind": "code"
+      },
+      "norm_label": "xdg_config_home",
+      "source_file": ".github/scripts/verify-linux.sh",
+      "source_location": "L7"
+    },
+    {
+      "id": "github_scripts_verify_linux_xdg_data_home",
+      "label": "XDG_DATA_HOME",
+      "_origin": "ast",
+      "community": 6,
+      "file_type": "code",
+      "metadata": {
+        "language": "bash",
+        "kind": "code"
+      },
+      "norm_label": "xdg_data_home",
+      "source_file": ".github/scripts/verify-linux.sh",
+      "source_location": "L6"
+    },
+    {
+      "id": "tools_docker_build_apex_gid",
+      "label": "APEX_GID",
+      "_origin": "ast",
+      "community": 7,
+      "file_type": "code",
+      "metadata": {
+        "language": "bash",
+        "kind": "code"
+      },
+      "norm_label": "apex_gid",
+      "source_file": "tools/docker/build.sh",
+      "source_location": "L10"
+    },
+    {
+      "id": "tools_docker_build_apex_uid",
+      "label": "APEX_UID",
+      "_origin": "ast",
+      "community": 7,
+      "file_type": "code",
+      "metadata": {
+        "language": "bash",
+        "kind": "code"
+      },
+      "norm_label": "apex_uid",
+      "source_file": "tools/docker/build.sh",
+      "source_location": "L9"
+    },
+    {
+      "id": "tools_docker_build_sh__entry",
+      "label": "build.sh script",
+      "_origin": "ast",
+      "community": 7,
+      "file_type": "code",
+      "metadata": {
+        "language": "bash",
+        "kind": "bash_entrypoint"
+      },
+      "norm_label": "build.sh script",
+      "source_file": "tools/docker/build.sh",
+      "source_location": "L1"
+    },
+    {
+      "id": "tools_docker_build_sh_tools_docker_build",
+      "label": "build.sh",
+      "_origin": "ast",
+      "community": 7,
+      "file_type": "code",
+      "metadata": {
+        "language": "bash",
+        "kind": "file"
+      },
+      "norm_label": "build.sh",
+      "source_file": "tools/docker/build.sh",
+      "source_location": "L1"
+    },
+    {
+      "id": "tools_export_download",
+      "label": "download()",
+      "_origin": "ast",
+      "community": 8,
+      "file_type": "code",
+      "metadata": {
+        "language": "bash",
+        "kind": "bash_function"
+      },
+      "norm_label": "download()",
+      "source_file": "tools/export.sh",
+      "source_location": "L10"
+    },
+    {
+      "id": "tools_export_sh__entry",
+      "label": "export.sh script",
+      "_origin": "ast",
+      "community": 8,
+      "file_type": "code",
+      "metadata": {
+        "language": "bash",
+        "kind": "bash_entrypoint"
+      },
+      "norm_label": "export.sh script",
+      "source_file": "tools/export.sh",
+      "source_location": "L1"
+    },
+    {
+      "id": "tools_export_sh_tools_export",
+      "label": "tools/export.sh",
+      "_origin": "ast",
+      "community": 8,
+      "file_type": "code",
+      "metadata": {
+        "language": "bash",
+        "kind": "file"
+      },
+      "norm_label": "tools/export.sh",
+      "source_file": "tools/export.sh",
+      "source_location": "L1"
+    },
+    {
+      "id": "tools_export_verify",
+      "label": "verify()",
+      "_origin": "ast",
+      "community": 8,
+      "file_type": "code",
+      "metadata": {
+        "language": "bash",
+        "kind": "bash_function"
+      },
+      "norm_label": "verify()",
+      "source_file": "tools/export.sh",
+      "source_location": "L17"
+    },
+    {
+      "id": "tools_export_get_apexfile",
+      "label": "Get-ApexFile()",
+      "_origin": "ast",
+      "community": 9,
+      "file_type": "code",
+      "norm_label": "get-apexfile()",
+      "source_file": "tools/export.ps1",
+      "source_location": "L10"
+    },
+    {
+      "id": "tools_export_ps1_tools_export",
+      "label": "export.ps1",
+      "_origin": "ast",
+      "community": 9,
+      "file_type": "code",
+      "norm_label": "export.ps1",
+      "source_file": "tools/export.ps1",
+      "source_location": "L1"
+    },
+    {
+      "id": "tools_export_test_apexhash",
+      "label": "Test-ApexHash()",
+      "_origin": "ast",
+      "community": 9,
+      "file_type": "code",
+      "norm_label": "test-apexhash()",
+      "source_file": "tools/export.ps1",
+      "source_location": "L20"
+    },
+    {
+      "id": "functools",
+      "label": "functools",
+      "community": 0,
+      "external": true,
+      "file_type": "concept",
+      "norm_label": "functools",
+      "source_file": "",
+      "type": "external"
+    },
+    {
+      "id": "http_server",
+      "label": "http_server",
+      "community": 0,
+      "external": true,
+      "file_type": "concept",
+      "norm_label": "http_server",
+      "source_file": "",
+      "type": "external"
+    },
+    {
+      "id": "os",
+      "label": "os",
+      "community": 0,
+      "external": true,
+      "file_type": "concept",
+      "norm_label": "os",
+      "source_file": "",
+      "type": "external"
+    },
+    {
+      "id": "pathlib",
+      "label": "pathlib",
+      "community": 0,
+      "external": true,
+      "file_type": "concept",
+      "norm_label": "pathlib",
+      "source_file": "",
+      "type": "external"
+    },
+    {
+      "id": "threading",
+      "label": "threading",
+      "community": 0,
+      "external": true,
+      "file_type": "concept",
+      "norm_label": "threading",
+      "source_file": "",
+      "type": "external"
+    },
+    {
+      "id": "time",
+      "label": "time",
+      "community": 0,
+      "external": true,
+      "file_type": "concept",
+      "norm_label": "time",
+      "source_file": "",
+      "type": "external"
+    },
+    {
+      "id": "urllib_parse",
+      "label": "urllib_parse",
+      "community": 0,
+      "external": true,
+      "file_type": "concept",
+      "norm_label": "urllib_parse",
+      "source_file": "",
+      "type": "external"
+    },
+    {
+      "id": "zlib",
+      "label": "zlib",
+      "community": 0,
+      "external": true,
+      "file_type": "concept",
+      "norm_label": "zlib",
+      "source_file": "",
+      "type": "external"
+    },
+    {
+      "id": "re",
+      "label": "re",
+      "community": 1,
+      "external": true,
+      "file_type": "concept",
+      "norm_label": "re",
+      "source_file": "",
+      "type": "external"
+    },
+    {
+      "id": "shutil",
+      "label": "shutil",
+      "community": 1,
+      "external": true,
+      "file_type": "concept",
+      "norm_label": "shutil",
+      "source_file": "",
+      "type": "external"
+    },
+    {
+      "id": "stat",
+      "label": "stat",
+      "community": 1,
+      "external": true,
+      "file_type": "concept",
+      "norm_label": "stat",
+      "source_file": "",
+      "type": "external"
+    },
+    {
+      "id": "sys",
+      "label": "sys",
+      "community": 1,
+      "external": true,
+      "file_type": "concept",
+      "norm_label": "sys",
+      "source_file": "",
+      "type": "external"
+    },
+    {
+      "id": "tools_docker_godot",
+      "label": "tools_docker_godot",
+      "community": 2,
+      "external": true,
+      "file_type": "concept",
+      "norm_label": "tools_docker_godot",
+      "source_file": "",
+      "type": "external"
+    },
+    {
+      "id": "argparse",
+      "label": "argparse",
+      "community": 3,
+      "external": true,
+      "file_type": "concept",
+      "norm_label": "argparse",
+      "source_file": "",
+      "type": "external"
+    },
+    {
+      "id": "hashlib",
+      "label": "hashlib",
+      "community": 3,
+      "external": true,
+      "file_type": "concept",
+      "norm_label": "hashlib",
+      "source_file": "",
+      "type": "external"
+    },
+    {
+      "id": "json",
+      "label": "json",
+      "community": 3,
+      "external": true,
+      "file_type": "concept",
+      "norm_label": "json",
+      "source_file": "",
+      "type": "external"
+    },
+    {
+      "id": "struct",
+      "label": "struct",
+      "community": 3,
+      "external": true,
+      "file_type": "concept",
+      "norm_label": "struct",
+      "source_file": "",
+      "type": "external"
+    },
+    {
+      "id": "contextlib",
+      "label": "contextlib",
+      "community": 4,
+      "external": true,
+      "file_type": "concept",
+      "norm_label": "contextlib",
+      "source_file": "",
+      "type": "external"
+    },
+    {
+      "id": "importlib_util",
+      "label": "importlib_util",
+      "community": 4,
+      "external": true,
+      "file_type": "concept",
+      "norm_label": "importlib_util",
+      "source_file": "",
+      "type": "external"
+    },
+    {
+      "id": "io",
+      "label": "io",
+      "community": 4,
+      "external": true,
+      "file_type": "concept",
+      "norm_label": "io",
+      "source_file": "",
+      "type": "external"
+    },
+    {
+      "id": "tempfile",
+      "label": "tempfile",
+      "community": 4,
+      "external": true,
+      "file_type": "concept",
+      "norm_label": "tempfile",
+      "source_file": "",
+      "type": "external"
+    },
+    {
+      "id": "unittest",
+      "label": "unittest",
+      "community": 4,
+      "external": true,
+      "file_type": "concept",
+      "norm_label": "unittest",
+      "source_file": "",
+      "type": "external"
+    },
+    {
+      "id": "zipfile",
+      "label": "zipfile",
+      "community": 4,
+      "external": true,
+      "file_type": "concept",
+      "norm_label": "zipfile",
+      "source_file": "",
+      "type": "external"
+    }
+  ],
+  "links": [
+    {
+      "source": "github_scripts_test_package_release_packagingchecks_setup",
+      "target": "github_scripts_test_package_release_packagingchecks_put",
+      "relation": "calls",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": ".github/scripts/test-package-release.py",
+      "source_location": "L24",
+      "weight": 1.0
+    },
+    {
+      "source": "github_scripts_test_package_release_packagingchecks_test_dry_run_writes_nothing",
+      "target": "github_scripts_test_package_release_packagingchecks_run_package",
+      "relation": "calls",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": ".github/scripts/test-package-release.py",
+      "source_location": "L81",
+      "weight": 1.0
+    },
+    {
+      "source": "github_scripts_test_package_release_packagingchecks_test_four_archives_keep_source_metadata_and_current_notices",
+      "target": "github_scripts_test_package_release_packagingchecks_run_package",
+      "relation": "calls",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": ".github/scripts/test-package-release.py",
+      "source_location": "L52",
+      "weight": 1.0
+    },
+    {
+      "source": "github_scripts_test_package_release_packagingchecks_test_invalid_pck_stops_before_any_archive_is_written",
+      "target": "github_scripts_test_package_release_packagingchecks_put",
+      "relation": "calls",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": ".github/scripts/test-package-release.py",
+      "source_location": "L85",
+      "weight": 1.0
+    },
+    {
+      "source": "github_scripts_test_package_release_packagingchecks_test_invalid_pck_stops_before_any_archive_is_written",
+      "target": "github_scripts_test_package_release_packagingchecks_run_package",
+      "relation": "calls",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": ".github/scripts/test-package-release.py",
+      "source_location": "L86",
+      "weight": 1.0
+    },
+    {
+      "source": "github_scripts_verify_linux_sh__entry",
+      "target": "github_scripts_verify_linux_run_check",
+      "relation": "calls",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": ".github/scripts/verify-linux.sh",
+      "source_location": "L27",
+      "weight": 1.0
+    },
+    {
+      "source": "tools_docker_export_export_target",
+      "target": "tools_docker_export_run_godot",
+      "relation": "calls",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": "tools/docker/export.sh",
+      "source_location": "L40",
+      "weight": 1.0
+    },
+    {
+      "source": "tools_docker_export_sh__entry",
+      "target": "tools_docker_export_run_godot",
+      "relation": "calls",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": "tools/docker/export.sh",
+      "source_location": "L36",
+      "weight": 1.0
+    },
+    {
+      "source": "tools_docker_export_sh__entry",
+      "target": "tools_docker_export_export_target",
+      "relation": "calls",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": "tools/docker/export.sh",
+      "source_location": "L52",
+      "weight": 1.0
+    },
+    {
+      "source": "tools_docker_install_godot_sh__entry",
+      "target": "tools_docker_install_godot_download_verified",
+      "relation": "calls",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": "tools/docker/install-godot.sh",
+      "source_location": "L28",
+      "weight": 1.0
+    },
+    {
+      "source": "tools_export_sh__entry",
+      "target": "tools_export_download",
+      "relation": "calls",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": "tools/export.sh",
+      "source_location": "L29",
+      "weight": 1.0
+    },
+    {
+      "source": "tools_export_sh__entry",
+      "target": "tools_export_verify",
+      "relation": "calls",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": "tools/export.sh",
+      "source_location": "L33",
+      "weight": 1.0
+    },
+    {
+      "source": "tools_import_assets_import_one",
+      "target": "tools_import_assets_inspect_glb",
+      "relation": "calls",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": "tools/import_assets.py",
+      "source_location": "L93",
+      "weight": 1.0
+    },
+    {
+      "source": "tools_import_assets_main",
+      "target": "tools_import_assets_import_one",
+      "relation": "calls",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": "tools/import_assets.py",
+      "source_location": "L108",
+      "weight": 1.0
+    },
+    {
+      "source": "tools_package_release_documentation",
+      "target": "tools_package_release_collect",
+      "relation": "calls",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": "tools/package-release.py",
+      "source_location": "L74",
+      "weight": 1.0
+    },
+    {
+      "source": "tools_package_release_documentation",
+      "target": "tools_package_release_require",
+      "relation": "calls",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": "tools/package-release.py",
+      "source_location": "L79",
+      "weight": 1.0
+    },
+    {
+      "source": "tools_package_release_inventory",
+      "target": "tools_package_release_documentation",
+      "relation": "calls",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": "tools/package-release.py",
+      "source_location": "L110",
+      "weight": 1.0
+    },
+    {
+      "source": "tools_package_release_inventory",
+      "target": "tools_package_release_collect",
+      "relation": "calls",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": "tools/package-release.py",
+      "source_location": "L88",
+      "weight": 1.0
+    },
+    {
+      "source": "tools_package_release_inventory",
+      "target": "tools_package_release_require",
+      "relation": "calls",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": "tools/package-release.py",
+      "source_location": "L89",
+      "weight": 1.0
+    },
+    {
+      "source": "tools_package_release_main",
+      "target": "tools_package_release_inventory",
+      "relation": "calls",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": "tools/package-release.py",
+      "source_location": "L163",
+      "weight": 1.0
+    },
+    {
+      "source": "tools_package_release_main",
+      "target": "tools_package_release_write_archive",
+      "relation": "calls",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": "tools/package-release.py",
+      "source_location": "L173",
+      "weight": 1.0
+    },
+    {
+      "source": "tools_package_release_collect",
+      "target": "tools_package_release_py_path",
+      "relation": "references",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "generic_arg",
+      "source_file": "tools/package-release.py",
+      "source_location": "L39",
+      "weight": 1.0
+    },
+    {
+      "source": "tools_package_release_documentation",
+      "target": "tools_package_release_py_path",
+      "relation": "references",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "generic_arg",
+      "source_file": "tools/package-release.py",
+      "source_location": "L71",
+      "weight": 1.0
+    },
+    {
+      "source": "tools_package_release_inventory",
+      "target": "tools_package_release_py_path",
+      "relation": "references",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "generic_arg",
+      "source_file": "tools/package-release.py",
+      "source_location": "L85",
+      "weight": 1.0
+    },
+    {
+      "source": "tools_package_release_require",
+      "target": "tools_package_release_py_path",
+      "relation": "references",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "generic_arg",
+      "source_file": "tools/package-release.py",
+      "source_location": "L65",
+      "weight": 1.0
+    },
+    {
+      "source": "tools_package_release_write_archive",
+      "target": "tools_package_release_py_path",
+      "relation": "references",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "generic_arg",
+      "source_file": "tools/package-release.py",
+      "source_location": "L114",
+      "weight": 1.0
+    },
+    {
+      "source": "github_scripts_test_package_release",
+      "target": "contextlib",
+      "relation": "imports",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "import",
+      "source_file": ".github/scripts/test-package-release.py",
+      "source_location": "L3",
+      "weight": 1.0
+    },
+    {
+      "source": "github_scripts_test_package_release",
+      "target": "importlib_util",
+      "relation": "imports",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "import",
+      "source_file": ".github/scripts/test-package-release.py",
+      "source_location": "L4",
+      "weight": 1.0
+    },
+    {
+      "source": "github_scripts_test_package_release",
+      "target": "io",
+      "relation": "imports",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "import",
+      "source_file": ".github/scripts/test-package-release.py",
+      "source_location": "L5",
+      "weight": 1.0
+    },
+    {
+      "source": "github_scripts_test_package_release",
+      "target": "tempfile",
+      "relation": "imports",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "import",
+      "source_file": ".github/scripts/test-package-release.py",
+      "source_location": "L7",
+      "weight": 1.0
+    },
+    {
+      "source": "github_scripts_test_package_release",
+      "target": "unittest",
+      "relation": "imports",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "import",
+      "source_file": ".github/scripts/test-package-release.py",
+      "source_location": "L8",
+      "weight": 1.0
+    },
+    {
+      "source": "github_scripts_test_package_release",
+      "target": "zipfile",
+      "relation": "imports",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "import",
+      "source_file": ".github/scripts/test-package-release.py",
+      "source_location": "L9",
+      "weight": 1.0
+    },
+    {
+      "source": "tests_fixtures_geo_local_http_server",
+      "target": "json",
+      "relation": "imports",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "import",
+      "source_file": "tests/fixtures/geo/local_http_server.py",
+      "source_location": "L2",
+      "weight": 1.0
+    },
+    {
+      "source": "tests_fixtures_geo_local_http_server",
+      "target": "os",
+      "relation": "imports",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "import",
+      "source_file": "tests/fixtures/geo/local_http_server.py",
+      "source_location": "L3",
+      "weight": 1.0
+    },
+    {
+      "source": "tests_fixtures_geo_local_http_server",
+      "target": "struct",
+      "relation": "imports",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "import",
+      "source_file": "tests/fixtures/geo/local_http_server.py",
+      "source_location": "L4",
+      "weight": 1.0
+    },
+    {
+      "source": "tests_fixtures_geo_local_http_server",
+      "target": "threading",
+      "relation": "imports",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "import",
+      "source_file": "tests/fixtures/geo/local_http_server.py",
+      "source_location": "L5",
+      "weight": 1.0
+    },
+    {
+      "source": "tests_fixtures_geo_local_http_server",
+      "target": "time",
+      "relation": "imports",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "import",
+      "source_file": "tests/fixtures/geo/local_http_server.py",
+      "source_location": "L6",
+      "weight": 1.0
+    },
+    {
+      "source": "tests_fixtures_geo_local_http_server",
+      "target": "urllib_parse",
+      "relation": "imports",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "import",
+      "source_file": "tests/fixtures/geo/local_http_server.py",
+      "source_location": "L7",
+      "weight": 1.0
+    },
+    {
+      "source": "tests_fixtures_geo_local_http_server",
+      "target": "zlib",
+      "relation": "imports",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "import",
+      "source_file": "tests/fixtures/geo/local_http_server.py",
+      "source_location": "L8",
+      "weight": 1.0
+    },
+    {
+      "source": "tools_import_assets",
+      "target": "hashlib",
+      "relation": "imports",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "import",
+      "source_file": "tools/import_assets.py",
+      "source_location": "L10",
+      "weight": 1.0
+    },
+    {
+      "source": "tools_import_assets",
+      "target": "json",
+      "relation": "imports",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "import",
+      "source_file": "tools/import_assets.py",
+      "source_location": "L11",
+      "weight": 1.0
+    },
+    {
+      "source": "tools_import_assets",
+      "target": "struct",
+      "relation": "imports",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "import",
+      "source_file": "tools/import_assets.py",
+      "source_location": "L12",
+      "weight": 1.0
+    },
+    {
+      "source": "tools_import_assets",
+      "target": "zipfile",
+      "relation": "imports",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "import",
+      "source_file": "tools/import_assets.py",
+      "source_location": "L13",
+      "weight": 1.0
+    },
+    {
+      "source": "tools_import_assets",
+      "target": "argparse",
+      "relation": "imports",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "import",
+      "source_file": "tools/import_assets.py",
+      "source_location": "L9",
+      "weight": 1.0
+    },
+    {
+      "source": "tools_package_release",
+      "target": "stat",
+      "relation": "imports",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "import",
+      "source_file": "tools/package-release.py",
+      "source_location": "L10",
+      "weight": 1.0
+    },
+    {
+      "source": "tools_package_release",
+      "target": "sys",
+      "relation": "imports",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "import",
+      "source_file": "tools/package-release.py",
+      "source_location": "L11",
+      "weight": 1.0
+    },
+    {
+      "source": "tools_package_release",
+      "target": "zipfile",
+      "relation": "imports",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "import",
+      "source_file": "tools/package-release.py",
+      "source_location": "L12",
+      "weight": 1.0
+    },
+    {
+      "source": "tools_package_release",
+      "target": "argparse",
+      "relation": "imports",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "import",
+      "source_file": "tools/package-release.py",
+      "source_location": "L4",
+      "weight": 1.0
+    },
+    {
+      "source": "tools_package_release",
+      "target": "hashlib",
+      "relation": "imports",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "import",
+      "source_file": "tools/package-release.py",
+      "source_location": "L5",
+      "weight": 1.0
+    },
+    {
+      "source": "tools_package_release",
+      "target": "os",
+      "relation": "imports",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "import",
+      "source_file": "tools/package-release.py",
+      "source_location": "L6",
+      "weight": 1.0
+    },
+    {
+      "source": "tools_package_release",
+      "target": "re",
+      "relation": "imports",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "import",
+      "source_file": "tools/package-release.py",
+      "source_location": "L8",
+      "weight": 1.0
+    },
+    {
+      "source": "tools_package_release",
+      "target": "shutil",
+      "relation": "imports",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "import",
+      "source_file": "tools/package-release.py",
+      "source_location": "L9",
+      "weight": 1.0
+    },
+    {
+      "source": "github_scripts_test_package_release",
+      "target": "pathlib",
+      "relation": "imports_from",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "import",
+      "source_file": ".github/scripts/test-package-release.py",
+      "source_location": "L6",
+      "weight": 1.0
+    },
+    {
+      "source": "tests_fixtures_geo_local_http_server",
+      "target": "pathlib",
+      "relation": "imports_from",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "import",
+      "source_file": "tests/fixtures/geo/local_http_server.py",
+      "source_location": "L10",
+      "weight": 1.0
+    },
+    {
+      "source": "tests_fixtures_geo_local_http_server",
+      "target": "http_server",
+      "relation": "imports_from",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "import",
+      "source_file": "tests/fixtures/geo/local_http_server.py",
+      "source_location": "L9",
+      "weight": 1.0
+    },
+    {
+      "source": "tools_docker_launchers_servir_web",
+      "target": "functools",
+      "relation": "imports_from",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "import",
+      "source_file": "tools/docker/launchers/SERVIR_WEB.py",
+      "source_location": "L2",
+      "weight": 1.0
+    },
+    {
+      "source": "tools_docker_launchers_servir_web",
+      "target": "http_server",
+      "relation": "imports_from",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "import",
+      "source_file": "tools/docker/launchers/SERVIR_WEB.py",
+      "source_location": "L3",
+      "weight": 1.0
+    },
+    {
+      "source": "tools_docker_launchers_servir_web",
+      "target": "pathlib",
+      "relation": "imports_from",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "import",
+      "source_file": "tools/docker/launchers/SERVIR_WEB.py",
+      "source_location": "L4",
+      "weight": 1.0
+    },
+    {
+      "source": "tools_import_assets",
+      "target": "pathlib",
+      "relation": "imports_from",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "import",
+      "source_file": "tools/import_assets.py",
+      "source_location": "L14",
+      "weight": 1.0
+    },
+    {
+      "source": "tools_package_release",
+      "target": "pathlib",
+      "relation": "imports_from",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "import",
+      "source_file": "tools/package-release.py",
+      "source_location": "L7",
+      "weight": 1.0
+    },
+    {
+      "source": "tools_import_assets_import_one",
+      "target": "tools_import_assets_py_path",
+      "relation": "references",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "parameter_type",
+      "source_file": "tools/import_assets.py",
+      "source_location": "L48",
+      "weight": 1.0
+    },
+    {
+      "source": "tools_package_release_raise_walk_error",
+      "target": "oserror",
+      "relation": "references",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "parameter_type",
+      "source_file": "tools/package-release.py",
+      "source_location": "L61",
+      "weight": 1.0
+    },
+    {
+      "source": "compilar_docker",
+      "target": "compilar_docker_sh__entry",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "COMPILAR_DOCKER.sh",
+      "source_location": "L1",
+      "weight": 1.0
+    },
+    {
+      "source": "exportar_linux",
+      "target": "exportar_linux_sh__entry",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "EXPORTAR_LINUX.sh",
+      "source_location": "L1",
+      "weight": 1.0
+    },
+    {
+      "source": "github_scripts_test_package_release",
+      "target": "github_scripts_test_package_release_packagingchecks",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": ".github/scripts/test-package-release.py",
+      "source_location": "L16",
+      "weight": 1.0
+    },
+    {
+      "source": "github_scripts_verify_linux",
+      "target": "github_scripts_verify_linux_sh__entry",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": ".github/scripts/verify-linux.sh",
+      "source_location": "L1",
+      "weight": 1.0
+    },
+    {
+      "source": "tests_fixtures_geo_local_http_server",
+      "target": "tests_fixtures_geo_local_http_server_png_chunk",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "tests/fixtures/geo/local_http_server.py",
+      "source_location": "L17",
+      "weight": 1.0
+    },
+    {
+      "source": "tests_fixtures_geo_local_http_server",
+      "target": "tests_fixtures_geo_local_http_server_handler",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "tests/fixtures/geo/local_http_server.py",
+      "source_location": "L25",
+      "weight": 1.0
+    },
+    {
+      "source": "tools_docker_build_sh_tools_docker_build",
+      "target": "tools_docker_build_sh__entry",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "tools/docker/build.sh",
+      "source_location": "L1",
+      "weight": 1.0
+    },
+    {
+      "source": "tools_docker_export",
+      "target": "tools_docker_export_sh__entry",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "tools/docker/export.sh",
+      "source_location": "L1",
+      "weight": 1.0
+    },
+    {
+      "source": "tools_docker_install_godot",
+      "target": "tools_docker_install_godot_sh__entry",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "tools/docker/install-godot.sh",
+      "source_location": "L1",
+      "weight": 1.0
+    },
+    {
+      "source": "tools_docker_launchers_iniciar_linux",
+      "target": "tools_docker_launchers_iniciar_linux_sh__entry",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "tools/docker/launchers/INICIAR_LINUX.sh",
+      "source_location": "L1",
+      "weight": 1.0
+    },
+    {
+      "source": "tools_docker_package_notices",
+      "target": "tools_docker_package_notices_sh__entry",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "tools/docker/package-notices.sh",
+      "source_location": "L1",
+      "weight": 1.0
+    },
+    {
+      "source": "tools_export_ps1_tools_export",
+      "target": "tools_export_get_apexfile",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "tools/export.ps1",
+      "source_location": "L10",
+      "weight": 1.0
+    },
+    {
+      "source": "tools_export_ps1_tools_export",
+      "target": "tools_export_test_apexhash",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "tools/export.ps1",
+      "source_location": "L20",
+      "weight": 1.0
+    },
+    {
+      "source": "tools_export_sh_tools_export",
+      "target": "tools_export_sh__entry",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "tools/export.sh",
+      "source_location": "L1",
+      "weight": 1.0
+    },
+    {
+      "source": "tools_import_assets",
+      "target": "tools_import_assets_main",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "tools/import_assets.py",
+      "source_location": "L101",
+      "weight": 1.0
+    },
+    {
+      "source": "tools_import_assets",
+      "target": "tools_import_assets_inspect_glb",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "tools/import_assets.py",
+      "source_location": "L24",
+      "weight": 1.0
+    },
+    {
+      "source": "tools_import_assets",
+      "target": "tools_import_assets_import_one",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "tools/import_assets.py",
+      "source_location": "L48",
+      "weight": 1.0
+    },
+    {
+      "source": "tools_package_release",
+      "target": "tools_package_release_write_archive",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "tools/package-release.py",
+      "source_location": "L114",
+      "weight": 1.0
+    },
+    {
+      "source": "tools_package_release",
+      "target": "tools_package_release_main",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "tools/package-release.py",
+      "source_location": "L138",
+      "weight": 1.0
+    },
+    {
+      "source": "tools_package_release",
+      "target": "tools_package_release_collect",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "tools/package-release.py",
+      "source_location": "L39",
+      "weight": 1.0
+    },
+    {
+      "source": "tools_package_release",
+      "target": "tools_package_release_raise_walk_error",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "tools/package-release.py",
+      "source_location": "L61",
+      "weight": 1.0
+    },
+    {
+      "source": "tools_package_release",
+      "target": "tools_package_release_require",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "tools/package-release.py",
+      "source_location": "L65",
+      "weight": 1.0
+    },
+    {
+      "source": "tools_package_release",
+      "target": "tools_package_release_documentation",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "tools/package-release.py",
+      "source_location": "L71",
+      "weight": 1.0
+    },
+    {
+      "source": "tools_package_release",
+      "target": "tools_package_release_inventory",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "tools/package-release.py",
+      "source_location": "L85",
+      "weight": 1.0
+    },
+    {
+      "source": "github_scripts_verify_linux",
+      "target": "github_scripts_verify_linux_run_check",
+      "relation": "defines",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": ".github/scripts/verify-linux.sh",
+      "source_location": "L12",
+      "weight": 1.0
+    },
+    {
+      "source": "github_scripts_verify_linux",
+      "target": "github_scripts_verify_linux_xdg_data_home",
+      "relation": "defines",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": ".github/scripts/verify-linux.sh",
+      "source_location": "L6",
+      "weight": 1.0
+    },
+    {
+      "source": "github_scripts_verify_linux",
+      "target": "github_scripts_verify_linux_xdg_config_home",
+      "relation": "defines",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": ".github/scripts/verify-linux.sh",
+      "source_location": "L7",
+      "weight": 1.0
+    },
+    {
+      "source": "github_scripts_verify_linux",
+      "target": "github_scripts_verify_linux_xdg_cache_home",
+      "relation": "defines",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": ".github/scripts/verify-linux.sh",
+      "source_location": "L8",
+      "weight": 1.0
+    },
+    {
+      "source": "tools_docker_build_sh_tools_docker_build",
+      "target": "tools_docker_build_apex_gid",
+      "relation": "defines",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "tools/docker/build.sh",
+      "source_location": "L10",
+      "weight": 1.0
+    },
+    {
+      "source": "tools_docker_build_sh_tools_docker_build",
+      "target": "tools_docker_build_apex_uid",
+      "relation": "defines",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "tools/docker/build.sh",
+      "source_location": "L9",
+      "weight": 1.0
+    },
+    {
+      "source": "tools_docker_export",
+      "target": "tools_docker_export_xdg_data_home",
+      "relation": "defines",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "tools/docker/export.sh",
+      "source_location": "L17",
+      "weight": 1.0
+    },
+    {
+      "source": "tools_docker_export",
+      "target": "tools_docker_export_xdg_config_home",
+      "relation": "defines",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "tools/docker/export.sh",
+      "source_location": "L18",
+      "weight": 1.0
+    },
+    {
+      "source": "tools_docker_export",
+      "target": "tools_docker_export_xdg_cache_home",
+      "relation": "defines",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "tools/docker/export.sh",
+      "source_location": "L19",
+      "weight": 1.0
+    },
+    {
+      "source": "tools_docker_export",
+      "target": "tools_docker_export_run_godot",
+      "relation": "defines",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "tools/docker/export.sh",
+      "source_location": "L26",
+      "weight": 1.0
+    },
+    {
+      "source": "tools_docker_export",
+      "target": "tools_docker_export_export_target",
+      "relation": "defines",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "tools/docker/export.sh",
+      "source_location": "L37",
+      "weight": 1.0
+    },
+    {
+      "source": "tools_docker_install_godot",
+      "target": "tools_docker_install_godot_download_verified",
+      "relation": "defines",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "tools/docker/install-godot.sh",
+      "source_location": "L15",
+      "weight": 1.0
+    },
+    {
+      "source": "tools_export_sh_tools_export",
+      "target": "tools_export_download",
+      "relation": "defines",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "tools/export.sh",
+      "source_location": "L10",
+      "weight": 1.0
+    },
+    {
+      "source": "tools_export_sh_tools_export",
+      "target": "tools_export_verify",
+      "relation": "defines",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "tools/export.sh",
+      "source_location": "L17",
+      "weight": 1.0
+    },
+    {
+      "source": "tests_fixtures_geo_local_http_server_handler",
+      "target": "basehttprequesthandler",
+      "relation": "inherits",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "tests/fixtures/geo/local_http_server.py",
+      "source_location": "L25",
+      "weight": 1.0
+    },
+    {
+      "source": "github_scripts_test_package_release_packagingchecks",
+      "target": "github_scripts_test_package_release_packagingchecks_setup",
+      "relation": "method",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": ".github/scripts/test-package-release.py",
+      "source_location": "L17",
+      "weight": 1.0
+    },
+    {
+      "source": "github_scripts_test_package_release_packagingchecks",
+      "target": "github_scripts_test_package_release_packagingchecks_put",
+      "relation": "method",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": ".github/scripts/test-package-release.py",
+      "source_location": "L41",
+      "weight": 1.0
+    },
+    {
+      "source": "github_scripts_test_package_release_packagingchecks",
+      "target": "github_scripts_test_package_release_packagingchecks_run_package",
+      "relation": "method",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": ".github/scripts/test-package-release.py",
+      "source_location": "L47",
+      "weight": 1.0
+    },
+    {
+      "source": "github_scripts_test_package_release_packagingchecks",
+      "target": "github_scripts_test_package_release_packagingchecks_test_four_archives_keep_source_metadata_and_current_notices",
+      "relation": "method",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": ".github/scripts/test-package-release.py",
+      "source_location": "L51",
+      "weight": 1.0
+    },
+    {
+      "source": "github_scripts_test_package_release_packagingchecks",
+      "target": "github_scripts_test_package_release_packagingchecks_test_dry_run_writes_nothing",
+      "relation": "method",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": ".github/scripts/test-package-release.py",
+      "source_location": "L80",
+      "weight": 1.0
+    },
+    {
+      "source": "github_scripts_test_package_release_packagingchecks",
+      "target": "github_scripts_test_package_release_packagingchecks_test_invalid_pck_stops_before_any_archive_is_written",
+      "relation": "method",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": ".github/scripts/test-package-release.py",
+      "source_location": "L84",
+      "weight": 1.0
+    },
+    {
+      "source": "tests_fixtures_geo_local_http_server_handler",
+      "target": "tests_fixtures_geo_local_http_server_handler_log_message",
+      "relation": "method",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "tests/fixtures/geo/local_http_server.py",
+      "source_location": "L26",
+      "weight": 1.0
+    },
+    {
+      "source": "tests_fixtures_geo_local_http_server_handler",
+      "target": "tests_fixtures_geo_local_http_server_handler_do_get",
+      "relation": "method",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "tests/fixtures/geo/local_http_server.py",
+      "source_location": "L29",
+      "weight": 1.0
+    },
+    {
+      "source": "github_scripts_test_package_release_rationale_1",
+      "target": "github_scripts_test_package_release",
+      "relation": "rationale_for",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": ".github/scripts/test-package-release.py",
+      "source_location": "L1",
+      "weight": 1.0
+    },
+    {
+      "source": "tests_fixtures_geo_local_http_server_rationale_1",
+      "target": "tests_fixtures_geo_local_http_server",
+      "relation": "rationale_for",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "tests/fixtures/geo/local_http_server.py",
+      "source_location": "L1",
+      "weight": 1.0
+    },
+    {
+      "source": "tools_docker_launchers_servir_web_rationale_1",
+      "target": "tools_docker_launchers_servir_web",
+      "relation": "rationale_for",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "tools/docker/launchers/SERVIR_WEB.py",
+      "source_location": "L1",
+      "weight": 1.0
+    },
+    {
+      "source": "tools_import_assets_rationale_2",
+      "target": "tools_import_assets",
+      "relation": "rationale_for",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "tools/import_assets.py",
+      "source_location": "L2",
+      "weight": 1.0
+    },
+    {
+      "source": "tools_package_release_rationale_2",
+      "target": "tools_package_release",
+      "relation": "rationale_for",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "tools/package-release.py",
+      "source_location": "L2",
+      "weight": 1.0
+    },
+    {
+      "source": "tools_package_release_rationale_40",
+      "target": "tools_package_release_collect",
+      "relation": "rationale_for",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "tools/package-release.py",
+      "source_location": "L40",
+      "weight": 1.0
+    },
+    {
+      "source": "tools_docker_export",
+      "target": "tools_docker_godot",
+      "relation": "imports_from",
+      "_origin": "ast",
+      "confidence": "INFERRED",
+      "confidence_score": 0.55,
+      "context": "import",
+      "source_file": "tools/docker/export.sh",
+      "source_location": "L4",
+      "weight": 1.0
+    },
+    {
+      "source": "tools_docker_install_godot",
+      "target": "tools_docker_godot",
+      "relation": "imports_from",
+      "_origin": "ast",
+      "confidence": "INFERRED",
+      "confidence_score": 0.55,
+      "context": "import",
+      "source_file": "tools/docker/install-godot.sh",
+      "source_location": "L4",
+      "weight": 1.0
+    },
+    {
+      "source": "tools_package_release_collect",
+      "target": "tools_package_release_raise_walk_error",
+      "relation": "indirect_call",
+      "_origin": "ast",
+      "confidence": "INFERRED",
+      "confidence_score": 0.85,
+      "context": "argument",
+      "source_file": "tools/package-release.py",
+      "source_location": "L43",
+      "weight": 1.0
+    }
+  ],
+  "hyperedges": [],
+  "built_at_commit": "d8d22af4a14cc577be9d5190ecbab6d8186cd98a"
+}

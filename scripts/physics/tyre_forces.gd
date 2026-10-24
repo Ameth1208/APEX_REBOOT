@@ -1,6 +1,12 @@
 extends RefCounted
-## Combined-slip friction circle. Surface coefficients are game calibration,
-## not manufacturer tyre measurements; no force may exceed mu * normal load.
+## Combined-slip friction circle tire solver with load sensitivity.
+## Surface coefficients are calibration values; no force may exceed mu_eff * normal load.
+## Strictly zero force when normal load is zero.
+## Continuous across all speeds from 0 to 300+ km/h without artificial speed gates.
+
+const SurfaceDef = preload("res://scripts/physics/surfaces/surface_definition.gd")
+const TireSolver = preload("res://scripts/physics/tires/tire_solver.gd")
+const ThermalModel = preload("res://scripts/physics/tires/tire_thermal_model.gd")
 
 const SURFACES: Dictionary = {
 	"asphalt": {"mu": 1.08, "rolling": 0.015, "wet_loss": 0.36},
@@ -15,123 +21,48 @@ static func surface_data(name: String) -> Dictionary:
 	return SURFACES.get(name, SURFACES["asphalt"])
 
 static func friction(name: String, wetness: float, scale: float) -> float:
-	var surface: Dictionary = surface_data(name)
-	return float(surface["mu"]) * (1.0 - clampf(wetness, 0.0, 1.0) * float(surface["wet_loss"])) * maxf(scale, 0.1)
+	return SurfaceDef.get_friction(name, wetness, scale)
 
-## Speed-dependent grip: slightly less grip at very high speeds (aero heating).
+## Smooth, continuous speed-dependent grip across all velocities
 static func speed_grip_factor(speed_mps: float) -> float:
 	var v: float = absf(speed_mps)
 	if v < 30.0:
 		return 1.0
-	# Lose up to 8% grip above 30 m/s, linear ramp to 80 m/s.
+	# Smooth continuous reduction above 30 m/s without discrete step
 	return 1.0 - clampf((v - 30.0) / 50.0, 0.0, 1.0) * 0.08
 
-## Tyre temperature model: grip peaks in an optimal window (~70-95 °C).
-## Cold tyres lose up to 25% grip; overheated lose up to 18%.
-## temp_c is the current tyre core temperature in Celsius.
+## Tyre temperature grip response window
 static func temperature_grip_factor(temp_c: float) -> float:
 	if temp_c < 40.0:
-		# Cold: grip rises steeply toward the window.
 		return 0.75 + clampf((temp_c - 5.0) / 35.0, 0.0, 1.0) * 0.25
 	elif temp_c <= 95.0:
-		# Optimal window: full grip.
 		return 1.0
 	elif temp_c <= 130.0:
-		# Hot: grip falls as rubber overheats.
 		return 1.0 - (temp_c - 95.0) / 35.0 * 0.18
 	else:
-		# Overheated: significantly reduced.
 		return 0.82 - clampf((temp_c - 130.0) / 50.0, 0.0, 1.0) * 0.15
 
-## Advance tyre temperature one step. Returns new temperature in °C.
-## Friction heats the tyre; airflow cools it proportional to speed.
+## Thermodynamic temperature stepping
 static func advance_temperature(temp_c: float, friction_power: float, ambient_c: float, dt: float, speed_mps: float = 0.0) -> float:
-	# Heating scales with friction power (force × slip speed).
 	var heating: float = friction_power * 0.00008
-	# Cooling: convection from speed + radiation to ambient. More speed = more cooling.
 	var convection: float = (0.04 + absf(speed_mps) * 0.004)
 	var cooling: float = (temp_c - ambient_c) * convection
 	var next: float = temp_c + heating * dt - cooling * dt
-	# Minimum floor: tyre cannot go below ambient.
 	return clampf(next, ambient_c, 200.0)
 
 ## WGS84 normal gravity (m/s²) from latitude (°) and altitude (m).
-## Uses the Somigliana closed-form approximation.
 static func gravity_at(lat_deg: float, altitude_m: float) -> float:
 	var lat: float = deg_to_rad(clampf(lat_deg, -90.0, 90.0))
 	var sin_lat: float = sin(lat)
-	# Somigliana coefficients.
 	var g_e: float = 9.7803267715
-	var g_p: float = 9.8321863685
 	var c1: float = 0.00193185265241
 	var c2: float = -0.0000030860510484
 	var m: float = 0.00344978650684
 	var gamma: float = g_e * (1.0 + c1 * sin_lat * sin_lat + c2 * sin_lat * sin_lat * sin_lat * sin_lat) / sqrt(1.0 - m * sin_lat * sin_lat)
-	# Free-air gravity correction: ~-3.086×10⁻⁶ m/s² per metre of altitude.
 	return gamma - 3.086e-6 * altitude_m
 
 static func solve(contact: Dictionary, forward: Vector3, drive_n: float, brake_n: float, friction_mu: float, abs_active: bool, tcs_active: bool, dt: float) -> Dictionary:
-	var normal: Vector3 = contact["normal"]
-	var wheel_forward: Vector3 = forward.slide(normal).normalized()
-	if wheel_forward.length_squared() < 0.1:
-		return {"force": Vector3.ZERO, "slip": 0.0, "slide_speed": 0.0, "locked": false, "abs": false, "tcs": false}
-	var right: Vector3 = wheel_forward.cross(normal).normalized()
-	var velocity: Vector3 = contact["velocity"]
-	var longitudinal_speed: float = velocity.dot(wheel_forward)
-	var lateral_speed: float = velocity.dot(right)
-	var load_n: float = float(contact["load"])
-	# Load sensitivity: grip per newton falls as load grows (Box3D concept).
-	var mu_effective: float = friction_mu * maxf(0.55, 1.0 - 0.00008 * (load_n - 2000.0))
-	var limit_n: float = mu_effective * load_n
-	var corner_mass: float = float(contact["corner_mass"])
-	var requested_drive: float = drive_n
-	var tcs_intervening: bool = tcs_active and absf(drive_n) > limit_n * 0.92
-	if tcs_intervening:
-		drive_n = clampf(drive_n, -limit_n * 0.92, limit_n * 0.92)
-	# This cap prevents the brake from reversing a nearly stopped wheel.
-	var stop_force: float = absf(longitudinal_speed) * corner_mass / maxf(dt, 0.001)
-	var actual_brake: float = minf(brake_n, stop_force)
-	var locked: bool = actual_brake > limit_n and absf(longitudinal_speed) > 1.0
-	if abs_active:
-		actual_brake = minf(actual_brake, limit_n * 0.90)
-	var long_force: float = drive_n - signf(longitudinal_speed) * actual_brake
-	# --- Lateral force: smooth saturation curve. ---
-	# Slip ratio: lateral velocity / forward speed. Peak grip at ~0.12 (7°).
-	var speed_ref: float = maxf(absf(longitudinal_speed), 3.0)
-	var slip_ratio: float = lateral_speed / speed_ref
-	var peak_slip: float = 0.12
-	var normalised: float = absf(slip_ratio) / peak_slip
-	# Curve: rises smoothly to 1.0 at normalised=1, then declines gently to ~0.80.
-	var curve: float
-	if normalised < 1.0:
-		curve = 1.0 - (1.0 - normalised) * (1.0 - normalised)
-	else:
-		curve = maxf(1.0 - (normalised - 1.0) * 0.12, 0.80)
-	# Use mu_effective (same as friction circle limit) so force naturally
-	# approaches the grip ceiling without a hard clamp.
-	var lateral_force: float = -signf(slip_ratio) * curve * limit_n
-	if locked and not abs_active:
-		lateral_force *= 0.35
-	var combined: Vector2 = Vector2(long_force, lateral_force)
-	var demand: float = combined.length()
-	if demand > limit_n and demand > 0.001:
-		combined *= limit_n / demand
-	var surface: Dictionary = surface_data(str(contact["surface"]))
-	# Rolling resistance is included in the same friction budget.
-	var rolling: float = float(surface["rolling"]) * load_n * clampf(longitudinal_speed / 0.8, -1.0, 1.0)
-	combined.x -= rolling
-	if combined.length() > limit_n and limit_n > 0.0:
-		combined = combined.limit_length(limit_n)
-	var slip: float = maxf(absf(slip_ratio) / peak_slip, maxf(absf(requested_drive) / maxf(limit_n, 1.0) - 1.0, 0.0))
-	if locked and not abs_active:
-		slip = maxf(slip, minf(absf(longitudinal_speed) / 10.0, 1.5))
-	var slide_speed: float = absf(lateral_speed)
-	if locked and not abs_active:
-		slide_speed = maxf(slide_speed, absf(longitudinal_speed))
-	elif not tcs_active and driven_slip(requested_drive, limit_n) > 0.0:
-		slide_speed = maxf(slide_speed, driven_slip(requested_drive, limit_n) * maxf(absf(longitudinal_speed), 2.0))
-	return {"force": wheel_forward * combined.x + right * combined.y, "slip": minf(slip, 3.0),
-		"slide_speed": minf(slide_speed, 60.0), "locked": locked and not abs_active, "abs": locked and abs_active, "tcs": tcs_intervening}
+	return TireSolver.solve(contact, forward, drive_n, brake_n, friction_mu, abs_active, tcs_active, dt)
 
 static func driven_slip(drive_n: float, limit_n: float) -> float:
 	return maxf(absf(drive_n) / maxf(limit_n, 1.0) - 1.0, 0.0)

@@ -1,0 +1,170 @@
+{
+  "profile_version": 1,
+  "kind": "car",
+  "simulation_status": "Sourced nominal specifications with uncalibrated simulation defaults; not manufacturer-certified dynamics.",
+  "drive": "FWD",
+  "drivetrain_efficiency": 0.9,
+  "idle_rpm": 800,
+  "max_steer_deg": 33,
+  "front_brake_bias": 0.68,
+  "suspension_damping_ratio": 0.68,
+  "paint_preserve_livery": true,
+  "paint_palette": [
+    "original",
+    "#e22b30",
+    "#ffffff",
+    "#181a1d",
+    "#3a72b0",
+    "#7c8288",
+    "#f0c420"
+  ],
+  "specification_defaults": [
+    "engine torque curve",
+    "gear ratios unless separately attributed",
+    "tyre friction and load sensitivity",
+    "aero coefficients and balance",
+    "brake forces",
+    "spring and damper rates",
+    "rider mass",
+    "collision body and centre of mass"
+  ],
+  "display_name": "Kia Picanto GT-Line · 2024",
+  "short_name": "Picanto GT-Line",
+  "category": "road_sedan",
+  "category_label": "Urbano compacto",
+  "description": "Motor 1.0 T-GDi turbo de 3 cilindros, peso ligero inferior a 1.000 kg, ágil comportamiento urbano y cambio manual de 5 velocidades.",
+  "model_pitch_deg": -90,
+  "model_yaw_deg": 0,
+  "length_m": 3.595,
+  "body_width_m": 1.595,
+  "body_height_m": 1.485,
+  "mass_kg": 1060,
+  "curb_mass_kg": 985,
+  "rider_mass_kg": 75,
+  "engine_power_kw": 74,
+  "engine_torque_nm": 172,
+  "engine_cylinders": 3,
+  "engine_smoke_offset_m": [
+    0.4,
+    0.2,
+    1.7
+  ],
+  "max_rpm": 6500,
+  "peak_torque_rpm": 3800,
+  "gear_ratios": [
+    3.54,
+    1.95,
+    1.28,
+    0.97,
+    0.77
+  ],
+  "final_drive": 4.19,
+  "wheelbase_m": 2.4,
+  "track_width_m": 1.403,
+  "wheel_radius_m": 0.297,
+  "front_weight_fraction": 0.62,
+  "ride_height_m": 0.51,
+  "suspension_travel_m": 0.2,
+  "drag_area_m2": 0.64,
+  "downforce_area_m2": 0.1,
+  "tire_grip_scale": 1.0,
+  "front_tyre": {
+    "size": "195/45 R16",
+    "width_mm": 195,
+    "cornering_stiffness": 10.5,
+    "calibration": "Estimated stiffness and load sensitivity; compact city hatch profile."
+  },
+  "rear_tyre": {
+    "size": "195/45 R16",
+    "width_mm": 195,
+    "cornering_stiffness": 10.5,
+    "calibration": "Estimated stiffness and load sensitivity; compact city hatch profile."
+  },
+  "brake_force_n": 14000,
+  "base_color": "#e22b30",
+  "headlights": true,
+  "paint_materials": [],
+  "wheel_groups": [
+    {
+      "id": "WheelFL",
+      "names": [
+        "wheel_lf_child"
+      ],
+      "front": true
+    },
+    {
+      "id": "WheelFR",
+      "names": [
+        "wheel_lf_child_003"
+      ],
+      "front": true
+    },
+    {
+      "id": "WheelRL",
+      "names": [
+        "wheel_lf_child_001"
+      ],
+      "front": false
+    },
+    {
+      "id": "WheelRR",
+      "names": [
+        "wheel_lf_child_002"
+      ],
+      "front": false
+    }
+  ],
+  "sources": [
+    {
+      "url": "https://www.kia.com/es/modelos/picanto/datos-tecnicos/",
+      "fields": [
+        "engine_power_kw",
+        "engine_torque_nm",
+        "curb_mass_kg",
+        "wheelbase_m",
+        "length_m"
+      ]
+    }
+  ],
+  "license_status": "Community-sourced visual asset for non-commercial simulation testing.",
+  "mass_note": "985 kg curb weight plus 75 kg simulated driver.",
+  "id": "kia_picanto_2024",
+  "model_path": "res://assets/vehicles/kia_picanto_2024/model.glb",
+  "peak_torque_nm": 172,
+  "drag_area": 0.64,
+  "downforce_area": 0.1,
+  "lift_area": 0.1,
+  "grip": 1.0,
+  "cockpit_camera_ground": [
+    -0.3,
+    1.12,
+    -0.08
+  ],
+  "liveries": [
+    {
+      "id": "PopOrange",
+      "name": "Rojo Deportivo",
+      "primary": "#e22b30",
+      "secondary": "#111111",
+      "accent": "#ffffff",
+      "pattern": "original"
+    },
+    {
+      "id": "ClearWhite",
+      "name": "Blanco Puro",
+      "primary": "#ffffff",
+      "secondary": "#e22b30",
+      "accent": "#111111",
+      "pattern": "original"
+    },
+    {
+      "id": "AstroGrey",
+      "name": "Gris Astro",
+      "primary": "#5c6065",
+      "secondary": "#111111",
+      "accent": "#e22b30",
+      "pattern": "original"
+    }
+  ],
+  "align_wheels_to_physics": true
+}

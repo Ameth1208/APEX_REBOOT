@@ -1,0 +1,175 @@
+{
+  "profile_version": 1,
+  "kind": "car",
+  "simulation_status": "Sourced nominal specifications with uncalibrated simulation defaults; not manufacturer-certified dynamics.",
+  "drive": "AWD",
+  "drivetrain_efficiency": 0.88,
+  "idle_rpm": 800,
+  "max_steer_deg": 30,
+  "front_brake_bias": 0.62,
+  "suspension_damping_ratio": 0.74,
+  "paint_preserve_livery": true,
+  "paint_palette": [
+    "original",
+    "#202a35",
+    "#b08d57",
+    "#ffffff",
+    "#181c20",
+    "#4a535c",
+    "#1e3d59"
+  ],
+  "specification_defaults": [
+    "engine torque curve",
+    "gear ratios unless separately attributed",
+    "tyre friction and load sensitivity",
+    "aero coefficients and balance",
+    "brake forces",
+    "spring and damper rates",
+    "rider mass",
+    "collision body and centre of mass"
+  ],
+  "display_name": "Cupra Formentor VZ · 2024",
+  "short_name": "Formentor VZ",
+  "category": "road_gt",
+  "category_label": "Crossover deportivo",
+  "description": "Motor 2.0 TSI turbo con tracción total 4Drive, cambio DSG de 7 velocidades y chasis deportivo adaptativo DCC.",
+  "model_yaw_deg": 180,
+  "length_m": 4.45,
+  "body_width_m": 1.839,
+  "body_height_m": 1.511,
+  "mass_kg": 1719,
+  "curb_mass_kg": 1644,
+  "rider_mass_kg": 75,
+  "engine_power_kw": 228,
+  "engine_torque_nm": 400,
+  "engine_cylinders": 4,
+  "engine_smoke_offset_m": [
+    0.5,
+    0.3,
+    2.2
+  ],
+  "max_rpm": 6800,
+  "peak_torque_rpm": 4200,
+  "gear_ratios": [
+    3.56,
+    2.53,
+    1.68,
+    1.08,
+    0.87,
+    0.76,
+    0.72
+  ],
+  "final_drive": 4.05,
+  "wheelbase_m": 2.68,
+  "track_width_m": 1.585,
+  "wheel_radius_m": 0.336,
+  "front_weight_fraction": 0.58,
+  "ride_height_m": 0.56,
+  "suspension_travel_m": 0.23,
+  "drag_area_m2": 0.74,
+  "downforce_area_m2": 0.2,
+  "tire_grip_scale": 1.08,
+  "front_tyre": {
+    "size": "245/40 R19",
+    "width_mm": 245,
+    "cornering_stiffness": 13.0,
+    "calibration": "Estimated stiffness and load sensitivity; nominal 19-inch sport crossover tyre."
+  },
+  "rear_tyre": {
+    "size": "245/40 R19",
+    "width_mm": 245,
+    "cornering_stiffness": 13.0,
+    "calibration": "Estimated stiffness and load sensitivity; nominal 19-inch sport crossover tyre."
+  },
+  "brake_force_n": 20000,
+  "base_color": "#202a35",
+  "headlights": true,
+  "paint_materials": [],
+  "wheel_groups": [
+    {
+      "id": "WheelFL",
+      "names": [
+        "formentor_wheel",
+        "formentor_tire"
+      ],
+      "front": true
+    },
+    {
+      "id": "WheelFR",
+      "names": [
+        "formentor_wheel_003",
+        "formentor_tire_003"
+      ],
+      "front": true
+    },
+    {
+      "id": "WheelRL",
+      "names": [
+        "formentor_wheel_001",
+        "formentor_tire_001"
+      ],
+      "front": false
+    },
+    {
+      "id": "WheelRR",
+      "names": [
+        "formentor_wheel_002",
+        "formentor_tire_002"
+      ],
+      "front": false
+    }
+  ],
+  "sources": [
+    {
+      "url": "https://www.cupraofficial.es/coches/gama-cupra/formentor",
+      "fields": [
+        "engine_power_kw",
+        "engine_torque_nm",
+        "curb_mass_kg",
+        "wheelbase_m",
+        "length_m"
+      ]
+    }
+  ],
+  "license_status": "Community-sourced visual asset for non-commercial simulation testing.",
+  "mass_note": "1644 kg curb weight plus 75 kg simulated driver.",
+  "id": "cupra_formentor_2024",
+  "model_path": "res://assets/vehicles/cupra_formentor_2024/model.glb",
+  "peak_torque_nm": 400,
+  "drag_area": 0.74,
+  "downforce_area": 0.2,
+  "lift_area": 0.2,
+  "grip": 1.08,
+  "cockpit_camera_ground": [
+    -0.35,
+    1.2,
+    -0.15
+  ],
+  "liveries": [
+    {
+      "id": "PetrolBlueMatt",
+      "name": "Azul Petrol Mate",
+      "primary": "#202a35",
+      "secondary": "#b08d57",
+      "accent": "#111111",
+      "pattern": "original"
+    },
+    {
+      "id": "MagneticTech",
+      "name": "Gris Magnetic Tech",
+      "primary": "#4a535c",
+      "secondary": "#b08d57",
+      "accent": "#ffffff",
+      "pattern": "original"
+    },
+    {
+      "id": "MidnightBlack",
+      "name": "Negro Midnight",
+      "primary": "#121417",
+      "secondary": "#b08d57",
+      "accent": "#4a535c",
+      "pattern": "original"
+    }
+  ],
+  "align_wheels_to_physics": true
+}

@@ -34,7 +34,7 @@ func _build() -> void:
 	var header: HBoxContainer = HBoxContainer.new()
 	layout.add_child(header)
 	var title: Label = Label.new()
-	title.text = "CREAR PISTA"
+	title.text = "02  /  CREAR PISTA"
 	title.add_theme_font_size_override("font_size", 28)
 	title.add_theme_font_override("font", ApexUI.BOLD)
 	title.size_flags_horizontal = Control.SIZE_EXPAND_FILL
@@ -45,7 +45,7 @@ func _build() -> void:
 	header.add_child(close_btn)
 	# Subtitle.
 	var subtitle: Label = Label.new()
-	subtitle.text = "¿Cómo quieres crearla?"
+	subtitle.text = "Primero define el recorrido. Después ajustamos terreno y detalles."
 	subtitle.add_theme_font_size_override("font_size", 16)
 	subtitle.add_theme_color_override("font_color", ApexUI.MUTED)
 	layout.add_child(subtitle)
@@ -53,13 +53,12 @@ func _build() -> void:
 	_choice_box = VBoxContainer.new()
 	_choice_box.add_theme_constant_override("separation", 10)
 	layout.add_child(_choice_box)
-	_add_choice("DIBUJAR EN MAPA", "Dibuja el trazado directamente sobre el mapa", "draw")
-	_add_choice("IMPORTAR GPX / GEOJSON", "Usa un archivo de ruta existente", "import")
-	_add_choice("CREAR DESDE RUTA REAL", "Selecciona una ruta del catálogo", "catalog")
+	_add_choice("BUSCAR EN EL MAPA", "Elige salida y llegada; seguimos la carretera real", "route")
+	_add_choice("DIBUJAR", "Traza tu propia carretera con el ratón", "draw")
+	_add_choice("IMPORTAR ARCHIVO", "Abre un recorrido GPX o GeoJSON", "import")
+	_add_choice("MIS PISTAS", "Continúa un proyecto guardado", "load_saved")
 	# Saved tracks.
 	var saved: Array = _list_saved()
-	if not saved.is_empty():
-		_add_choice("CARGAR PISTA GUARDADA (%d)" % saved.size(), "Reanudar una pista creada anteriormente", "load_saved")
 	# Status area (hidden initially).
 	_status = Label.new()
 	_status.add_theme_font_size_override("font_size", 14)
@@ -79,22 +78,26 @@ func _build() -> void:
 
 func _add_choice(title: String, desc: String, action: String) -> void:
 	var btn: Button = Button.new()
-	btn.text = title + "\n" + desc
+	btn.text = "▸  " + title + "\n    " + desc
 	btn.alignment = HORIZONTAL_ALIGNMENT_LEFT
-	btn.custom_minimum_size.y = 52
+	btn.custom_minimum_size.y = 66
+	btn.add_theme_stylebox_override("normal", ApexUI.style(Color("111925"), Color("303b4b"), 6))
+	btn.add_theme_stylebox_override("hover", ApexUI.style(Color("202b3a"), ApexUI.ACCENT, 6))
+	btn.add_theme_stylebox_override("pressed", ApexUI.style(Color("421f2a"), ApexUI.ACCENT, 6))
+	btn.add_theme_font_size_override("font_size", 16)
 	btn.pressed.connect(func(): _on_choice(action))
 	_choice_box.add_child(btn)
 
 func _on_choice(action: String) -> void:
 	match action:
+		"route":
+			create_requested.emit("route", {})
+			hide()
 		"draw":
 			create_requested.emit("draw", {})
 			hide()
 		"import":
 			_open_file_dialog()
-		"catalog":
-			create_requested.emit("catalog", {})
-			hide()
 		"load_saved":
 			_open_saved_dialog()
 

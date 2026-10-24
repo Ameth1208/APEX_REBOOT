@@ -11,6 +11,7 @@ var _laps: Control
 var _rivals: Control
 var _event: Control
 var _track: Control
+var _track_information: Label
 
 func build(values: Dictionary, progression: ApexCareer) -> void:
 	options = values
@@ -23,7 +24,13 @@ func build(values: Dictionary, progression: ApexCareer) -> void:
 	var track_names: Array = []
 	for i in ApexCatalog.entries("tracks").size():
 		track_names.append(ApexCatalog.track(i).get("name", "Circuito %d" % (i + 1)))
-	_track = _choice("Circuito", track_names, int(values.track), func(i: int): changed.emit("track", i))
+	_track = _choice("Circuito", track_names, int(values.track), func(i: int):
+		changed.emit("track", i)
+		_update_track_information(i))
+	_track_information = ApexUI.label("", 14, ApexUI.MUTED)
+	_track_information.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	add_child(_track_information)
+	_update_track_information(int(values.track))
 	var event_names: Array = []
 	for i in range(career.unlocked + 1):
 		event_names.append(ApexCareer.EVENTS[i].name)
@@ -53,3 +60,15 @@ func _update_context(mode: String) -> void:
 	_track.visible = mode != "Campeonato"
 	_laps.visible = mode in ["Carrera", "Contrarreloj"]
 	_rivals.visible = mode == "Carrera"
+
+func _update_track_information(index: int) -> void:
+	var track: Dictionary = ApexCatalog.track(index)
+	var geo: Dictionary = track.get("geo", {})
+	if geo.is_empty():
+		_track_information.text = "Circuito diseñado"
+		return
+	var elevation: String = "Sin alturas reales" if bool(geo.get("is_flat_test", false)) else "Relieve estimado · DEM"
+	var surface: String = "Superficie sin confirmar" if str(geo.get("surface_status", "")) == "unverified" else "Superficies del archivo"
+	_track_information.text = "%s\n%s" % [elevation, surface]
+	if not str(track.get("landcover_path", "")).is_empty():
+		_track_information.text += "\nÁrboles estimados · ESA WorldCover 2021"

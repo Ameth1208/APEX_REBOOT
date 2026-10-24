@@ -50,10 +50,17 @@ func _build() -> void:
 	buttons.import.pressed.connect(func() -> void: _storage.choose("import", _definition))
 	buttons.export.pressed.connect(func() -> void: _storage.choose("export", _definition))
 	buttons.apply.pressed.connect(_apply)
+	buttons.select.pressed.connect(func() -> void: _map.set_tool("select"); _status.text = "Seleccionar: haz clic y arrastra un punto.")
+	buttons.draw.pressed.connect(func() -> void: _map.set_tool("draw"); _status.text = "Dibujar: mantén pulsado y traza la carretera.")
+	buttons.add.pressed.connect(func() -> void: _map.set_tool("add"); _status.text = "Añadir punto: haz clic sobre el tramo.")
+	buttons.smooth.pressed.connect(_smooth_selected)
 	_map.point_selected.connect(func(index: int) -> void: _select_point(index); _profile.select_control(index))
 	_map.edit_started.connect(_snapshot)
 	_map.point_moved.connect(_move_point)
 	_map.point_added.connect(_add_point)
+	_map.freehand_finished.connect(_draw_freehand)
+	_map.undo_requested.connect(_undo)
+	_map.redo_requested.connect(_redo)
 	_map.delete_requested.connect(_delete_point)
 	_fields.changed.connect(_field_changed)
 	_fields.delete_pressed.connect(func() -> void: _delete_point(_selected))
@@ -113,6 +120,41 @@ func _add_point(point: Vector2, after: int) -> void:
 	points.insert(after + 1, new_point)
 	_selected = after + 1
 	_refresh()
+
+func _draw_freehand(points: Array[Vector2]) -> void:
+	if points.size() < 2 or _definition["points"].size() >= 512:
+		return
+	_snapshot()
+	var limit: int = mini(points.size(), 512 - _definition["points"].size())
+	for point: Vector2 in points.slice(0, limit):
+		_add_point_without_snapshot(point)
+	_mark_edited()
+	_refresh()
+	_status.text = "Trazado dibujado y simplificado. Puedes arrastrar sus puntos para corregirlo."
+
+func _add_point_without_snapshot(point: Vector2) -> void:
+	var points: Array = _definition["points"]
+	var after: int = _map._nearest_segment(point)
+	var next: int = (after + 1) % points.size() if _definition.get("closed", true) else mini(after + 1, points.size() - 1)
+	var new_point: Dictionary = points[after].duplicate(true)
+	new_point["x"] = snappedf(point.x, 0.1)
+	new_point["z"] = snappedf(point.y, 0.1)
+	new_point["y"] = (float(points[after].get("y", 0.0)) + float(points[next].get("y", 0.0))) * 0.5
+	points.insert(after + 1, new_point)
+
+func _smooth_selected() -> void:
+	var points: Array = _definition.get("points", [])
+	if points.size() < 3:
+		return
+	var previous: int = (_selected - 1 + points.size()) % points.size()
+	var following: int = (_selected + 1) % points.size()
+	_snapshot()
+	var current: Dictionary = points[_selected]
+	current["x"] = (float(points[previous]["x"]) + float(current["x"]) * 2.0 + float(points[following]["x"])) / 4.0
+	current["z"] = (float(points[previous]["z"]) + float(current["z"]) * 2.0 + float(points[following]["z"])) / 4.0
+	_mark_edited()
+	_refresh()
+	_status.text = "Punto suavizado. La curva importante se conserva."
 
 func _delete_point(index: int) -> void:
 	var minimum: int = 4 if _definition.get("closed", true) else 2
@@ -206,6 +248,13 @@ func _apply() -> void:
 		_status.text = source_error
 		return
 	var clean: Dictionary = TrackDefinition.clean(_definition)
+	var repaired: Dictionary = LayoutValidation.auto_repair_crossings(clean, float(clean["thickness"]))
+	var repair_count: int = repaired.get("crossing_repairs", []).size()
+	clean = repaired
+	if repair_count > 0:
+		_definition = clean
+		_refresh()
+		_status.text = "Se corrigieron %d cruce(s): el tramo inferior se elevó automáticamente como puente." % repair_count
 	var check: TrackSampler = TrackSampler.new()
 	check.rebuild(clean)
 	var error: String = LayoutValidation.layout_error(check, float(clean["thickness"]))

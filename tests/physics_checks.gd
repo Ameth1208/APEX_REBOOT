@@ -35,6 +35,7 @@ func _run() -> void:
 	floor_shape.position.y = -0.5
 	floor_body.add_child(floor_shape)
 	_world.add_child(floor_body)
+	await _check_free_fall()
 	await _check_car()
 	await _check_motorcycle()
 	await _check_slope()
@@ -74,6 +75,21 @@ func _check_drivetrain() -> void:
 	check(springs.offsets.size() == 4, "Car requires four independent contacts")
 	springs.configure({}, true, 0.61)
 	check(springs.offsets.size() == 2, "Motorcycle requires exactly two contacts")
+
+func _check_free_fall() -> void:
+	var car = Vehicle.new()
+	car.configure({"mass_kg": 1380.0, "downforce_area_m2": 0.0, "drag_area_m2": 0.0})
+	_world.add_child(car)
+	car.reset_at(Transform3D(Basis.IDENTITY, Vector3(0, 50, 0)))
+	var start_frame: int = Engine.get_physics_frames()
+	await _frames(120)
+	var duration: float = float(Engine.get_physics_frames() - start_frame) / float(Engine.physics_ticks_per_second)
+	var expected_speed: float = 9.81 * duration
+	check(absf(car.linear_velocity.y + expected_speed) < 0.5, "Vehicle without aero must fall at terrestrial gravity")
+	check(car.grounded_wheels == 0 and car.position.y < 49.0, "Airborne vehicle must fall without phantom suspension support")
+	print("FREE FALL: vertical_speed=", car.linear_velocity.y, " duration=", duration)
+	car.queue_free()
+	await _frames(2)
 
 func _check_car() -> void:
 	var car = Vehicle.new()

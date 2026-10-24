@@ -16,9 +16,11 @@ static func prepare(pivot: Node3D, bounds: AABB, front: bool, profile: Dictionar
 			child.transform = correction * child.transform
 		pivot.position.y = bounds.position.y + radius
 	var wheel_index: int = Layout.index(front, pivot.position.x >= 0.0, motorcycle)
+	var imported_position: Vector3 = pivot.position
 	if bool(profile.get("align_wheels_to_physics", false)):
 		var contact: Vector3 = Layout.offsets(profile, motorcycle)[wheel_index]
 		pivot.position.x = contact.x
 		pivot.position.z = contact.z
 	return {"pivot": pivot, "front": front, "index": wheel_index,
-		"base_position": pivot.position, "radius_m": radius, "spin": 0.0, "locked": false}
+		"base_position": pivot.position, "imported_position": imported_position,
+		"radius_m": radius, "spin": 0.0, "locked": false}

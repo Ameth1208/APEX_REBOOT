@@ -10,6 +10,7 @@ const ModelLoader = preload("res://scripts/vehicles/vehicle_model_loader.gd")
 const WheelSuspension = preload("res://scripts/vehicles/wheel_suspension_visual.gd")
 const WheelGeometry = preload("res://scripts/vehicles/wheel_geometry.gd")
 const WheelLayout = preload("res://scripts/physics/wheel_layout.gd")
+const BodyBatcher = preload("res://scripts/vehicles/vehicle_body_batcher.gd")
 var _profile: Dictionary = {}
 var _lean: Node3D
 var _normalized: Node3D
@@ -39,7 +40,11 @@ func setup(profile: Dictionary) -> void:
 		return
 	_normalized.add_child(model)
 	_remove_scene_helpers(model)
-	_normalized.rotation_degrees.y = float(profile.get("model_yaw_deg", 0.0))
+	_normalized.rotation_degrees = Vector3(
+		float(profile.get("model_pitch_deg", 0.0)),
+		float(profile.get("model_yaw_deg", 0.0)),
+		float(profile.get("model_roll_deg", 0.0))
+	)
 	var bounds := _bounds(_normalized, Transform3D.IDENTITY)
 	var unit := float(profile.get("length_m", 4.5)) / maxf(bounds.size.z, 0.001)
 	_normalized.scale = Vector3.ONE * unit
@@ -49,8 +54,11 @@ func setup(profile: Dictionary) -> void:
 	dimensions = bounds.size * unit
 	MaterialRepair.apply(_normalized, profile.get("material_repairs", []))
 	WheelSplitter.split(_normalized, profile.get("split_wheel_meshes", []))
+	_align_body_to_axles()
 	for group in profile.get("wheel_groups", []):
 		_make_wheel(group)
+	if bool(profile.get("batch_static_body", true)):
+		BodyBatcher.apply(_normalized, str(profile.get("model_path", "")))
 	_painter.configure(_lean, profile)
 	if str(profile.get("kind", profile.get("category", ""))) == "motorcycle" and profile.get("show_rider", true):
 		_rider = MotorcycleRider.new()
@@ -59,6 +67,55 @@ func setup(profile: Dictionary) -> void:
 		_rider.configure(profile)
 		_rider.position.z += float(profile.get("model_offset_z_m", 0.0))
 	_make_headlights()
+
+func _wheel_bounds(group: Dictionary) -> AABB:
+	var matches: Array[Node3D] = []
+	_find_named(_normalized, group.get("names", []), matches)
+	var result := AABB()
+	var first := true
+	for part: Node3D in matches:
+		var parent_transform := _relative_transform(part) * part.transform.affine_inverse()
+		var box := _bounds(part, parent_transform)
+		result = box if first else result.merge(box)
+		first = false
+	return result
+
+func _align_body_to_axles() -> void:
+	if not bool(_profile.get("align_wheels_to_physics", false)):
+		return
+	var front_z: float = 0.0
+	var rear_z: float = 0.0
+	var front_count: int = 0
+	var rear_count: int = 0
+	for group: Dictionary in _profile.get("wheel_groups", []):
+		var box := _wheel_bounds(group)
+		if box.size.length_squared() < 0.000001:
+			continue
+		if bool(group.get("front", false)):
+			front_z += box.get_center().z
+			front_count += 1
+		else:
+			rear_z += box.get_center().z
+			rear_count += 1
+	if front_count == 0 or rear_count == 0:
+		return
+	front_z /= float(front_count)
+	rear_z /= float(rear_count)
+	var imported_wheelbase: float = rear_z - front_z
+	if imported_wheelbase < 0.1:
+		return
+	var motorcycle: bool = str(_profile.get("kind", "")) == "motorcycle"
+	var offsets: Array[Vector3] = WheelLayout.offsets(_profile, motorcycle)
+	var target_front: float = offsets[0].z
+	var target_rear: float = offsets[1 if motorcycle else 2].z
+	var stretch: float = (target_rear - target_front) / imported_wheelbase
+	# Calibrate the complete shell before detaching wheels, keeping arches over hubs.
+	# A suspect import should be corrected explicitly, not stretched beyond recognition.
+	if stretch < 0.8 or stretch > 1.2:
+		push_warning("No se pudo alinear la carrocería: revisa la distancia entre ejes del modelo.")
+		return
+	_normalized.transform = Transform3D(Basis.from_scale(Vector3(1, 1, stretch)), Vector3(0, 0, target_front - front_z * stretch)) * _normalized.transform
+	dimensions.z *= stretch
 
 func set_paint(color: Color, original: bool = false) -> void:
 	_painter.apply(color, original)

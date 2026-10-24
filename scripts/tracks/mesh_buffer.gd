@@ -115,7 +115,12 @@ func _chunks(size_m: float) -> Array[TrackMeshBuffer]:
 		if not groups.has(key):
 			groups[key] = TrackMeshBuffer.new()
 		var part: TrackMeshBuffer = groups[key]
-		part.quad(vertices[i], vertices[i + 1], vertices[i + 2], vertices[i + 3], normals[i], road_uvs.slice(i, i + 4))
+		if colors.size() == vertices.size():
+			part.quad_colored(vertices[i], vertices[i + 1], vertices[i + 2], vertices[i + 3], normals[i], colors[i], colors[i + 1], colors[i + 2], colors[i + 3])
+			for corner: int in range(4):
+				part.road_uvs[part.road_uvs.size() - 4 + corner] = road_uvs[i + corner]
+		else:
+			part.quad(vertices[i], vertices[i + 1], vertices[i + 2], vertices[i + 3], normals[i], road_uvs.slice(i, i + 4))
 	var result: Array[TrackMeshBuffer] = []
 	for key: Vector2i in groups:
 		result.append(groups[key])

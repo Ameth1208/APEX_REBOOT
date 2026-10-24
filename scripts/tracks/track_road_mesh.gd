@@ -67,7 +67,8 @@ static func build(parent: Node3D, samples: Array[Dictionary], definition: Dictio
 	runoff.attach(parent, "Runoff", runoff_material, str(definition["runoff_surface"]), false, CHUNK_M)
 	if not closed:
 		_finish_apron(parent, samples[-1], runoff_material, str(definition["runoff_surface"]))
-	Curbs.build(parent, samples, closed, CHUNK_M)
+	if not definition.has("geo") or str(definition.get("construction_mode", "faithful")) != "faithful":
+		Curbs.build(parent, samples, closed, CHUNK_M)
 	lines.attach(parent, "WhiteEdgeLines", TrackMaterials.flat(Color("d0d1c9")), "", false, CHUNK_M)
 
 static func _finish_apron(parent: Node3D, sample: Dictionary, material: Material, surface: String) -> void:

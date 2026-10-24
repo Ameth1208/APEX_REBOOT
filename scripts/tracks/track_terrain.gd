@@ -4,9 +4,6 @@ extends RefCounted
 const OsmTerrain = preload("res://scripts/world/osm_terrain.gd")
 const SuspensionSolver = preload("res://scripts/physics/suspension.gd")
 const EnvGenerator = preload("res://scripts/world/environment_generator.gd")
-const ApexBroadleafGeometry = preload("res://scripts/world/broadleaf_geometry.gd")
-const ApexTreeGeometry = preload("res://scripts/world/tree_geometry.gd")
-const ApexSceneryInstances = preload("res://scripts/world/scenery_instances.gd")
 
 ## Surface blend weights per cell vertex: smooth transitions instead of hard cuts.
 ## Each vertex carries a colour where R=sand, G=grass, B=dirt, A=concrete.
@@ -32,11 +29,21 @@ static func build(parent: Node3D, samples: Array[Dictionary], definition: Dictio
 	# Build an elevation field from the road samples so terrain follows real
 	# topography instead of a flat plane. Uses inverse-distance weighting.
 	var elev_field: PackedFloat32Array = _elevation_field(samples, start, step, nx, nz)
+	var faithful: bool = str(definition.get("construction_mode", "faithful")) == "faithful"
+	var geo_variant: Variant = definition.get("geo", {})
+	var geo: Dictionary = geo_variant if geo_variant is Dictionary else {}
+	var elevation_complete: bool = str(geo.get("elevation_status", "")) == "complete"
+	var terrain_grid: Dictionary = definition.get("terrain_grid", {})
+	# Faithful mode does not add artificial hills when measured elevation exists.
+	var noise_amplitude: float = 0.0 if faithful and elevation_complete else float(definition["terrain_hills"])
 	for iz: int in range(nz):
 		for ix: int in range(nx):
 			var xz: Vector2 = start + Vector2(ix, iz) * step
 			var road_y: float = elev_field[iz * nx + ix]
-			var noise_val: float = (noise.get_noise_2d(xz.x, xz.y) + 0.6) * float(definition["terrain_hills"])
+			var measured_y: Variant = grid_elevation(terrain_grid, xz, float(geo.get("origin_alt_m", 0.0)))
+			if measured_y != null:
+				road_y = float(measured_y)
+			var noise_val: float = (noise.get_noise_2d(xz.x, xz.y) + 0.6) * noise_amplitude
 			# Terrain follows road elevation + noise, clamped to road floor.
 			var height: float = road_y + noise_val
 			heights[iz * nx + ix] = minf(height, road_floors[iz * nx + ix])
@@ -45,6 +52,7 @@ static func build(parent: Node3D, samples: Array[Dictionary], definition: Dictio
 	var env_gen: EnvironmentGenerator = null
 	if definition.get("geo", null) != null:
 		surroundings = OsmTerrain.fetch_surroundings(samples, definition, margin)
+		OsmTerrain.add_landcover(surroundings, definition)
 		SuspensionSolver.set_osm_zones(surroundings)
 		# Build environment cell grid (Section 10 of Env Generator spec).
 		env_gen = EnvGenerator.new()
@@ -75,9 +83,30 @@ static func build(parent: Node3D, samples: Array[Dictionary], definition: Dictio
 	buffer.attach(parent, "Terrain", material, str(definition["terrain_surface"]), false, 320.0)
 	_verges(parent, samples, definition, bounds.position.y, start, step, nx, nz, heights, TrackMaterials.ground(str(definition["terrain_surface"])))
 	if not surroundings.is_empty():
-		_spawn_buildings(parent, surroundings.get("buildings", []))
-		_spawn_water(parent, surroundings.get("water", []))
-		_spawn_vegetation(parent, surroundings.get("vegetation", []), definition, start, step, nx, nz, heights)
+		_spawn_buildings(parent, surroundings.get("buildings", []), start, step, nx, nz, heights)
+		_spawn_water(parent, surroundings.get("water", []), start, step, nx, nz, heights)
+		var vegetation := preload("res://scripts/world/mapped_vegetation.gd").new()
+		vegetation.name = "MappedVegetation"
+		parent.add_child(vegetation)
+		vegetation.configure(samples, definition, surroundings, {"start": start, "step": step, "nx": nx, "nz": nz, "heights": heights})
+		parent.set_meta("vegetation_source", surroundings.get("landcover_source", "OpenStreetMap"))
+
+## Bilinear DEM height, using the same local origin as the road. Unknown stays null.
+static func grid_elevation(grid: Dictionary, xz: Vector2, origin_alt: float) -> Variant:
+	var nx: int = int(grid.get("nx", 0))
+	var nz: int = int(grid.get("nz", 0))
+	var spacing: float = float(grid.get("spacing_m", 0.0))
+	var values: Array = grid.get("elevation_m", [])
+	if nx < 2 or nz < 2 or spacing <= 0.0 or values.size() != nx * nz:
+		return null
+	var cell: Vector2 = (xz - Vector2(float(grid.get("start_x", 0.0)), float(grid.get("start_z", 0.0)))) / spacing
+	if cell.x < 0.0 or cell.y < 0.0 or cell.x > nx - 1 or cell.y > nz - 1:
+		return null
+	var x: int = mini(floori(cell.x), nx - 2)
+	var z: int = mini(floori(cell.y), nz - 2)
+	var a: float = lerpf(float(values[z * nx + x]), float(values[z * nx + x + 1]), cell.x - x)
+	var b: float = lerpf(float(values[(z + 1) * nx + x]), float(values[(z + 1) * nx + x + 1]), cell.x - x)
+	return lerpf(a, b, cell.y - z) - origin_alt
 
 ## Per-vertex blend: R=sand, G=grass, B=dirt, A=concrete. Smooth by distance.
 static func _vertex_blend(xz: Vector2, surroundings: Dictionary, definition: Dictionary, radius: float) -> Color:
@@ -209,7 +238,7 @@ static func _verges(parent: Node3D, samples: Array[Dictionary], definition: Dict
 		var b: Dictionary = samples[(index + 1) % samples.size()]
 		var ap: Vector3 = a["position"]
 		var bp: Vector3 = b["position"]
-		if ap.y > ground_limit or bp.y > ground_limit:
+		if (ap.y > ground_limit or bp.y > ground_limit) and str(definition.get("construction_mode", "faithful")) != "faithful":
 			continue
 		for side: float in [-1.0, 1.0]:
 			var ar: Vector3 = a["right"]
@@ -235,14 +264,16 @@ static func _grid_height(point: Vector3, start: Vector2, step: float, nx: int, n
 	return lerpf(lerpf(heights[z * nx + x], heights[z * nx + x + 1], u),
 		lerpf(heights[(z + 1) * nx + x], heights[(z + 1) * nx + x + 1], u), v)
 
-static func _spawn_buildings(parent: Node3D, buildings: Array) -> void:
+static func _spawn_buildings(parent: Node3D, buildings: Array, start: Vector2, step: float, nx: int, nz: int, heights: PackedFloat32Array) -> void:
 	for entry: Dictionary in buildings:
 		var mesh_inst: MeshInstance3D = MeshInstance3D.new()
 		var box: BoxMesh = BoxMesh.new()
 		var height: float = float(entry["height"])
 		box.size = Vector3(float(entry["size_x"]), height, float(entry["size_z"]))
 		mesh_inst.mesh = box
-		mesh_inst.position = entry["center"] + Vector3(0, height * 0.5, 0)
+		var center: Vector3 = entry["center"]
+		center.y = _grid_height(center, start, step, nx, nz, heights)
+		mesh_inst.position = center + Vector3(0, height * 0.5, 0)
 		var mat: StandardMaterial3D = StandardMaterial3D.new()
 		var tags: Dictionary = entry.get("tags", {})
 		if tags.has("building:colour"):
@@ -253,18 +284,28 @@ static func _spawn_buildings(parent: Node3D, buildings: Array) -> void:
 		mat.roughness = 0.85
 		mesh_inst.material_override = mat
 		mesh_inst.set_meta("surface", "concrete")
+		mesh_inst.set_meta("render_category", "buildings")
+		mesh_inst.set_meta("stream_chunk", true)
+		mesh_inst.set_meta("stream_range", 520.0)
+		mesh_inst.set_meta("stream_gpu_unload", true)
+		mesh_inst.set_meta("stream_resource", mesh_inst.mesh)
+		mesh_inst.visibility_range_end = 520.0
 		parent.add_child(mesh_inst)
 
-static func _spawn_water(parent: Node3D, water: Array) -> void:
+static func _spawn_water(parent: Node3D, water: Array, start: Vector2, step: float, nx: int, nz: int, heights: PackedFloat32Array) -> void:
 	for entry: Dictionary in water:
 		var buffer: TrackMeshBuffer = TrackMeshBuffer.new()
 		var polygon: Array[Vector2] = entry["polygon"]
 		if polygon.size() < 3:
 			continue
+		var water_level: float = INF
+		for point: Vector2 in polygon:
+			water_level = minf(water_level, _grid_height(Vector3(point.x, 0, point.y), start, step, nx, nz, heights))
+		water_level += 0.05
 		for i: int in range(1, polygon.size() - 1):
-			buffer.tri(Vector3(polygon[0].x, 0.05, polygon[0].y),
-				Vector3(polygon[i].x, 0.05, polygon[i].y),
-				Vector3(polygon[i + 1].x, 0.05, polygon[i + 1].y),
+			buffer.tri(Vector3(polygon[0].x, water_level, polygon[0].y),
+				Vector3(polygon[i].x, water_level, polygon[i].y),
+				Vector3(polygon[i + 1].x, water_level, polygon[i + 1].y),
 				Vector3.UP)
 		var water_mat: StandardMaterial3D = StandardMaterial3D.new()
 		water_mat.albedo_color = Color(0.1, 0.22, 0.35, 0.75)
@@ -273,41 +314,3 @@ static func _spawn_water(parent: Node3D, water: Array) -> void:
 		water_mat.transparency = BaseMaterial3D.TRANSPARENCY_ALPHA
 		water_mat.cull_mode = BaseMaterial3D.CULL_DISABLED
 		buffer.attach(parent, "Water", water_mat, "", false, 0.0)
-
-static func _spawn_vegetation(parent: Node3D, vegetation: Array, definition: Dictionary,
-		start: Vector2, step: float, nx: int, nz: int, heights: PackedFloat32Array) -> void:
-	if vegetation.is_empty():
-		return
-	var rng: RandomNumberGenerator = RandomNumberGenerator.new()
-	rng.seed = int(definition.get("seed", 8421)) + 777
-	var groups: Array = [[], [], [], []]
-	for entry: Dictionary in vegetation:
-		var polygon: Array[Vector2] = entry["polygon"]
-		if polygon.size() < 3:
-			continue
-		var minp: Vector2 = polygon[0]
-		var maxp: Vector2 = polygon[0]
-		for pt: Vector2 in polygon:
-			minp = Vector2(minf(minp.x, pt.x), minf(minp.y, pt.y))
-			maxp = Vector2(maxf(maxp.x, pt.x), maxf(maxp.y, pt.y))
-		var area_x: float = maxp.x - minp.x
-		var area_z: float = maxp.y - minp.y
-		# Reduce count: 1 tree per 120m², cap at 60 for performance.
-		var count: int = clampi(int(area_x * area_z / 120.0), 1, 60)
-		for _i: int in range(count):
-			var xz: Vector2 = Vector2(rng.randf_range(minp.x, maxp.x), rng.randf_range(minp.y, maxp.y))
-			if not OsmTerrain.point_in_polygon(xz, polygon):
-				continue
-			var y: float = _grid_height(Vector3(xz.x, 0, xz.y), start, step, nx, nz, heights)
-			var scale: float = rng.randf_range(0.7, 1.4)
-			var basis: Basis = Basis(Vector3.UP, rng.randf_range(0, TAU)).scaled(Vector3(scale, scale * rng.randf_range(0.9, 1.1), scale))
-			var pose: Transform3D = Transform3D(basis, Vector3(xz.x, y, xz.y))
-			var variant: int = rng.randi_range(0, 3)
-			groups[variant].append(pose)
-	for variant: int in range(4):
-		if groups[variant].is_empty():
-			continue
-		var transforms: Array[Transform3D] = []
-		transforms.assign(groups[variant])
-		var mesh: ArrayMesh = ApexBroadleafGeometry.create(71 + variant * 37) if variant < 2 else ApexTreeGeometry.create(13 + variant * 19)
-		ApexSceneryInstances.build(parent, "OSM_BroadleafTrees" if variant < 2 else "OSM_ConiferTrees", mesh, null, transforms, 460.0)

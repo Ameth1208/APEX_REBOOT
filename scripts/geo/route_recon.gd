@@ -119,11 +119,24 @@ static func analyse(definition: Dictionary) -> Dictionary:
 static func apply(definition: Dictionary, recon: Dictionary) -> void:
 	if not recon.get("ok", false):
 		return
-	if str(recon["surface"]) != "":
+	var faithful: bool = str(definition.get("construction_mode", "faithful")) == "faithful"
+	if str(recon["surface"]) != "" and not faithful:
 		definition["runoff_surface"] = str(recon["runoff_surface"])
 		for p: Dictionary in definition.get("points", []):
 			p["surface"] = str(recon["surface"])
+	elif str(recon["surface"]) != "":
+		# Faithful mode preserves explicit per-segment materials from the source.
+		# Only fill controls that have no material at all.
+		for p: Dictionary in definition.get("points", []):
+			if not p.has("surface") or str(p["surface"]).is_empty():
+				p["surface"] = str(recon["surface"])
 	definition["barriers"] = bool(recon["barriers"])
+	definition["terrain_type"] = str(recon["terrain_type"])
+	definition["terrain_surface_auto"] = true
+	if faithful and str(recon["terrain_type"]) == "urban":
+		definition["terrain_surface"] = "concrete"
+	elif str(recon["terrain_type"]) in ["rural", "forest", "coastal"]:
+		definition["terrain_surface"] = "grass"
 	definition["terrain_hills"] = float(recon["terrain_hills"])
 	definition["runoff_width"] = float(recon["runoff_width"])
 	# Store recon info for debugging/UI.

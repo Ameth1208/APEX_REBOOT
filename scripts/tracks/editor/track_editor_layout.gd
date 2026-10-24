@@ -15,18 +15,23 @@ static func build(parent: Control) -> Dictionary:
 	layout.add_theme_constant_override("separation", 10)
 	margin.add_child(layout)
 	var header: HBoxContainer = GeoUi.row(layout)
-	var title: Label = GeoUi.label(header, "EDITOR DE PISTAS", 25)
+	var title: Label = GeoUi.label(header, "MI PISTA", 25)
 	title.add_theme_font_override("font", ApexUI.BOLD)
 	title.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	ui.buttons["real_route"] = GeoUi.button(header, "RUTA REAL · MAPA / GPS")
 	ui.buttons["close"] = GeoUi.button(header, "Volver")
+	var tools: HBoxContainer = GeoUi.row(layout)
+	for pair: Array in [["select", "Seleccionar"], ["draw", "Dibujar"], ["add", "Añadir punto"], ["smooth", "Suavizar"]]:
+		ui.buttons[pair[0]] = GeoUi.button(tools, pair[1])
+	ui.tool_hint = GeoUi.label(tools, "Herramientas", 12)
+	ui.tool_hint.add_theme_color_override("font_color", Color("8da2ad"))
 	var bar: HBoxContainer = GeoUi.row(layout)
-	for pair: Array in [["undo", "Deshacer"], ["redo", "Rehacer"], ["fit", "Centrar"], ["save", "Guardar"], ["load", "Cargar"], ["import", "Importar JSON"], ["export", "Exportar"]]:
+	for pair: Array in [["undo", "Deshacer"], ["redo", "Rehacer"], ["fit", "Centrar"], ["save", "Guardar"], ["load", "Cargar"], ["import", "Importar"], ["export", "Exportar"]]:
 		ui.buttons[pair[0]] = GeoUi.button(bar, pair[1])
 	var gap: Control = Control.new()
 	gap.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	bar.add_child(gap)
-	ui.buttons["apply"] = ApexUI.button("APLICAR Y CONDUCIR", func(): pass, true)
+	ui.buttons["apply"] = ApexUI.button("PROBAR  ▶", func(): pass, true)
 	bar.add_child(ui.buttons["apply"])
 	var content: HBoxContainer = GeoUi.row(layout)
 	content.size_flags_vertical = Control.SIZE_EXPAND_FILL
@@ -48,6 +53,8 @@ static func build(parent: Control) -> Dictionary:
 	scroll.add_child(ui.fields)
 	ui.status = GeoUi.label(layout, "", 13)
 	ui.status.add_theme_color_override("font_color", ApexUI.MUTED)
+	ui.help = GeoUi.label(layout, "Seleccionar: clic y arrastra · Añadir: clic · Dibujar: mantén pulsado · Ctrl+Z: deshacer · F: centrar", 12)
+	ui.help.add_theme_color_override("font_color", Color("8da2ad"))
 	ui.profile.layout_changed.connect(func(): _arrange(parent, ui))
 	parent.resized.connect(func(): _arrange(parent, ui), CONNECT_DEFERRED)
 	_arrange.call_deferred(parent, ui)

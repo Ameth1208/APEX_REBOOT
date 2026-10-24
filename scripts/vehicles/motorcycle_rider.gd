@@ -66,11 +66,13 @@ func animate(speed_mps: float, steering: float, lean: float, delta: float) -> vo
 	if _pose == null:
 		return
 	_pose.update(speed_mps, steering, lean, delta)
-	_helmet.transform = _pose.helmet_transform()
-	_boots[0].position = _pose.ankle_position("l")
-	_boots[1].position = _pose.ankle_position("r")
-	_boots[0].follow_leg(_pose.calf_direction("l"))
-	_boots[1].follow_leg(_pose.calf_direction("r"))
+	if is_instance_valid(_helmet):
+		_helmet.transform = _pose.helmet_transform()
+	if _boots.size() >= 2 and is_instance_valid(_boots[0]) and is_instance_valid(_boots[1]):
+		_boots[0].position = _pose.ankle_position("l")
+		_boots[1].position = _pose.ankle_position("r")
+		_boots[0].follow_leg(_pose.calf_direction("l"))
+		_boots[1].follow_leg(_pose.calf_direction("r"))
 
 func contact_report() -> Dictionary:
 	return _pose.contact_report() if _pose else {"fallback": true}

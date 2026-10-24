@@ -32,9 +32,12 @@ func configure(profile: Dictionary) -> void:
 	_make_helmet()
 
 func set_cockpit_view(enabled: bool) -> void:
-	_upper_body.visible = not enabled
-	_upper_arms.visible = not enabled
-	_helmet.visible = not enabled
+	if is_instance_valid(_upper_body):
+		_upper_body.visible = not enabled
+	if is_instance_valid(_upper_arms):
+		_upper_arms.visible = not enabled
+	if is_instance_valid(_helmet):
+		_helmet.visible = not enabled
 
 func _limb(side: float) -> void:
 	var shoulder := Vector3(side * 0.17, 1.25, -0.10)

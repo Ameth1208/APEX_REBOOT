@@ -39,6 +39,16 @@ func show_tiles(keys: Array[String]) -> void:
 				textures.erase(key)
 	_next()
 
+func set_source(url: String) -> void:
+	if url == _url:
+		return
+	stop()
+	_url = url
+	_folder = "user://maps/" + _url.sha256_text().substr(0, 16)
+	DirAccess.make_dir_recursive_absolute(_folder)
+	textures.clear()
+	_failed.clear()
+
 func stop() -> void:
 	_wanted.clear()
 	if is_instance_valid(_request):
@@ -83,8 +93,10 @@ func _completed(result: int, code: int, headers: PackedStringArray, body: Packed
 		return
 	if code == 200:
 		var picture: Image = Image.new()
-		if picture.load_png_from_buffer(body) != OK:
-			_fail("La respuesta del mapa no es una imagen PNG válida.")
+		var is_jpeg: bool = body.size() >= 2 and body[0] == 0xff and body[1] == 0xd8
+		var image_error: Error = picture.load_jpg_from_buffer(body) if is_jpeg else picture.load_png_from_buffer(body)
+		if image_error != OK:
+			_fail("La respuesta cartográfica no es una imagen PNG/JPG válida.")
 			return
 		textures[_active] = ImageTexture.create_from_image(picture)
 		picture.save_png(_path(_active))

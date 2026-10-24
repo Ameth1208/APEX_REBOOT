@@ -18,6 +18,10 @@ static func build(parent: Node3D, title: String, mesh: Mesh, material: Material,
 		center /= float(poses.size())
 		var instance: MultiMeshInstance3D = MultiMeshInstance3D.new()
 		instance.name = title
+		var category: String = "props"
+		if title.to_lower().contains("tree") or title.to_lower().contains("grass"):
+			category = "vegetation"
+		instance.set_meta("render_category", category)
 		instance.position = center
 		instance.multimesh = MultiMesh.new()
 		instance.multimesh.transform_format = MultiMesh.TRANSFORM_3D
@@ -26,6 +30,10 @@ static func build(parent: Node3D, title: String, mesh: Mesh, material: Material,
 		instance.material_override = material
 		instance.visibility_range_end = distance
 		instance.set_meta("quality_visibility_range", distance)
+		instance.set_meta("stream_chunk", true)
+		instance.set_meta("stream_range", distance)
+		instance.set_meta("stream_gpu_unload", true)
+		instance.set_meta("stream_resource", instance.multimesh)
 		instance.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_ON if shadows else GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
 		for index: int in range(poses.size()):
 			var pose: Transform3D = poses[index]

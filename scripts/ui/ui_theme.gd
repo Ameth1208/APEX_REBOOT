@@ -15,7 +15,7 @@ static func style(color: Color, border: Color = Color("303846"), radius: int = 3
 	box.bg_color = color
 	box.border_color = border
 	box.set_border_width_all(1)
-	box.set_corner_radius_all(radius)
+	box.set_corner_radius_all(maxi(radius, 4))
 	box.content_margin_left = 13
 	box.content_margin_right = 13
 	box.content_margin_top = 9
@@ -30,10 +30,10 @@ static func make_theme() -> Theme:
 	result.set_stylebox("panel", "PanelContainer", style(PANEL))
 	for type: String in ["Button", "OptionButton"]:
 		result.set_font("font", type, BOLD)
-		result.set_stylebox("normal", type, style(Color("171e28")))
-		result.set_stylebox("hover", type, style(Color("252d39"), Color("db646d")))
-		result.set_stylebox("pressed", type, style(Color("49222d"), ACCENT))
-		result.set_stylebox("disabled", type, style(Color("10151d"), Color("202732")))
+		result.set_stylebox("normal", type, style(Color("151d29"), Color("303b4b"), 5))
+		result.set_stylebox("hover", type, style(Color("242e3c"), Color("db646d"), 5))
+		result.set_stylebox("pressed", type, style(Color("49222d"), ACCENT, 5))
+		result.set_stylebox("disabled", type, style(Color("10151d"), Color("202732"), 5))
 		var focus := style(Color.TRANSPARENT, ACCENT)
 		focus.set_border_width_all(2)
 		result.set_stylebox("focus", type, focus)
@@ -46,7 +46,7 @@ static func make_theme() -> Theme:
 	result.set_stylebox("panel", "PopupMenu", style(Color("141b26")))
 	result.set_stylebox("hover", "PopupMenu", style(Color("4b2530"), Color.TRANSPARENT))
 	result.set_color("font_color", "PopupMenu", INK)
-	result.set_stylebox("panel", "TabContainer", style(Color("0c111a"), Color("2c3441")))
+	result.set_stylebox("panel", "TabContainer", style(Color("0b111b"), Color("2c3441"), 6))
 	for type: String in ["TabContainer", "TabBar"]:
 		result.set_font("font", type, BOLD)
 		var selected := style(Color("1d242f"), ACCENT, 1)
@@ -75,7 +75,7 @@ static func label(text: String, size: int = 16, color: Color = INK) -> Label:
 static func button(text: String, action: Callable, primary: bool = false) -> Button:
 	var result := Button.new()
 	result.text = text
-	result.custom_minimum_size.y = 40
+	result.custom_minimum_size.y = 44
 	result.mouse_default_cursor_shape = Control.CURSOR_POINTING_HAND
 	result.pressed.connect(action)
 	if primary:

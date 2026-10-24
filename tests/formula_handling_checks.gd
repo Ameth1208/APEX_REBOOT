@@ -56,6 +56,7 @@ func _run() -> void:
 	_check(minimum_height > body.ride_height - 0.11, "Aero load does not force the chassis onto the road at 306 km/h")
 	_check(maximum_compression < float(profile.suspension_travel_m), "High-speed spring compression stays within available travel")
 	_check(missing_contact_ticks == 0, "All four tyres remain in contact during the high-speed check")
+	_check(body.downforce_n > 1000.0, "Formula must generate measurable aerodynamic load at speed")
 	_check(float(body.telemetry().damage) == 0.0, "No phantom impact damage during smooth high-speed driving")
 	print("FORMULA_HIGH_SPEED min_height_m=", minimum_height, " max_compression_m=", maximum_compression, " final_kph=", body.speed_kph, " power_at_13500_kw=", power_kw)
 	body.reset_at(Transform3D(Basis.IDENTITY, Vector3(0, body.ride_height + Layout.sag(profile, false) + 0.025, 0)))

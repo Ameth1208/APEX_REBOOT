@@ -64,7 +64,20 @@ func _run() -> void:
 	for child: Node in track.get_children():
 		if child is Label3D:
 			names.append(child.text)
-	_check(names.has("APEX  /  SALIDA") and names.has("APEX  /  META"), "separate start and finish gates are visible")
+	_check(not names.has("APEX  /  SALIDA") and not names.has("APEX  /  META"), "faithful geographic route does not invent race gantries")
+	var race_design: Dictionary = definition.duplicate(true)
+	race_design["construction_mode"] = "race_design"
+	var race_props := Node3D.new()
+	root.add_child(race_props)
+	var race_sampler := TrackSampler.new()
+	race_sampler.rebuild(TrackDefinition.clean(race_design))
+	TrackProps.build(race_props, race_sampler, race_design)
+	var race_gate_names: Array[String] = []
+	for child: Node in race_props.get_children():
+		if child is Label3D:
+			race_gate_names.append(child.text)
+	_check(race_gate_names.has("APEX  /  SALIDA") and race_gate_names.has("APEX  /  META"), "race design mode retains separate visible start and finish gates")
+	race_props.queue_free()
 	for i: int in range(6):
 		var transform: Transform3D = track.get_grid_transform(i)
 		var distance: float = track.closest_distance(transform.origin)

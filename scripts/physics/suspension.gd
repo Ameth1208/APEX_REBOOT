@@ -1,25 +1,17 @@
 extends RefCounted
 ## Independent ray contacts: four tyres for cars, two for a motorcycle.
 ## The unloaded spring length includes sag, so ride_height is the static height.
+## Computes per-wheel compression, compression rate, asymmetric damping, and bump stops.
 
 const Layout = preload("res://scripts/physics/wheel_layout.gd")
-const OsmTerrain = preload("res://scripts/world/osm_terrain.gd")
-
-## Static OSM surface zones set once per track build; queried per contact.
-static var _osm_zones: Dictionary = {}
+const SurfaceSampler = preload("res://scripts/physics/surfaces/surface_sampler.gd")
 
 static func set_osm_zones(zones: Dictionary) -> void:
-	_osm_zones = zones
+	SurfaceSampler.set_osm_zones(zones)
 
 ## Determine surface at a world XZ point: OSM zones first, then collider meta.
 static func surface_at_point(xz: Vector2, collider: Object) -> String:
-	if not _osm_zones.is_empty():
-		var osm: String = OsmTerrain.surface_at(xz, _osm_zones, "")
-		if not osm.is_empty():
-			return osm
-	if is_instance_valid(collider):
-		return str(collider.get_meta("surface", "asphalt"))
-	return "asphalt"
+	return SurfaceSampler.sample_surface(xz, collider)
 
 enum Type { MACPHERSON, DOUBLE_WISHBONE, MULTILINK, LEAF_SPRING, TORSION_BEAM }
 

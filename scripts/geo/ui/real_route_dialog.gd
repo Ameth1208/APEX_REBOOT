@@ -16,8 +16,10 @@ var _elevation_source: String = ""
 var _terrain_grid_spacing: int = 0
 var _pending_sample_spacing: float = 0.0
 var _pending_grid_spacing: int = 0
+var _source_needs_terrain: bool = false
 var _picker: RouteFilePicker
 var _elevation: ElevationProvider
+var _planner: RoutePlanner
 
 func _ready() -> void:
 	hide()
@@ -28,16 +30,21 @@ func _ready() -> void:
 	add_child(_picker)
 	_elevation = ElevationProvider.new()
 	add_child(_elevation)
+	_planner = RoutePlanner.new()
+	add_child(_planner)
 	ui.close.pressed.connect(_close)
 	ui.import_button.pressed.connect(_picker.choose)
 	ui.go.pressed.connect(func() -> void: ui.map.center_on(ui.lat.value, ui.lon.value))
 	ui.fit.pressed.connect(func() -> void: ui.map.fit_route())
+	ui.layer.toggled.connect(func(value: bool) -> void: ui.map.set_satellite(value))
+	ui.map.call_deferred("set_satellite", true)
 	ui.undo.pressed.connect(_undo)
 	ui.clear.pressed.connect(_clear_route)
 	ui.closed.toggled.connect(func(_value: bool) -> void: _refresh())
 	ui.elevate.pressed.connect(_lookup)
 	ui.cancel.pressed.connect(func() -> void: _elevation.cancel(); _busy(false); _message("Consulta cancelada. Tu trazado se conserva."))
 	ui.create.pressed.connect(_create)
+	ui.plan.pressed.connect(_plan_route)
 	ui.routes.item_selected.connect(_select_route)
 	ui.map.point_added.connect(_add_point)
 	ui.map.undo_requested.connect(_undo)
@@ -47,6 +54,8 @@ func _ready() -> void:
 	_elevation.message.connect(_message)
 	_elevation.failed.connect(func(text: String) -> void: _busy(false); _message(text))
 	_elevation.completed.connect(_elevated)
+	_planner.route_ready.connect(_planned_route)
+	_planner.failed.connect(func(text: String) -> void: _busy(false); _message(text))
 	hide()
 
 func open(definition: Dictionary = {}) -> void:
@@ -56,20 +65,31 @@ func open(definition: Dictionary = {}) -> void:
 	_points.clear()
 	_original.clear()
 	_original_closed = false
+	_source_needs_terrain = false
 	_reset_elevation()
 	ui.routes.hide()
 	ui.name.text = "Mi ruta real"
+	ui.start.text = "Baranoa, Atlántico"
+	ui.finish.text = "Juan de Acosta, Atlántico"
+	ui.plan_status.text = "Ruta vial automática disponible. También puedes importar un GPX o añadir puntos en el mapa."
 	ui.flat.button_pressed = false
+	ui.layer.button_pressed = true
+	ui.map.set_satellite(true)
 	ui.closed.button_pressed = false
 	if definition.has("geo"):
 		var geo: Dictionary = definition.geo
+		_source_needs_terrain = bool(geo.get("is_flat_test", false)) or str(geo.get("elevation_status", "")) != "complete"
 		_sample_spacing = float(geo.get("elevation_sample_spacing_m", 0.0))
 		_elevation_source = str(geo.get("terrain_elevation_provider", ""))
 		_terrain_grid_spacing = int(geo.get("terrain_grid_spacing_m", 0))
 		for point: Dictionary in definition.get("points", []):
 			var projected: Dictionary = GeoProjection.inverse(float(point.x), float(point.z), geo, point.y)
 			if projected.get("ok", false):
-				_points.append({"lat": projected.lat, "lon": projected.lon, "ele": projected.ele, "elevation_source": "editor"})
+				var existing_elevation: Variant = projected.ele
+				if _source_needs_terrain:
+					existing_elevation = null
+				_points.append({"lat": projected.lat, "lon": projected.lon, "ele": existing_elevation,
+					"elevation_source": "missing" if existing_elevation == null else "editor"})
 		_original = definition.get("raw_route", []).duplicate(true)
 		_original_closed = bool(geo.get("raw_closed", false))
 		ui.flat.button_pressed = bool(geo.get("is_flat_test", false))
@@ -79,6 +99,9 @@ func open(definition: Dictionary = {}) -> void:
 	_refresh()
 	if not _points.is_empty():
 		ui.map.call_deferred("fit_route")
+		if _source_needs_terrain:
+			ui.plan_status.text = "Esta fuente es plana. Consultando automáticamente el relieve real de la carretera…"
+			call_deferred("_lookup")
 	else:
 		ui.map.center_on(ui.lat.value, ui.lon.value)
 
@@ -127,6 +150,26 @@ func _clear_route() -> void:
 	ui.flat.button_pressed = false
 	_refresh()
 	_message("Ruta vacía. Dibuja nuevos puntos o importa un archivo.")
+
+func _plan_route() -> void:
+	if _loading:
+		return
+	_busy(true)
+	ui.plan_status.text = "Buscando salida, llegada y carretera…"
+	_planner.plan(ui.start.text, ui.finish.text)
+
+func _planned_route(points: Array, start_label: String, finish_label: String) -> void:
+	_points = points
+	_original = points.duplicate(true)
+	_original_closed = false
+	_filename = ""
+	ui.name.text = "%s → %s" % [start_label, finish_label]
+	ui.closed.button_pressed = false
+	ui.plan_status.text = "Ruta generada siguiendo carreteras. Ahora pulsa ADAPTAR AL TERRENO para obtener las cotas."
+	_busy(false)
+	_refresh()
+	ui.map.fit_route()
+	_message("Ruta lista · %d puntos viales. Puedes añadir o quitar puntos en el mapa." % points.size())
 
 func _reset_elevation() -> void:
 	_sample_spacing = 0.0
@@ -219,8 +262,10 @@ func _create() -> void:
 func _busy(value: bool) -> void:
 	_loading = value
 	ui.cancel.visible = value
-	for key: String in ["import_button", "undo", "clear", "closed", "replace", "provider", "routes"]:
+	for key: String in ["import_button", "undo", "clear", "closed", "replace", "provider", "routes", "plan"]:
 		ui[key].disabled = value
+	ui.start.editable = not value
+	ui.finish.editable = not value
 	ui.map.mouse_filter = Control.MOUSE_FILTER_IGNORE if value else Control.MOUSE_FILTER_STOP
 	_refresh()
 

@@ -17,6 +17,7 @@ func rebuild(definition: Dictionary) -> void:
 	if points.size() < 2:
 		return
 	var spacing: float = float(definition.get("sample_spacing", 4.0))
+	var smooth_height: bool = bool(definition.get("smooth_vertical_profile", str(definition.get("geo", {}).get("elevation_datum", "")) == "provider_dem"))
 	var segment_count: int = points.size() if closed else points.size() - 1
 	for index: int in range(segment_count):
 		var p0: Dictionary = points[_point_index(index - 1, points.size())]
@@ -29,11 +30,20 @@ func rebuild(definition: Dictionary) -> void:
 		for step: int in range(divisions):
 			var t: float = float(step) / float(divisions)
 			var point: Vector3 = a.lerp(b, t) if interpolation == "linear" else catmull(TrackDefinition.position(p0), a, b, TrackDefinition.position(p3), t)
+			if smooth_height and interpolation == "linear":
+				point.y = preload("res://scripts/tracks/vertical_profile.gd").height(TrackDefinition.position(p0), a, b, TrackDefinition.position(p3), t)
 			_append(point, p1, p2, t, index)
 	if not closed:
 		_append(TrackDefinition.position(points[-1]), points[-1], points[-1], 0.0, points.size() - 1)
 	elif samples.size() > 1:
 		length_m += samples[-1]["position"].distance_to(samples[0]["position"])
+	if smooth_height and str(definition.get("geo", {}).get("elevation_datum", "")) == "provider_dem":
+		preload("res://scripts/tracks/vertical_profile.gd").filter_dem(samples, closed, length_m)
+		length_m = 0.0
+		for i: int in samples.size():
+			if i > 0: length_m += Vector3(samples[i - 1].position).distance_to(samples[i].position)
+			samples[i].distance = length_m
+		if closed and samples.size() > 1: length_m += Vector3(samples[-1].position).distance_to(samples[0].position)
 	_update_frames()
 	_query_index.rebuild(samples, length_m, closed)
 

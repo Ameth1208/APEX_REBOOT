@@ -33,7 +33,9 @@ func run(root_app: Node) -> void:
 		await RenderingServer.frame_post_draw
 	var telemetry: Dictionary = app.race.player.telemetry()
 	_check(app.race.player.speed_kph > 1.0, "actual throttle moved the exported vehicle")
-	_check(absf(float(telemetry.throttle) - 0.65) < 0.01, "throttle remains analog")
+	var pedal_curve: float = float(app.settings.values.get("pedal_curve", 1.0))
+	var expected_throttle: float = pow(0.65, pedal_curve)
+	_check(absf(float(telemetry.throttle) - expected_throttle) < 0.01, "throttle remains analog after configured pedal curve")
 	_check(app.race.track.definition.name == "Polonuevo - Baranoa (plano)", "built-in real-route track loaded")
 	DirAccess.make_dir_recursive_absolute("user://qa")
 	var shot_path: String = "user://qa/distribution-polonuevo.png"

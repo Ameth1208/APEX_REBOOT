@@ -25,10 +25,24 @@ static func contact(body, state: PhysicsDirectBodyState3D, wheel: Dictionary, fo
 	if not front:
 		brake_n += body._input.w * body.mass * 12.0 / (1.0 if body.is_motorcycle else 2.0)
 	body.surface_name = str(wheel["surface"])
-	wheel["cornering_stiffness"] = float(body.profile.get("cornering_stiffness", 18.0 if body.is_motorcycle else 14.0))
+	var tyre: Dictionary = body.profile.get("front_tyre" if front else "rear_tyre", {})
+	wheel["cornering_stiffness"] = float(tyre.get("cornering_stiffness", body.profile.get("cornering_stiffness", 18.0 if body.is_motorcycle else 14.0)))
+	# Width affects the fallback stiffness estimate, not an unlimited grip bonus.
+	# Measured N/rad coefficients, when supplied, take precedence in the solver.
+	if tyre.has("width_mm"):
+		var reference_width: float = float(tyre.get("reference_width_mm", 275.0))
+		wheel["cornering_stiffness"] *= sqrt(maxf(float(tyre.width_mm), 1.0) / maxf(reference_width, 1.0))
+	wheel["reference_load_n"] = float(wheel["corner_mass"]) * 9.81
+	for key: String in ["cornering_stiffness_n_per_rad", "reference_load_n", "load_sensitivity"]:
+		if tyre.has(key):
+			wheel[key] = tyre[key]
 	var mu: float = Tyres.friction(body.surface_name, body.wetness, body.grip_factor)
+	mu *= maxf(float(tyre.get("grip_scale", 1.0)), 0.0)
 	mu *= Tyres.speed_grip_factor(state.linear_velocity.length())
-	mu *= Tyres.temperature_grip_factor(body.tyre_temp_c)
+	var wheel_index: int = int(wheel["index"])
+	var temperature: float = body.tyre_temperatures_c[wheel_index]
+	mu *= Tyres.temperature_grip_factor(temperature)
+	wheel["temperature_c"] = temperature
 	# Power cut on detected lateral slide of driven wheel (power-oversteer fix).
 	# If this wheel is sliding sideways while being driven, cut torque.
 	if driven and body.tcs_enabled:
@@ -48,6 +62,7 @@ static func contact(body, state: PhysicsDirectBodyState3D, wheel: Dictionary, fo
 	state.apply_force(Vector3(result["force"]), position)
 	wheel["slip"] = result["slip"]
 	wheel["slide_speed"] = result["slide_speed"]
+	wheel["friction_power_w"] = result["friction_power_w"]
 	wheel["locked"] = result["locked"]
 	wheel["driven"] = driven
 	body.tire_slip = maxf(body.tire_slip, float(result["slip"]))

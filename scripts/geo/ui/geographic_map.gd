@@ -12,6 +12,7 @@ var latitude: float = 4.651
 var longitude: float = -74.092
 var tiles: MapTileCache
 var _panning: bool = false
+var satellite: bool = false
 
 func _ready() -> void:
 	clip_contents = true
@@ -31,6 +32,12 @@ func _ready() -> void:
 func center_on(lat: float, lon: float) -> void:
 	latitude = clampf(lat, -80.0, 80.0)
 	longitude = clampf(lon, -180.0, 180.0)
+	_view_changed()
+
+func set_satellite(value: bool) -> void:
+	satellite = value
+	if is_instance_valid(tiles):
+		tiles.set_source(GeoServices.SATELLITE_URL if satellite else GeoServices.setting("map_url", GeoServices.MAP_URL))
 	_view_changed()
 
 func fit_route() -> void:

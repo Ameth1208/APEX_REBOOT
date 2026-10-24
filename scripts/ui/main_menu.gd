@@ -5,6 +5,7 @@ extends Control
 const Layout = preload("res://scripts/ui/menu/garage_layout.gd")
 signal start_requested
 signal editor_requested
+signal load_track_requested
 signal options_requested
 signal credits_requested
 signal changed(key: String, value: Variant)
@@ -37,6 +38,7 @@ func build(settings: Dictionary, career: ApexCareer) -> void:
 	livery_select.item_selected.connect(func(i: int): changed.emit("livery", _livery_ids[i]))
 	resized.connect(_arrange)
 	update_vehicle(int(values.vehicle))
+	show_section("drive")
 	_arrange.call_deferred()
 	_ui.drive.call_deferred("grab_focus")
 
@@ -45,7 +47,7 @@ func update_vehicle(index: int) -> void:
 	if index != _vehicle_index:
 		_vehicle_index = index
 		name_label.text = str(profile.get("display_name", "Vehículo"))
-		category_label.text = str(profile.get("category_label", "Vehículo")).to_upper()
+		category_label.text = "VEHÍCULO SELECCIONADO  /  " + str(profile.get("category_label", "Vehículo")).to_upper()
 		livery_select.clear()
 		_livery_ids.clear()
 		for livery: Dictionary in profile.get("liveries", [{"id": "Original", "name": "Original"}]):
@@ -59,6 +61,9 @@ func update_vehicle(index: int) -> void:
 	if livery_select.selected != livery_index:
 		livery_select.select(livery_index)
 	details.text = "%d kW    /    %d kg    /    %s" % [int(profile.get("engine_power_kw", 0)), int(profile.get("mass_kg", 0)), str(profile.get("drive", "RWD"))]
+	if _ui.has("session_hint"):
+		var track: Dictionary = ApexCatalog.track(int(values.get("track", 0)))
+		_ui.session_hint.text = "CONFIGURACIÓN ACTUAL\n%s · %s" % [str(profile.get("display_name", "Vehículo")), str(track.get("name", "Pista seleccionada"))]
 	if _paint_name != str(values.paint):
 		_paint_name = str(values.paint)
 		_ui.paint_label.text = "COLOR  /  " + _paint_name.to_upper()
@@ -68,6 +73,23 @@ func update_vehicle(index: int) -> void:
 func _arrange() -> void:
 	Layout.arrange(self, _ui)
 	_queue_reveal_selected()
+
+func show_section(section: String) -> void:
+	var garage: bool = section == "garage"
+	_ui.tabs.current_tab = 1 if garage else 0
+	_ui.strip.visible = garage
+	_ui.collection_label.visible = garage
+	_ui.drive.visible = not garage
+	_ui.choose_vehicle.visible = garage
+	_ui.heading.text = "GARAJE" if garage else "CONDUCIR"
+	_ui.hint.text = "Elige tu vehículo y personaliza su apariencia." if garage else "Prepara tu sesión con el vehículo seleccionado."
+	_ui.drive_nav.add_theme_color_override("font_color", ApexUI.MUTED if garage else ApexUI.ACCENT)
+	_ui.garage_nav.add_theme_color_override("font_color", ApexUI.ACCENT if garage else ApexUI.MUTED)
+	if garage and not cards.is_empty():
+		cards[clampi(_vehicle_index, 0, cards.size() - 1)].call_deferred("grab_focus")
+		_queue_reveal_selected()
+	else:
+		_ui.drive.call_deferred("grab_focus")
 
 func _queue_reveal_selected() -> void:
 	if _reveal_pending or not is_inside_tree():

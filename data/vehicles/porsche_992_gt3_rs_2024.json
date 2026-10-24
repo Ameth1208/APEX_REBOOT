@@ -70,6 +70,18 @@
   "drag_area_m2": 0.8,
   "downforce_area_m2": 1.7,
   "tire_grip_scale": 1.1,
+  "front_tyre": {
+    "size": "275/35 R20",
+    "width_mm": 275,
+    "cornering_stiffness": 14.0,
+    "calibration": "Estimated stiffness and load sensitivity; dimensions from Porsche, not measured tyre curves."
+  },
+  "rear_tyre": {
+    "size": "335/30 R21",
+    "width_mm": 335,
+    "cornering_stiffness": 14.0,
+    "calibration": "Estimated stiffness and load sensitivity; dimensions from Porsche, not measured tyre curves."
+  },
   "brake_force_n": 23000,
   "base_color": "#a7181b",
   "headlights": true,
@@ -107,6 +119,10 @@
     }
   ],
   "sources": [
+    {
+      "url": "https://newsroom.porsche.com/en/2022/products/porsche-911-gt3-rs-world-premiere-29177.html",
+      "fields": ["front_tyre.size", "front_tyre.width_mm", "rear_tyre.size", "rear_tyre.width_mm"]
+    },
     {
       "url": "https://www.porsche.com/international/models/911/911-gt3-rs/911-gt3-rs/",
       "fields": [

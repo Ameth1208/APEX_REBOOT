@@ -152,7 +152,7 @@ static func from_points(points: Array, name: String = "Mi ruta real", source: St
 		"closed": closed, "interpolation": "catmull_rom", "points": controls, "raw_route": raw, "control_route": control_route,
 		"geo": geo, "requires_elevation": elevation_count < raw.size(), "requires_geometry_review": vertical_steps > 0,
 		"sample_spacing": 3.0, "thickness": 1.1, "runoff_width": 4.0, "runoff_surface": "gravel",
-		"terrain_surface": "grass", "terrain_hills": 0.0, "barriers": true}
+		"terrain_surface": "grass", "terrain_hills": 0.0, "barriers": true, "construction_mode": "faithful"}
 	return {"ok": true, "error": "", "definition": definition, "warnings": warnings,
 		"routes": [_summary(raw, name, source, 0)], "selected_route": 0}
 

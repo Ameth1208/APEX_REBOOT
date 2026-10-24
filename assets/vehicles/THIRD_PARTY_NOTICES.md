@@ -34,6 +34,14 @@ Estos modelos fueron proporcionados por el usuario. Se conserva su contenido fue
 - Adaptaciones de la escena: normalización, pivotes de neumáticos/llantas y variantes de pintura. Las copias de texturas se colocaron bajo los nombres relativos que referencia el FBX.
 - La distribución del modelo necesita una autorización aplicable.
 
+## Toyota Corolla Hatchback / 2025
+
+- Archivo fuente del usuario: `APEX_Corolla_Hatchback_Smooth.zip`.
+- Geometría: Modelo 3D procedural original generado con trimesh/scipy/numpy (`fuentes/generar_corolla_hatch.py`); no es un modelo CAD, escaneado ni conversión de Toyota.
+- Referencia dimensional: Ficha de especificaciones públicas de Toyota Australia (febrero 2025).
+- Modelos incluidos: `Corolla_Hatchback_Smooth.glb` (alta resolución con ruedas, suspensión y dirección independientes) y `Corolla_Hatchback_LOD1.glb` (LOD para tráfico IA).
+- Adaptaciones de la escena: Jerarquía de ruedas desacoplada, alineación de ejes con el centro de gravedad físico, soporte de libreas y shader de pintura procedural.
+
 Las marcas, logotipos y decoraciones visibles proceden de los modelos aportados. Su inclusión no implica patrocinio ni relación con fabricantes, equipos o pilotos.
 
 El piloto principal de la moto usa un humano de **Quaternius**, publicado bajo **CC0 1.0**; consulta `assets/rider/THIRD_PARTY_NOTICES.md` y su licencia original para la procedencia y las adaptaciones. El casco, el mono mediante shader, las cubiertas de botas y el piloto procedural de respaldo se crearon para este proyecto.

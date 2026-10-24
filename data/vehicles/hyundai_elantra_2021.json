@@ -1,0 +1,171 @@
+{
+  "profile_version": 1,
+  "kind": "car",
+  "simulation_status": "Sourced nominal specifications with uncalibrated simulation defaults; not manufacturer-certified dynamics.",
+  "drive": "FWD",
+  "drivetrain_efficiency": 0.89,
+  "idle_rpm": 850,
+  "max_steer_deg": 31,
+  "front_brake_bias": 0.65,
+  "suspension_damping_ratio": 0.71,
+  "paint_preserve_livery": true,
+  "paint_palette": [
+    "original",
+    "#22427c",
+    "#ffffff",
+    "#181a1d",
+    "#8e1419",
+    "#7c8288",
+    "#d8dadc"
+  ],
+  "specification_defaults": [
+    "engine torque curve",
+    "gear ratios unless separately attributed",
+    "tyre friction and load sensitivity",
+    "aero coefficients and balance",
+    "brake forces",
+    "spring and damper rates",
+    "rider mass",
+    "collision body and centre of mass"
+  ],
+  "display_name": "Hyundai Elantra N-Line · 2021",
+  "short_name": "Elantra N-Line",
+  "category": "road_sedan",
+  "category_label": "Sedán deportivo",
+  "description": "Motor 1.6 T-GDi Smartstream turbo de 204 CV, suspensión trasera multibrazo deportiva, tracción delantera y cambio DCT de 7 marchas.",
+  "model_yaw_deg": 0,
+  "length_m": 4.675,
+  "body_width_m": 1.825,
+  "body_height_m": 1.43,
+  "mass_kg": 1445,
+  "curb_mass_kg": 1370,
+  "rider_mass_kg": 75,
+  "engine_power_kw": 150,
+  "engine_torque_nm": 265,
+  "engine_cylinders": 4,
+  "engine_smoke_offset_m": [
+    0.45,
+    0.25,
+    2.3
+  ],
+  "max_rpm": 6600,
+  "peak_torque_rpm": 4000,
+  "gear_ratios": [
+    3.93,
+    2.32,
+    1.96,
+    1.02,
+    0.84,
+    0.78,
+    0.7
+  ],
+  "final_drive": 4.29,
+  "wheelbase_m": 2.72,
+  "track_width_m": 1.554,
+  "wheel_radius_m": 0.323,
+  "front_weight_fraction": 0.6,
+  "ride_height_m": 0.53,
+  "suspension_travel_m": 0.22,
+  "drag_area_m2": 0.66,
+  "downforce_area_m2": 0.18,
+  "tire_grip_scale": 1.03,
+  "front_tyre": {
+    "size": "235/40 R18",
+    "width_mm": 235,
+    "cornering_stiffness": 11.8,
+    "calibration": "Estimated stiffness and load sensitivity; sport sedan 18-inch tyre profile."
+  },
+  "rear_tyre": {
+    "size": "235/40 R18",
+    "width_mm": 235,
+    "cornering_stiffness": 11.8,
+    "calibration": "Estimated stiffness and load sensitivity; sport sedan 18-inch tyre profile."
+  },
+  "brake_force_n": 17500,
+  "base_color": "#22427c",
+  "headlights": true,
+  "paint_materials": [],
+  "wheel_groups": [
+    {
+      "id": "WheelFL",
+      "names": [
+        "wheel_lf_child"
+      ],
+      "front": true
+    },
+    {
+      "id": "WheelFR",
+      "names": [
+        "wheel_lf_child_003"
+      ],
+      "front": true
+    },
+    {
+      "id": "WheelRL",
+      "names": [
+        "wheel_lf_child_001"
+      ],
+      "front": false
+    },
+    {
+      "id": "WheelRR",
+      "names": [
+        "wheel_lf_child_002"
+      ],
+      "front": false
+    }
+  ],
+  "sources": [
+    {
+      "url": "https://www.hyundainews.com/en-us/releases/3120",
+      "fields": [
+        "engine_power_kw",
+        "engine_torque_nm",
+        "curb_mass_kg",
+        "wheelbase_m",
+        "length_m"
+      ]
+    }
+  ],
+  "license_status": "Community-sourced visual asset for non-commercial simulation testing.",
+  "mass_note": "1370 kg curb weight plus 75 kg simulated driver.",
+  "id": "hyundai_elantra_2021",
+  "model_path": "res://assets/vehicles/hyundai_elantra_2021/model.fbx",
+  "peak_torque_nm": 265,
+  "drag_area": 0.66,
+  "downforce_area": 0.18,
+  "lift_area": 0.18,
+  "grip": 1.03,
+  "cockpit_camera_ground": [
+    -0.33,
+    1.14,
+    -0.1
+  ],
+  "liveries": [
+    {
+      "id": "IntenseBlue",
+      "name": "Intense Blue",
+      "primary": "#1e3c72",
+      "secondary": "#111111",
+      "accent": "#ffffff",
+      "pattern": "original"
+    },
+    {
+      "id": "PolarWhite",
+      "name": "Polar White",
+      "primary": "#f5f6f8",
+      "secondary": "#1e3c72",
+      "accent": "#111111",
+      "pattern": "original"
+    },
+    {
+      "id": "PhantomBlack",
+      "name": "Phantom Black",
+      "primary": "#141618",
+      "secondary": "#1e3c72",
+      "accent": "#8e1419",
+      "pattern": "original"
+    }
+  ],
+  "align_wheels_to_physics": true
+}

@@ -1,0 +1,242 @@
+{
+  ".github/scripts/test-package-release.py": {
+    "mtime": 1792788440.4783864,
+    "seen": 1792853913.4611754,
+    "ast_hash": "b9e6065236be2d3c7109128ed9114fde",
+    "semantic_hash": "b9e6065236be2d3c7109128ed9114fde"
+  },
+  ".github/scripts/verify-linux.sh": {
+    "mtime": 1792788440.4875968,
+    "seen": 1792853913.461181,
+    "ast_hash": "dc42b4cfb9367bb171398c205de7e520",
+    "semantic_hash": "dc42b4cfb9367bb171398c205de7e520"
+  },
+  ".github/scripts/verify-windows.ps1": {
+    "mtime": 1792788440.4946914,
+    "seen": 1792853913.4611833,
+    "ast_hash": "d50f6676d38863a995792528dbf301a2",
+    "semantic_hash": "d50f6676d38863a995792528dbf301a2"
+  },
+  "COMPILAR_DOCKER.sh": {
+    "mtime": 1792788440.4022124,
+    "seen": 1792853913.4611847,
+    "ast_hash": "06febdfeb96a24741d5f0f1f2cc95a2d",
+    "semantic_hash": "06febdfeb96a24741d5f0f1f2cc95a2d"
+  },
+  "EXPORTAR_LINUX.sh": {
+    "mtime": 1792788440.418768,
+    "seen": 1792853913.461186,
+    "ast_hash": "16568d6a0a9c312f9aeb317b53be44ce",
+    "semantic_hash": "16568d6a0a9c312f9aeb317b53be44ce"
+  },
+  "assets/fonts/barlow/source-audit.json": {
+    "mtime": 1792788440.5840702,
+    "seen": 1792853913.4611871,
+    "ast_hash": "938151dbac1523b5f3ab5689ea3c2e30",
+    "semantic_hash": "938151dbac1523b5f3ab5689ea3c2e30"
+  },
+  "assets/rider/quaternius/source-audit.json": {
+    "mtime": 1792788440.7886753,
+    "seen": 1792853913.4611883,
+    "ast_hash": "66fc7b28d1f81371d7f99bf6ddd11982",
+    "semantic_hash": "66fc7b28d1f81371d7f99bf6ddd11982"
+  },
+  "assets/vehicles/ferrari_312t_1976/source-audit.json": {
+    "mtime": 1792788445.0475411,
+    "seen": 1792853913.4611893,
+    "ast_hash": "19d0b7046423fb4946e2dd416420c383",
+    "semantic_hash": "19d0b7046423fb4946e2dd416420c383"
+  },
+  "assets/vehicles/porsche_992_gt3_rs_2024/source-audit.json": {
+    "mtime": 1792788441.776846,
+    "seen": 1792853913.4611905,
+    "ast_hash": "d5b4063304500233760ea47c547dbd42",
+    "semantic_hash": "d5b4063304500233760ea47c547dbd42"
+  },
+  "assets/vehicles/senna_formula_1991/source-audit.json": {
+    "mtime": 1792788442.5151668,
+    "seen": 1792853913.4611914,
+    "ast_hash": "031ed25537225033a0847f5b28b33e2b",
+    "semantic_hash": "031ed25537225033a0847f5b28b33e2b"
+  },
+  "assets/vehicles/yamaha_yzf_2021/source-audit.json": {
+    "mtime": 1792788446.6574945,
+    "seen": 1792853913.4611924,
+    "ast_hash": "f820e1ed648e93a962312389a17509ce",
+    "semantic_hash": "f820e1ed648e93a962312389a17509ce"
+  },
+  "data/tracks/catalog.json": {
+    "mtime": 1792788446.6638305,
+    "seen": 1792853913.4611938,
+    "ast_hash": "b5e603bf199b559d8030b38463181db1",
+    "semantic_hash": "b5e603bf199b559d8030b38463181db1"
+  },
+  "data/tracks/costa_clara.json": {
+    "mtime": 1792788446.670643,
+    "seen": 1792853913.4611948,
+    "ast_hash": "5e91b6b57508536c2869fbface500b72",
+    "semantic_hash": "5e91b6b57508536c2869fbface500b72"
+  },
+  "data/tracks/sierra_alta.json": {
+    "mtime": 1792788446.6889,
+    "seen": 1792853913.4611957,
+    "ast_hash": "58d333048262a7f013136a6699481cbc",
+    "semantic_hash": "58d333048262a7f013136a6699481cbc"
+  },
+  "data/tracks/tecnica_laguna.json": {
+    "mtime": 1792788446.693934,
+    "seen": 1792853913.461197,
+    "ast_hash": "840177af60e0b0d062825130cc0bee11",
+    "semantic_hash": "840177af60e0b0d062825130cc0bee11"
+  },
+  "data/vehicles/catalog.json": {
+    "mtime": 1792793587.783956,
+    "seen": 1792853913.461198,
+    "ast_hash": "3015c8b38c3f27cee30afecdbe230707",
+    "semantic_hash": "3015c8b38c3f27cee30afecdbe230707"
+  },
+  "data/vehicles/ferrari_312t_1976.json": {
+    "mtime": 1792788446.7065341,
+    "seen": 1792853913.461199,
+    "ast_hash": "0339bd340f2210b3ee72f74248264997",
+    "semantic_hash": "0339bd340f2210b3ee72f74248264997"
+  },
+  "data/vehicles/porsche_992_gt3_rs_2024.json": {
+    "mtime": 1792788446.712546,
+    "seen": 1792853913.4611998,
+    "ast_hash": "0cbfa4a5f1913aa1955829d3f233a68c",
+    "semantic_hash": "0cbfa4a5f1913aa1955829d3f233a68c"
+  },
+  "data/vehicles/senna_formula_1991.json": {
+    "mtime": 1792788446.7190008,
+    "seen": 1792853913.461201,
+    "ast_hash": "3a2a7ab7a289342ef44077d3e58353a7",
+    "semantic_hash": "3a2a7ab7a289342ef44077d3e58353a7"
+  },
+  "data/vehicles/toyota_corolla_2024.json": {
+    "mtime": 1792793597.128173,
+    "seen": 1792853913.461202,
+    "ast_hash": "64912b0d3116c1b840816b01432434a2",
+    "semantic_hash": "64912b0d3116c1b840816b01432434a2"
+  },
+  "data/vehicles/yamaha_yzf_2021.json": {
+    "mtime": 1792788446.7241101,
+    "seen": 1792853913.4612029,
+    "ast_hash": "6f2fee205b3c4fe566577f366baa1d2a",
+    "semantic_hash": "6f2fee205b3c4fe566577f366baa1d2a"
+  },
+  "docs/benchmark_route_queries_v032.json": {
+    "mtime": 1792788446.8120258,
+    "seen": 1792853913.461204,
+    "ast_hash": "3d0d50adab6daadfea48343a26830b61",
+    "semantic_hash": "3d0d50adab6daadfea48343a26830b61"
+  },
+  "docs/foliage_budget_v032.json": {
+    "mtime": 1792788446.817541,
+    "seen": 1792853913.4612055,
+    "ast_hash": "b5d61a83944cc649baa8cbdf4b8ce076",
+    "semantic_hash": "b5d61a83944cc649baa8cbdf4b8ce076"
+  },
+  "docs/model_render_budget_v032.json": {
+    "mtime": 1792788446.824288,
+    "seen": 1792853913.4612064,
+    "ast_hash": "47adc27a0b51da96cac1e941591e9ac2",
+    "semantic_hash": "47adc27a0b51da96cac1e941591e9ac2"
+  },
+  "docs/verification_v03.json": {
+    "mtime": 1792788446.829846,
+    "seen": 1792853913.4612074,
+    "ast_hash": "f5046ae6ff39336bcd77aba46b2d1921",
+    "semantic_hash": "f5046ae6ff39336bcd77aba46b2d1921"
+  },
+  "docs/verification_v031.json": {
+    "mtime": 1792788446.8371186,
+    "seen": 1792853913.4612083,
+    "ast_hash": "f8d266e3e9d2d5be2ad7d5d91199dcab",
+    "semantic_hash": "f8d266e3e9d2d5be2ad7d5d91199dcab"
+  },
+  "docs/verification_v032.json": {
+    "mtime": 1792788446.8431191,
+    "seen": 1792853913.4612095,
+    "ast_hash": "9a9e333a48bbb657c2a0c30dada529e2",
+    "semantic_hash": "9a9e333a48bbb657c2a0c30dada529e2"
+  },
+  "docs/web_smoke_v032.json": {
+    "mtime": 1792788446.8489583,
+    "seen": 1792853913.4612107,
+    "ast_hash": "4c7ff54bb1d9a6668c60aed95fa5b608",
+    "semantic_hash": "4c7ff54bb1d9a6668c60aed95fa5b608"
+  },
+  "tests/fixtures/geo/local_http_server.py": {
+    "mtime": 1792788449.1140068,
+    "seen": 1792853913.4612117,
+    "ast_hash": "91279932568a26dc86e489105b613a8e",
+    "semantic_hash": "91279932568a26dc86e489105b613a8e"
+  },
+  "tools/docker/build.ps1": {
+    "mtime": 1792788449.297914,
+    "seen": 1792853913.4612126,
+    "ast_hash": "0f280f92babb9da6f2787309839d3776",
+    "semantic_hash": "0f280f92babb9da6f2787309839d3776"
+  },
+  "tools/docker/build.sh": {
+    "mtime": 1792788449.303815,
+    "seen": 1792853913.4612136,
+    "ast_hash": "fe80e1dc0c61a62de5f72339052f40b9",
+    "semantic_hash": "fe80e1dc0c61a62de5f72339052f40b9"
+  },
+  "tools/docker/export.sh": {
+    "mtime": 1792788449.3128762,
+    "seen": 1792853913.4612148,
+    "ast_hash": "205a40429004a97acdea3785d4428e95",
+    "semantic_hash": "205a40429004a97acdea3785d4428e95"
+  },
+  "tools/docker/install-godot.sh": {
+    "mtime": 1792788449.3261912,
+    "seen": 1792853913.4612157,
+    "ast_hash": "0dfc0195604439cead3a87938df78a21",
+    "semantic_hash": "0dfc0195604439cead3a87938df78a21"
+  },
+  "tools/docker/launchers/INICIAR_LINUX.sh": {
+    "mtime": 1792788449.3441744,
+    "seen": 1792853913.461217,
+    "ast_hash": "579fc53986c46be86d71d946e3780b5e",
+    "semantic_hash": "579fc53986c46be86d71d946e3780b5e"
+  },
+  "tools/docker/launchers/SERVIR_WEB.py": {
+    "mtime": 1792788449.3768337,
+    "seen": 1792853913.4612179,
+    "ast_hash": "084f6cbf93278b45bb5779bd1a07f67b",
+    "semantic_hash": "084f6cbf93278b45bb5779bd1a07f67b"
+  },
+  "tools/docker/package-notices.sh": {
+    "mtime": 1792788449.3367245,
+    "seen": 1792853913.461219,
+    "ast_hash": "209216294387e2ca1e5add7d663432b6",
+    "semantic_hash": "209216294387e2ca1e5add7d663432b6"
+  },
+  "tools/export.ps1": {
+    "mtime": 1792788449.172028,
+    "seen": 1792853913.46122,
+    "ast_hash": "851d76e5cf8e12ef7272e864e0b6913b",
+    "semantic_hash": "851d76e5cf8e12ef7272e864e0b6913b"
+  },
+  "tools/export.sh": {
+    "mtime": 1792788449.1807773,
+    "seen": 1792853913.4612212,
+    "ast_hash": "81bcd6e8e992198f583bef4a98115399",
+    "semantic_hash": "81bcd6e8e992198f583bef4a98115399"
+  },
+  "tools/import_assets.py": {
+    "mtime": 1792788449.2180865,
+    "seen": 1792853913.461222,
+    "ast_hash": "1f66d5da7ffb99dc80f5964533d93cf1",
+    "semantic_hash": "1f66d5da7ffb99dc80f5964533d93cf1"
+  },
+  "tools/package-release.py": {
+    "mtime": 1792788449.222139,
+    "seen": 1792853913.461223,
+    "ast_hash": "8c47041e07fe1c24476b52373a149a66",
+    "semantic_hash": "8c47041e07fe1c24476b52373a149a66"
+  }
+}

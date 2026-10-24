@@ -62,6 +62,7 @@ func report() -> Dictionary:
 		sorted.append(_frames[i])
 		total += _frames[i]
 	sorted.sort()
+	var stream_stats: Dictionary = _scenery.get_stream_stats() if is_instance_valid(_scenery) and _scenery.has_method("get_stream_stats") else {}
 	return {"version": ProjectSettings.get_setting("application/config/version"),
 		"engine": Engine.get_version_info().string, "operating_system": OS.get_name(),
 		"cpu": OS.get_processor_name(), "graphics_adapter": RenderingServer.get_video_adapter_name(),
@@ -74,6 +75,9 @@ func report() -> Dictionary:
 		"last_physics_process_ms": Performance.get_monitor(Performance.TIME_PHYSICS_PROCESS) * 1000.0,
 		"draw_calls": Performance.get_monitor(Performance.RENDER_TOTAL_DRAW_CALLS_IN_FRAME),
 		"rendered_primitives": Performance.get_monitor(Performance.RENDER_TOTAL_PRIMITIVES_IN_FRAME),
+		"stream_chunks_total": stream_stats.get("total", null),
+		"stream_chunks_visible": stream_stats.get("visible", null),
+		"stream_chunks_gpu_loaded": stream_stats.get("gpu_loaded", null),
 		"scope": "Últimos 1200 fotogramas en pista. Medición local; no se envía información por red. GPU null significa temporización no disponible."}
 
 func save_report() -> String:

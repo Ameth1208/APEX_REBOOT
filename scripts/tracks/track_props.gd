@@ -6,6 +6,9 @@ const Obstacles = preload("res://scripts/physics/static_obstacle_collision.gd")
 static func build(parent: Node3D, sampler: TrackSampler, definition: Dictionary) -> void:
 	if sampler.samples.is_empty():
 		return
+	# Imported roads need mapped structures, not decorations inferred from altitude.
+	if definition.has("geo") and str(definition.get("construction_mode", "faithful")) == "faithful":
+		return
 	if bool(definition.get("barriers", true)):
 		_barriers(parent, sampler, definition)
 	_start_grid(parent, sampler)
@@ -127,4 +130,5 @@ static func _box(parent: Node3D, title: String, size: Vector3, transform: Transf
 		Obstacles.box(Obstacles.group(parent, "TimingGateCollisions"), transform, size)
 
 static func _multimesh(parent: Node3D, title: String, mesh: Mesh, material: Material, transforms: Array[Transform3D]) -> void:
-	ApexSceneryInstances.build(parent, title, mesh, material, transforms, 1800.0, true)
+	# Los props lejanos no aportan detalle jugable; mantenerlos fuera del presupuesto GPU.
+	ApexSceneryInstances.build(parent, title, mesh, material, transforms, 720.0, false)
