@@ -3,6 +3,7 @@ extends RefCounted
 
 const OsmTerrain = preload("res://scripts/world/osm_terrain.gd")
 const SuspensionSolver = preload("res://scripts/physics/suspension.gd")
+const EnvGenerator = preload("res://scripts/world/environment_generator.gd")
 const ApexBroadleafGeometry = preload("res://scripts/world/broadleaf_geometry.gd")
 const ApexTreeGeometry = preload("res://scripts/world/tree_geometry.gd")
 const ApexSceneryInstances = preload("res://scripts/world/scenery_instances.gd")
@@ -41,10 +42,14 @@ static func build(parent: Node3D, samples: Array[Dictionary], definition: Dictio
 			heights[iz * nx + ix] = minf(height, road_floors[iz * nx + ix])
 	# Fetch OSM surroundings for real surface classification.
 	var surroundings: Dictionary = {}
+	var env_gen: EnvironmentGenerator = null
 	if definition.get("geo", null) != null:
 		surroundings = OsmTerrain.fetch_surroundings(samples, definition, margin)
-		# Publish OSM zones so suspension can detect sand/grass/dirt per contact.
 		SuspensionSolver.set_osm_zones(surroundings)
+		# Build environment cell grid (Section 10 of Env Generator spec).
+		env_gen = EnvGenerator.new()
+		env_gen.build(samples, definition, surroundings)
+		parent.set_meta("environment_generator", env_gen)
 	# Build ONE blended mesh with vertex-colour surface weights.
 	var buffer: TrackMeshBuffer = TrackMeshBuffer.new()
 	var blend_radius: float = 18.0
@@ -59,6 +64,12 @@ static func build(parent: Node3D, samples: Array[Dictionary], definition: Dictio
 			var cb: Color = _vertex_blend(Vector2(b.x, b.z), surroundings, definition, blend_radius)
 			var cc: Color = _vertex_blend(Vector2(c.x, c.z), surroundings, definition, blend_radius)
 			var cd: Color = _vertex_blend(Vector2(d.x, d.z), surroundings, definition, blend_radius)
+			# Apply biome tint from environment generator.
+			if env_gen != null:
+				ca = _biome_tint(ca, env_gen, Vector2(a.x, a.z))
+				cb = _biome_tint(cb, env_gen, Vector2(b.x, b.z))
+				cc = _biome_tint(cc, env_gen, Vector2(c.x, c.z))
+				cd = _biome_tint(cd, env_gen, Vector2(d.x, d.z))
 			buffer.quad_colored(a, b, c, d, normal, ca, cb, cc, cd)
 	var material: ShaderMaterial = TrackMaterials.ground_blended()
 	buffer.attach(parent, "Terrain", material, str(definition["terrain_surface"]), false, 320.0)
@@ -98,6 +109,21 @@ static func _vertex_blend(xz: Vector2, surroundings: Dictionary, definition: Dic
 		var fallback: Color = _surface_to_color(default_surface)
 		base = fallback.lerp(base, 1.0 - t)
 	return base
+
+## Apply biome soil/grass colour as a tint modifier on the surface blend weight.
+static func _biome_tint(blend: Color, env_gen: EnvironmentGenerator, pos: Vector2) -> Color:
+	var cell: Dictionary = env_gen.brush_at(pos)
+	if cell.is_empty():
+		return blend
+	# Modulate the G (grass) channel by grass colour brightness,
+	# and B (dirt) channel by soil colour.
+	var grass_col: Color = cell.get("grass_color", Color.WHITE)
+	var soil_col: Color = cell.get("soil_color", Color.WHITE)
+	var grass_lum: float = (grass_col.r + grass_col.g + grass_col.b) / 3.0
+	var soil_lum: float = (soil_col.r + soil_col.g + soil_col.b) / 3.0
+	blend.g *= clampf(grass_lum * 1.8, 0.5, 1.3)
+	blend.b *= clampf(soil_lum * 1.8, 0.5, 1.3)
+	return blend
 
 static func _surface_to_color(surface: String) -> Color:
 	# R=sand, G=grass, B=dirt, A=concrete
