@@ -95,22 +95,21 @@ static func solve(contact: Dictionary, forward: Vector3, drive_n: float, brake_n
 	if abs_active:
 		actual_brake = minf(actual_brake, limit_n * 0.90)
 	var long_force: float = drive_n - signf(longitudinal_speed) * actual_brake
-	# --- Lateral force: smooth saturation curve, not linear-then-clamp. ---
-	# Slip ratio: lateral velocity normalised by forward speed. Peak grip
-	# occurs around slip_ratio ≈ 0.12 (≈7°); beyond that grip falls gently.
+	# --- Lateral force: smooth saturation curve. ---
+	# Slip ratio: lateral velocity / forward speed. Peak grip at ~0.12 (7°).
 	var speed_ref: float = maxf(absf(longitudinal_speed), 3.0)
 	var slip_ratio: float = lateral_speed / speed_ref
 	var peak_slip: float = 0.12
 	var normalised: float = absf(slip_ratio) / peak_slip
-	# Simplified Pacejka: F = load * mu * sin(C * atan(B * x)) shaped to peak
-	# at normalised=1 then gently decline (stable past peak, no cliff).
-	var curve_b: float = 8.0
-	var curve_c: float = 1.65
-	var curve: float = sin(curve_c * atan(curve_b * normalised))
-	# Grip falls to ~85% past peak (stable decline, no loss of control).
-	var post_peak: float = lerp(curve, 0.85 * curve, clampf((normalised - 1.0) * 0.4, 0.0, 1.0))
-	var lateral_force: float = -signf(slip_ratio) * post_peak * load_n * friction_mu
-	# Directional authority of a locked tyre is low; ABS preserves it.
+	# Curve: rises smoothly to 1.0 at normalised=1, then declines gently to ~0.80.
+	var curve: float
+	if normalised < 1.0:
+		curve = 1.0 - (1.0 - normalised) * (1.0 - normalised)
+	else:
+		curve = maxf(1.0 - (normalised - 1.0) * 0.12, 0.80)
+	# Use mu_effective (same as friction circle limit) so force naturally
+	# approaches the grip ceiling without a hard clamp.
+	var lateral_force: float = -signf(slip_ratio) * curve * limit_n
 	if locked and not abs_active:
 		lateral_force *= 0.35
 	var combined: Vector2 = Vector2(long_force, lateral_force)
