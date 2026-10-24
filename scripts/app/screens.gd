@@ -83,6 +83,23 @@ func show_editor(definition: Dictionary) -> void:
 	editor.closed.connect(func(): action_requested.emit("close_overlay"))
 	editor.open(definition)
 
+func show_creation_flow() -> void:
+	clear_overlay()
+	if is_instance_valid(hud): hud.visible = false
+	editor = load("res://scripts/ui/track_creation_flow.gd").new()
+	root.add_child(editor)
+	editor.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	editor.create_requested.connect(func(source: String, data: Variant):
+		if source == "import" and data is Dictionary and data.has("definition"):
+			track_applied.emit(data["definition"])
+		elif source == "draw":
+			action_requested.emit("editor")
+		elif source == "catalog":
+			action_requested.emit("close_overlay"))
+	editor.closed.connect(func(): action_requested.emit("close_overlay"))
+	if editor.has_method("open"):
+		editor.open()
+
 func clear_overlay() -> void:
 	_release(modal)
 	_release(options)

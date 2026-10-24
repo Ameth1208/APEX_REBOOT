@@ -162,8 +162,12 @@ func handle_action(action: String) -> void:
 			if is_instance_valid(race): race.retire_player()
 		"editor":
 			get_tree().paused = true
-			var definition: Dictionary = race.track.definition if is_instance_valid(race) else (custom_track if not custom_track.is_empty() else ApexCatalog.track(int(settings.values.track)))
-			screens.show_editor(definition)
+			# From main menu: simplified creation flow. From pause: full editor.
+			if is_instance_valid(race):
+				var definition: Dictionary = race.track.definition
+				screens.show_editor(definition)
+			else:
+				screens.show_creation_flow()
 		"options":
 			get_tree().paused = is_instance_valid(race)
 			screens.show_options(settings.values)

@@ -86,7 +86,7 @@ static func _build_panel(menu: Control, career: ApexCareer, ui: Dictionary) -> v
 	box.add_child(ui.drive)
 	var buttons := HBoxContainer.new()
 	box.add_child(buttons)
-	for pair: Array in [["EDITOR", "editor_requested"], ["AJUSTES", "options_requested"]]:
+	for pair: Array in [["CREAR PISTA", "editor_requested"], ["AJUSTES", "options_requested"]]:
 		var action: String = pair[1]
 		var button := ApexUI.button(pair[0], func(): menu.emit_signal(action))
 		button.size_flags_horizontal = Control.SIZE_EXPAND_FILL
