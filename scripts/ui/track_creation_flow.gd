@@ -56,6 +56,10 @@ func _build() -> void:
 	_add_choice("DIBUJAR EN MAPA", "Dibuja el trazado directamente sobre el mapa", "draw")
 	_add_choice("IMPORTAR GPX / GEOJSON", "Usa un archivo de ruta existente", "import")
 	_add_choice("CREAR DESDE RUTA REAL", "Selecciona una ruta del catálogo", "catalog")
+	# Saved tracks.
+	var saved: Array = _list_saved()
+	if not saved.is_empty():
+		_add_choice("CARGAR PISTA GUARDADA (%d)" % saved.size(), "Reanudar una pista creada anteriormente", "load_saved")
 	# Status area (hidden initially).
 	_status = Label.new()
 	_status.add_theme_font_size_override("font_size", 14)
@@ -91,6 +95,49 @@ func _on_choice(action: String) -> void:
 		"catalog":
 			create_requested.emit("catalog", {})
 			hide()
+		"load_saved":
+			_open_saved_dialog()
+
+func _list_saved() -> Array:
+	var result: Array = []
+	DirAccess.make_dir_recursive_absolute("user://tracks")
+	var dir: DirAccess = DirAccess.open("user://tracks")
+	if dir == null:
+		return result
+	dir.list_dir_begin()
+	var fname: String = dir.get_next()
+	while fname != "":
+		if not dir.current_is_dir() and fname.ends_with(".json"):
+			result.append(fname)
+		fname = dir.get_next()
+	dir.list_dir_end()
+	return result
+
+func _open_saved_dialog() -> void:
+	var dialog: FileDialog = FileDialog.new()
+	dialog.file_mode = FileDialog.FILE_MODE_OPEN_FILE
+	dialog.access = FileDialog.ACCESS_USERDATA
+	dialog.current_dir = "user://tracks"
+	dialog.filters = PackedStringArray(["*.json ; Circuitos APEX"])
+	dialog.title = "Cargar pista guardada"
+	dialog.file_selected.connect(func(path: String) -> void: _load_saved(path))
+	add_child(dialog)
+	dialog.popup_centered(Vector2i(700, 500))
+
+func _load_saved(path: String) -> void:
+	var file: FileAccess = FileAccess.open(path, FileAccess.READ)
+	if file == null:
+		_show_status("Error: no se pudo leer la pista.")
+		return
+	var json: JSON = JSON.new()
+	if json.parse(file.get_as_text()) != OK:
+		_show_status("Error: JSON inválido.")
+		return
+	file.close()
+	var definition: Dictionary = json.data
+	if definition.has("points"):
+		create_requested.emit("load", definition)
+		hide()
 
 func _open_file_dialog() -> void:
 	var dialog: FileDialog = FileDialog.new()
@@ -174,6 +221,7 @@ func _show_result(result: Dictionary) -> void:
 	generate.text = "GENERAR PISTA"
 	generate.custom_minimum_size.y = 48
 	generate.pressed.connect(func():
+		_save_auto(definition)
 		create_requested.emit("import", result)
 		hide())
 	_result_box.add_child(generate)
@@ -190,6 +238,17 @@ func _show_result(result: Dictionary) -> void:
 func _show_status(text: String) -> void:
 	_status.text = text
 	_status.visible = true
+
+func _save_auto(definition: Dictionary) -> void:
+	DirAccess.make_dir_recursive_absolute("user://tracks")
+	var title: String = str(definition.get("name", "circuito")).validate_filename()
+	if title.is_empty():
+		title = "circuito_" + str(int(Time.get_unix_time_from_system()))
+	var path: String = "user://tracks/" + title + ".json"
+	var file: FileAccess = FileAccess.open(path, FileAccess.WRITE)
+	if file != null:
+		file.store_string(JSON.stringify(definition, "\t"))
+		file.close()
 
 func open() -> void:
 	_choice_box.visible = true
