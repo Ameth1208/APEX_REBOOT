@@ -80,6 +80,9 @@ func build(track_samples: Array[Dictionary], definition: Dictionary, osm_data: D
 	grid_origin = min_p
 	grid_nx = ceili((max_p.x - min_p.x) / CELL_SIZE) + 1
 	grid_nz = ceili((max_p.y - min_p.y) / CELL_SIZE) + 1
+	# Cap grid size for performance.
+	grid_nx = mini(grid_nx, 40)
+	grid_nz = mini(grid_nz, 40)
 	_classify_biome(definition)
 	# Build cells.
 	cells.resize(grid_nx * grid_nz)

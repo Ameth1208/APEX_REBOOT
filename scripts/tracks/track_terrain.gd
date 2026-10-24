@@ -212,9 +212,9 @@ static func _road_floor_caps(samples: Array[Dictionary], definition: Dictionary,
 	var caps: PackedFloat32Array = PackedFloat32Array()
 	caps.resize(nx * nz)
 	caps.fill(INF)
-	for index: int in range(samples.size()):
-		if index % 2 == 1 and index != samples.size() - 1:
-			continue
+	for index: int in range(0, samples.size(), 4):
+		if index >= samples.size():
+			break
 		var sample: Dictionary = samples[index]
 		var p: Vector3 = sample["position"]
 		var xz: Vector2 = Vector2(p.x, p.z)
