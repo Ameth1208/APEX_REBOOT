@@ -67,10 +67,10 @@ func _update_colors() -> void:
 	var n: int = _intelligence.sample_count()
 	if n == 0:
 		return
-	# Compute risk for each sample near the player.
-	var player_pos: int = _player_index
-	var lookahead_samples: int = int(_player_speed * _intelligence.lookahead_s / _intelligence.sample_spacing)
-	for i: int in range(n):
+	# Compute risk only for samples near the player (not entire track).
+	var start_i: int = maxi(0, _player_index - 20)
+	var end_i: int = mini(n, _player_index + 200)
+	for i: int in range(start_i, end_i):
 		var risk_data: Dictionary = _intelligence.brake_risk(i, _player_speed, _is_braking, _refresh_rate)
 		var target_color: Color = risk_data["color"]
 		# Smooth colour transitions (Section 49).
@@ -84,9 +84,9 @@ func _rebuild_mesh_near_player() -> void:
 		return
 	var player_idx: int = _player_index
 	var n: int = _intelligence.sample_count()
-	# Only draw ~60 samples ahead and 10 behind (about 140m at 2m spacing).
-	var start_i: int = maxi(0, player_idx - 10)
-	var end_i: int = mini(n, player_idx + 60)
+	# Draw ~200 samples ahead (~400m) and 20 behind for high-speed lookahead.
+	var start_i: int = maxi(0, player_idx - 20)
+	var end_i: int = mini(n, player_idx + 200)
 	if end_i - start_i < 2:
 		return
 	var st: SurfaceTool = SurfaceTool.new()
